@@ -1,4 +1,4 @@
-﻿using EarTrumpet.Interop.Helpers;
+using AudioInOut.Interop.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace EarTrumpet.ColorTool
+namespace AudioInOut.ColorTool
 {
     public class ColorViewModel : BindableBase
     {

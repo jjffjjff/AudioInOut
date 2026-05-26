@@ -1,0 +1,18 @@
+using AudioInOut.Interop.Helpers;
+
+namespace AudioInOut.UI.ViewModels
+{
+    public class AdvertisedCategorySettingsViewModel : SettingsCategoryViewModel
+    {
+        private readonly string _link;
+
+        public AdvertisedCategorySettingsViewModel(string title, string glyph, string description, string id, string link) : 
+            base(title, glyph, description, id, new System.Collections.ObjectModel.ObservableCollection<SettingsPageViewModel>())
+        {
+            _link = link;
+            IsAd = true;
+        }
+
+        public void Activate() => ProcessHelper.StartNoThrow(_link);
+    }
+}

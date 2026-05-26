@@ -1,0 +1,7 @@
+namespace AudioInOut.UI.ViewModels
+{
+    public interface IDeviceViewModel
+    {
+        string Id { get; }
+    }
+}

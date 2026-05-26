@@ -1,7 +1,7 @@
-﻿<Application x:Class="EarTrumpet.ColorTool.App"
+<Application x:Class="AudioInOut.ColorTool.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:EarTrumpet.ColorTool"
+             xmlns:local="clr-namespace:AudioInOut.ColorTool"
              StartupUri="MainWindow.xaml">
     <Application.Resources />
 </Application>

@@ -1,6 +1,6 @@
-﻿using System.Windows;
+using System.Windows;
 
-namespace EarTrumpet.ColorTool
+namespace AudioInOut.ColorTool
 {
     public partial class MainWindow : Window
     {
