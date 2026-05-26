@@ -19,11 +19,11 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>ea5510ed-f014-4587-a505-64c59d5b2627</ProjectGuid>
-    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>EarTrumpet.Package_StoreKey.pfx</PackageCertificateKeyFile>
-    <EntryPointProjectUniqueName>..\EarTrumpet\EarTrumpet.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\AudioInOut\AudioInOut.csproj</EntryPointProjectUniqueName>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
@@ -44,7 +44,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EarTrumpet\EarTrumpet.csproj" />
+    <ProjectReference Include="..\AudioInOut\AudioInOut.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EarTrumpet.Package_StoreKey.pfx" />
