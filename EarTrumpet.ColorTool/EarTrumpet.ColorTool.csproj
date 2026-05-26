@@ -74,9 +74,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EarTrumpet\EarTrumpet.csproj">
+    <ProjectReference Include="..\AudioInOut\AudioInOut.csproj">
       <Project>{ba3c7b42-84b0-468c-8640-217e2a24cf81}</Project>
-      <Name>EarTrumpet</Name>
+      <Name>AudioInOut</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
