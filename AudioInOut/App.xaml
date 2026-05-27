@@ -752,6 +752,44 @@
             <DataTemplate x:Key="ContextMenuSeparatorTemplate">
                 <Separator />
             </DataTemplate>
+            <DataTemplate x:Key="ContextMenuSectionTitleTemplate">
+                <MenuItem IsEnabled="False"
+                          IsHitTestVisible="False"
+                          Header="{Binding DisplayName}"
+                          FontSize="11"
+                          FontWeight="SemiBold"
+                          Opacity="0.6" />
+            </DataTemplate>
+            <DataTemplate x:Key="ContextMenuIconRowTemplate">
+                <MenuItem>
+                    <MenuItem.Header>
+                        <ItemsControl HorizontalAlignment="Left"
+                                      ItemsSource="{Binding Icons}"
+                                      Margin="4,4,4,2">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Width="32"
+                                            Height="32"
+                                            Margin="2,0"
+                                            Command="{Binding Command}"
+                                            ToolTip="{Binding Tooltip}">
+                                        <TextBlock FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="14"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding Glyph}" />
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </MenuItem.Header>
+                </MenuItem>
+            </DataTemplate>
 
             <!--  SettingsUX styles & templates  -->
             <Style x:Key="HeadingText" TargetType="TextBlock">

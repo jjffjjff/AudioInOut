@@ -4,6 +4,7 @@ using AudioInOut.Interop.Helpers;
 using AudioInOut.UI.Helpers;
 using AudioInOut.UI.ViewModels;
 using System;
+using System.Diagnostics;
 using System.Windows;
 
 namespace AudioInOut.UI.Views
@@ -56,8 +57,10 @@ namespace AudioInOut.UI.Views
                     // Prevent showing stale adnorners.
                     this.WaitForKeyboardVisuals(() =>
                     {
+                        Trace.WriteLine("FlyoutWindow WaitForKeyboardVisuals fired");
                         WindowAnimationLibrary.BeginFlyoutEntranceAnimation(this, taskbar, () =>
                         {
+                            Trace.WriteLine("FlyoutWindow EntranceAnimation completed");
                             _viewModel.ChangeState(FlyoutViewState.Open);
                         });
                     });
