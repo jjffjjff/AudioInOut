@@ -177,6 +177,7 @@ namespace AudioInOut.UI.Helpers
 
         private void CallbackMsgWndProc(System.Windows.Forms.Message msg)
         {
+            Trace.WriteLine($"ShellNotifyIcon CallbackMsg lParam=0x{(short)msg.LParam:X4} hasProcessed={_hasAlreadyProcessedButtonUp}");
             switch ((short)msg.LParam)
             {
                 case (short)Shell32.NotifyIconNotification.NIN_SELECT:
@@ -295,7 +296,7 @@ namespace AudioInOut.UI.Helpers
                 var contextMenu = new ContextMenu
                 {
                     FlowDirection = SystemSettings.IsRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight,
-                    StaysOpen = true,
+                    StaysOpen = false,
                     ItemsSource = itemsSource
                 };
 
@@ -322,7 +323,6 @@ namespace AudioInOut.UI.Helpers
                 // Workaround: The framework expects there to already be a WPF window open and thus fails to take focus.
                 User32.SetForegroundWindow(((HwndSource)HwndSource.FromVisual(contextMenu)).Handle);
                     contextMenu.Focus();
-                    contextMenu.StaysOpen = false;
                 // Disable only the exit animation.
                 ((Popup)contextMenu.Parent).PopupAnimation = PopupAnimation.None;
                 };
@@ -330,8 +330,18 @@ namespace AudioInOut.UI.Helpers
                 {
                     Trace.WriteLine("ShellNotifyIcon ContextMenu.Closed");
                     _isContextMenuOpen = false;
+                    SetFocus();
                 };
-                contextMenu.IsOpen = true;
+                try
+                {
+                    contextMenu.IsOpen = true;
+                    Trace.WriteLine($"ShellNotifyIcon ContextMenu IsOpen set, StaysOpen={contextMenu.StaysOpen}");
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine($"ShellNotifyIcon ContextMenu IsOpen THREW: {ex}");
+                    _isContextMenuOpen = false;
+                }
             }
         }
     }

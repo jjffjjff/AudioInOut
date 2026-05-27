@@ -254,7 +254,7 @@ namespace AudioInOut.UI.ViewModels
                     _mainViewModel.OnTrayFlyoutHidden();
                     Dialog.IsVisible = false;
 
-                    if (LastInput == InputType.Keyboard && !IsExpandingOrCollapsing)
+                    if (!IsExpandingOrCollapsing)
                     {
                         _returnFocusToTray.Invoke();
                     }
@@ -361,6 +361,7 @@ namespace AudioInOut.UI.ViewModels
 
         public void OpenFlyout(InputType inputType)
         {
+            Trace.WriteLine($"FlyoutViewModel OpenFlyout inputType={inputType} State={State}");
             switch (State)
             {
                 case FlyoutViewState.Hidden:
