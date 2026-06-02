@@ -49,5 +49,10 @@ namespace AudioInOut.UI.Views
                 WindowSizeHelper.RestrictMaximizedSizeToWorkArea(this);
             }
         }
+
+        // Stub handlers — real implementations added in Task 5
+        private void SectionList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) { }
+        private void ContentScrollViewer_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e) { }
+        private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e) { }
     }
 }

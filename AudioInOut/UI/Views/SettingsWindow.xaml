@@ -3,22 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Event="clr-namespace:AudioInOut.Extensions.EventBinding"
         xmlns:Theme="clr-namespace:AudioInOut.UI.Themes"
-        xmlns:b="clr-namespace:AudioInOut.UI.Behaviors"
-        xmlns:ctl="clr-namespace:AudioInOut.UI.Controls"
-        xmlns:datamodel="clr-namespace:AudioInOut.DataModel"
-        xmlns:local="clr-namespace:AudioInOut"
         xmlns:resx="clr-namespace:AudioInOut.Properties"
         xmlns:vm="clr-namespace:AudioInOut.UI.ViewModels"
         Name="WindowRoot"
         Title="{Binding Title}"
         Width="800"
         Height="600"
-        MinWidth="770"
+        MinWidth="600"
         MinHeight="320"
         Theme:AcrylicBrush.Background="AcrylicColor_Settings"
         Theme:Options.Source="App"
-        b:FrameworkElementEx.DisplaySettingsChanged="{Binding DisplaySettingsChanged}"
-        b:FrameworkElementEx.FlowDirection="Auto"
         Background="Transparent"
         Closing="{Event:Binding OnClosing}"
         ResizeMode="CanResize"
@@ -27,6 +21,8 @@
         UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
+
+        <!--  Shortcuts page content  -->
         <DataTemplate DataType="{x:Type vm:EarTrumpetShortcutsPageViewModel}">
             <StackPanel Orientation="Vertical">
                 <TextBlock Style="{StaticResource BodyText}" Text="{x:Static resx:Resources.SettingsOpenEarTrumpetText}" />
@@ -161,30 +157,12 @@
                 </Grid>
             </StackPanel>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:EarTrumpetMouseSettingsPageViewModel}">
-            <StackPanel Orientation="Vertical">
-                <CheckBox HorizontalAlignment="Left"
-                          Content="{x:Static resx:Resources.SettingsUseScrollWheelInTray}"
-                          IsChecked="{Binding UseScrollWheelInTray, Mode=TwoWay}" />
-                <CheckBox HorizontalAlignment="Left"
-                          Content="{x:Static resx:Resources.SettingsUseGlobalMouseWheelHook}"
-                          IsChecked="{Binding UseGlobalMouseWheelHook, Mode=TwoWay}" />
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:EarTrumpetCommunitySettingsPageViewModel}">
-            <StackPanel Orientation="Vertical">
-                <CheckBox HorizontalAlignment="Left"
-                          Content="{x:Static resx:Resources.SettingsUseLogarithmicVolume}"
-                          IsChecked="{Binding UseLogarithmicVolume, Mode=TwoWay}" />
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:EarTrumpetLegacySettingsPageViewModel}">
-            <StackPanel Orientation="Vertical" />
-        </DataTemplate>
+
+        <!--  About page content  -->
         <DataTemplate DataType="{x:Type vm:EarTrumpetAboutPageViewModel}">
             <StackPanel>
-                <StackPanel Margin="12,24" Orientation="Horizontal">
-                    <TextBlock FontSize="24" Text="Audio-InOut" />
+                <StackPanel Margin="0,8,0,8" Orientation="Horizontal">
+                    <TextBlock FontSize="20" Text="Audio-InOut" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
@@ -197,10 +175,6 @@
                         <TextBlock Style="{StaticResource HyperlinkBlock}">
                             <Hyperlink Command="{Binding OpenPrivacyPolicyCommand}">
                                 <Run Text="{x:Static resx:Resources.PrivacyPolicyText}" />
-                            </Hyperlink>
-                        </TextBlock>
-                        <TextBlock Style="{StaticResource HyperlinkBlock}"><Hyperlink Command="{Binding OpenAboutCommand}">
-                                <Run Text="{x:Static resx:Resources.WebsiteText}" />
                             </Hyperlink>
                         </TextBlock>
                         <TextBlock Style="{StaticResource HyperlinkBlock}">
@@ -217,165 +191,34 @@
                 </StackPanel>
             </StackPanel>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:SettingsPageHeaderViewModel}">
-            <Grid Height="64">
-                <TextBlock Margin="24,0,0,6"
-                           VerticalAlignment="Bottom"
-                           FontSize="26"
-                           Text="{Binding Title}" />
-            </Grid>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:AddonAboutPageViewModel}">
-            <StackPanel Orientation="Vertical">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
 
-                    <TextBlock Style="{StaticResource BodyText}" Text="{x:Static resx:Resources.AddonNameText}" />
-                    <TextBlock Grid.Row="1"
-                               Style="{StaticResource BodyText}"
-                               Text="{x:Static resx:Resources.PublisherText}" />
-                    <TextBlock Grid.Row="2"
-                               Style="{StaticResource BodyText}"
-                               Text="{x:Static resx:Resources.VersionText}" />
-
-                    <TextBlock Grid.Column="1"
-                               Style="{StaticResource BodySubText}"
-                               Text="{Binding DisplayName}" />
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="1"
-                               Style="{StaticResource BodySubText}"
-                               Text="{Binding PublisherName}" />
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="1"
-                               Style="{StaticResource BodySubText}"
-                               Text="{Binding Version}" />
-                </Grid>
-                <TextBlock Style="{StaticResource HyperlinkBlock}"><Hyperlink Command="{Binding OpenHelpLink}">
-                        <Run Text="{x:Static resx:Resources.WebsiteText}" />
-                    </Hyperlink></TextBlock>
-
-                <TextBlock Style="{StaticResource HeadingText}" Text="{x:Static resx:Resources.AddonUninstallTitle}" />
-                <TextBlock Style="{StaticResource BodyText}" Text="{x:Static resx:Resources.AddonUninstallDescriptionText}" />
-                <Button Command="{Binding Uninstall}" Content="{x:Static resx:Resources.AddonUninstallButtonText}" />
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:SettingsCategoryViewModel}">
-            <Grid PreviewMouseRightButtonDown="{Event:HandledBinding}">
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Setter Property="Background" Value="Transparent" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsAd}" Value="True">
-                                <Setter Property="Theme:Brush.Background" Value="AcrylicBackgroundFallback" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-
-                <Polygon HorizontalAlignment="Right"
-                         Theme:Brush.Fill="SystemAccent"
-                         Points="0,0 40,0 40,40">
-                    <Polygon.Style>
-                        <Style TargetType="Polygon">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsAd}" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Polygon.Style>
-                </Polygon>
-
-                <TextBlock Margin="4,6,4,4"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Top"
-                           Theme:Brush.Foreground="ApplicationTextDarkTheme"
-                           FontSize="12"
-                           Text="&#xE896;">
-                    <TextBlock.Style>
-                        <Style BasedOn="{StaticResource GlyphTextBlockStyle}" TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsAd}" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="58" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.RowSpan="2"
-                               Margin="0,-6,0,0"
-                               VerticalAlignment="Center"
-                               FontSize="30"
-                               Text="{Binding Glyph}">
-                        <TextBlock.Style>
-                            <Style BasedOn="{StaticResource GlyphTextBlockStyle}" TargetType="TextBlock">
-                                <Setter Property="Theme:Brush.Foreground" Value="SystemAccent" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsAd}" Value="True">
-                                        <Setter Property="Theme:Brush.Foreground" Value="DarkGray" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                    <TextBlock Grid.Column="1"
-                               Margin="6,12,0,0"
-                               VerticalAlignment="Top"
-                               FontSize="15"
-                               Text="{Binding Title}" />
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="1"
-                               Margin="6,2,8,6"
-                               VerticalAlignment="Top"
-                               Theme:Brush.Foreground="GrayText"
-                               FontSize="12"
-                               Text="{Binding Description}"
-                               TextWrapping="Wrap" />
-                </Grid>
-            </Grid>
-        </DataTemplate>
-        <Style x:Key="SettingsListViewItem" TargetType="{x:Type ListViewItem}">
+        <!--  Sidebar item style  -->
+        <Style x:Key="SidebarListViewItem" TargetType="{x:Type ListViewItem}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="Padding" Value="16,0,0,0" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Height" Value="48" />
             <Setter Property="FocusVisualStyle" Value="{StaticResource Windows10FocusVisualStyle}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListViewItem}">
                         <Border x:Name="Bd"
+                                Padding="{TemplateBinding Padding}"
                                 Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="true">
-                            <ContentPresenter Margin="0"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                         <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Theme:Brush.Background" Value="Theme={Theme}ListLow, HighContrast=Highlight" />
+                            </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="IsSelected" Value="False" />
                                 </MultiTrigger.Conditions>
                                 <Setter TargetName="Bd" Property="Theme:Brush.Background" Value="Theme={Theme}ListLow, HighContrast=Highlight" />
                             </MultiTrigger>
@@ -384,18 +227,18 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="SettingsListView" TargetType="{x:Type ListView}">
+
+        <!--  Sidebar ListView  -->
+        <Style x:Key="SidebarListView" TargetType="{x:Type ListView}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
             <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource SettingsListViewItem}" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource SidebarListViewItem}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListView}">
-                        <Border x:Name="Bd"
-                                Background="{TemplateBinding Background}"
-                                SnapsToDevicePixels="true">
+                        <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                             <ScrollViewer Padding="{TemplateBinding Padding}" Focusable="false">
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </ScrollViewer>
@@ -404,67 +247,14 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="MainListItem" TargetType="{x:Type ListViewItem}">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="SnapsToDevicePixels" Value="True" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="Height" Value="86" />
-            <Setter Property="Width" Value="250" />
-            <Setter Property="Margin" Value="12" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="FocusVisualStyle" Value="{StaticResource Windows10FocusVisualStyle}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ListViewItem}">
-                        <Border x:Name="Bd"
-                                Background="{TemplateBinding Background}"
-                                BorderThickness="2"
-                                SnapsToDevicePixels="true">
 
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsMouseOver" Value="True" />
-                                </MultiTrigger.Conditions>
-                                <Setter TargetName="Bd" Property="Theme:Brush.BorderBrush" Value="Light=LightBaseMediumLow/0.12, Dark=DarkBaseMediumLow/0.12, HighContrast=Highlight" />
-                            </MultiTrigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="MainList" TargetType="{x:Type ListView}">
-            <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-            <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
-            <Setter Property="ItemContainerStyle" Value="{StaticResource MainListItem}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ListView}">
-                        <Border x:Name="Bd"
-                                Background="{TemplateBinding Background}"
-                                SnapsToDevicePixels="true">
-                            <ScrollViewer Padding="{TemplateBinding Padding}" Focusable="false">
-                                <ItemsPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
+
     <Grid>
-        <!--  Background  -->
+        <!--  Background — left column matches sidebar width  -->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="320" />
+                <ColumnDefinition Width="220" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -574,312 +364,83 @@
                     </Style>
                 </Border.Style>
             </Border>
-            <Border Theme:Brush.Background="Background">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Selected}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                        <Setter Property="Visibility" Value="Collapsed" />
-                    </Style>
-                </Border.Style>
-            </Border>
             <Border Grid.Column="1" Theme:Brush.Background="Background" />
         </Grid>
+
         <DockPanel LastChildFill="True">
             <!--  TitleBar  -->
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="BackButton"
-                        Command="{Binding Backstack.GoBack}"
-                        FontSize="13">
-                    <Button.Style>
-                        <Style BasedOn="{StaticResource CaptionButtonStyle}" TargetType="Button">
-                            <Setter Property="IsEnabled" Value="False" />
-                            <Setter Property="Content" Value="&#xE72B;" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Backstack.CanGoBack}" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Source={x:Static datamodel:SystemSettings.IsRTL}}" Value="True">
-                                    <Setter Property="Content" Value="&#xE72A;" />
-                                </DataTrigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Theme:Brush.Foreground" Value="Theme=ApplicationTextDarkTheme, HighContrast=HighlightText" />
-                                    <Setter Property="Theme:Brush.Background" Value="Theme=SystemAccent, HighContrast=Highlight" />
-                                </Trigger>
-                                <Trigger Property="IsPressed" Value="True">
-                                    <Setter Property="Theme:Brush.Foreground" Value="Theme=ApplicationTextDarkTheme, HighContrast=HighlightText" />
-                                    <Setter Property="Theme:Brush.Background" Value="Theme=SystemAccent{Theme}1, HighContrast=Highlight" />
-                                </Trigger>
-                                <DataTrigger Binding="{Binding Dialog}" Value="{x:Null}">
-                                    <Setter Property="IsEnabled" Value="True" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-
-                <TextBlock Grid.Column="1"
-                           Margin="14,0,0,0"
+                <TextBlock Margin="14,0,0,0"
                            Text="{Binding Title}"
                            TextAlignment="Left" />
                 <Button x:Name="MinimizeButton"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Style="{StaticResource MinimizeButton}" />
                 <Button x:Name="MaximizeRestoreButton"
-                        Grid.Column="3"
+                        Grid.Column="2"
                         Style="{StaticResource MaximizeButton}" />
                 <Button x:Name="CloseButton"
-                        Grid.Column="4"
+                        Grid.Column="3"
                         Style="{StaticResource CloseButtonStyle}" />
             </Grid>
+
+            <!--  Content  -->
             <Grid>
-                <!--  Main  -->
+                <!--  Two-column layout: sidebar + scrollable content  -->
                 <Grid>
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Selected}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </Style>
-                    </Grid.Style>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="90" />
-                        <RowDefinition Height="46" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <TextBlock HorizontalAlignment="Center"
-                               FontSize="26"
-                               FontWeight="Light"
-                               Style="{StaticResource HeadingText}"
-                               Text="{x:Static resx:Resources.SettingsTitle}" />
-                    <ComboBox Grid.Row="1"
-                              Width="332"
-                              Height="32"
-                              Margin="0"
-                              VerticalContentAlignment="Center"
-                              b:ComboBoxEx.SearchItemsSource="{Binding}" />
-                    <ctl:ListView Grid.Row="2"
-                                  ItemInvoked="{Event:Binding OnInvoked}"
-                                  ItemsSource="{Binding Categories}"
-                                  Style="{StaticResource MainList}">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Margin="0,24" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                    </ctl:ListView>
-                </Grid>
-                <!--  Subview  -->
-                <Grid>
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Selected}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                            <Setter Property="Visibility" Value="Visible" />
-                        </Style>
-                    </Grid.Style>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="320" />
+                        <ColumnDefinition Width="220" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+
+                    <!--  Left sidebar  -->
                     <Grid>
-                        <Grid.Resources>
-                            <CollectionViewSource x:Key="cvs"
-                                                  IsLiveGroupingRequested="True"
-                                                  Source="{Binding Selected.Pages}">
-                                <CollectionViewSource.GroupDescriptions>
-                                    <PropertyGroupDescription PropertyName="GroupName" />
-                                </CollectionViewSource.GroupDescriptions>
-                            </CollectionViewSource>
-                        </Grid.Resources>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="16" />
-                            <RowDefinition Height="48" />
-                            <RowDefinition Height="48" />
-                            <RowDefinition Height="48" />
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Button Grid.Row="1"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                AutomationProperties.Name="{x:Static resx:Resources.HomeButtonText}"
-                                Command="{Binding GoHome}"
-                                Style="{StaticResource InvisibleButtonStyle}">
-                            <Button.Content>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Margin="16,0,4,0"
-                                               FontSize="16"
-                                               Text="&#xE10F;">
-                                        <TextBlock.Style>
-                                            <Style BasedOn="{StaticResource GlyphTextBlockStyle}" TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=IsMouseOver}" Value="True">
-                                                        <Setter Property="Theme:Brush.Foreground" Value="Theme=Text, HighContrast=HighlightText" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                    <TextBlock Grid.Column="1"
-                                               HorizontalAlignment="Left"
-                                               VerticalAlignment="Center"
-                                               FontSize="15"
-                                               Text="{x:Static resx:Resources.HomeButtonText}">
-                                        <TextBlock.Style>
-                                            <Style BasedOn="{StaticResource BodyText}" TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}, Path=IsMouseOver}" Value="True">
-                                                        <Setter Property="Theme:Brush.Foreground" Value="Theme=Text, HighContrast=HighlightText" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </Grid>
-                            </Button.Content>
-                        </Button>
-                        <ComboBox Grid.Row="2"
-                                  Height="32"
-                                  Margin="16,2,16,0"
-                                  VerticalContentAlignment="Center"
-                                  b:ComboBoxEx.SearchItemsSource="{Binding}" />
-                        <Grid Grid.Row="3">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Margin="16,0,0,0"
-                                       FontSize="15"
-                                       FontWeight="Bold"
-                                       Text="{Binding Selected.Title}" />
-                            <ItemsControl Grid.Column="1"
-                                          IsTabStop="False"
-                                          ItemsSource="{Binding Selected.Toolbar}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type vm:ToolbarItemViewModel}">
-                                        <Button VerticalAlignment="Center"
-                                                HorizontalContentAlignment="Stretch"
-                                                AutomationProperties.Name="{Binding DisplayName}"
-                                                BorderThickness="0"
-                                                Command="{Binding Command}"
-                                                Style="{StaticResource ToolbarButtonStyle}"
-                                                ToolTipService.ToolTip="{Binding DisplayName}">
-                                            <TextBlock FontSize="{Binding GlyphFontSize}"
-                                                       Style="{StaticResource GlyphTextBlockStyle}"
-                                                       Text="{Binding Glyph}" />
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
-                        <ListView Grid.Row="4"
-                                  IsSynchronizedWithCurrentItem="True"
-                                  ItemsSource="{Binding Source={StaticResource cvs}}"
-                                  ScrollViewer.CanContentScroll="False"
-                                  SelectedItem="{Binding Selected.Selected, Mode=TwoWay}"
-                                  Style="{StaticResource SettingsListView}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="4" />
-                                            <ColumnDefinition Width="30" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Border x:Name="selectedIndicator"
-                                                Width="4"
-                                                Height="24">
-                                            <Border.Style>
-                                                <Style TargetType="Border">
-                                                    <Setter Property="Theme:Brush.Background" Value="Transparent" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                            <Setter Property="Theme:Brush.Background" Value="SystemAccent" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                        </Border>
-                                        <TextBlock Grid.Column="1"
-                                                   HorizontalAlignment="Center"
-                                                   FontSize="16"
-                                                   Text="{Binding Glyph}">
-                                            <TextBlock.Style>
-                                                <Style BasedOn="{StaticResource GlyphTextBlockStyle}" TargetType="TextBlock">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Path=IsMouseOver}" Value="True">
-                                                            <Setter Property="Theme:Brush.Foreground" Value="Theme=Text, HighContrast=HighlightText" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                        <TextBlock Grid.Column="2"
-                                                   Margin="4,0,12,0"
-                                                   FontSize="15"
-                                                   Text="{Binding Title}">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Path=IsMouseOver}" Value="True">
-                                                            <Setter Property="Theme:Brush.Foreground" Value="Theme=Text, HighContrast=HighlightText" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.GroupStyle>
-                                <GroupStyle>
-                                    <GroupStyle.HeaderTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Margin="16,12,0,6"
-                                                       Theme:Brush.Foreground="GrayText"
-                                                       FontSize="15"
-                                                       Text="{Binding Name}">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Name}" Value="{x:Null}">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </DataTemplate>
-                                    </GroupStyle.HeaderTemplate>
-                                </GroupStyle>
-                            </ListView.GroupStyle>
+
+                        <ListView x:Name="SectionList"
+                                  SelectedIndex="{Binding SelectedSectionIndex, Mode=TwoWay}"
+                                  SelectionChanged="SectionList_SelectionChanged"
+                                  Style="{StaticResource SidebarListView}">
+                            <ListViewItem Content="App behavior" />
+                            <ListViewItem Content="Scroll behavior" />
+                            <ListViewItem Content="Floating Mixer" />
+                            <ListViewItem Content="Shortcuts" />
+                            <ListViewItem Content="About" />
                         </ListView>
+
+                        <!--  Search box  -->
+                        <Grid Grid.Row="1" Margin="12,8,12,12">
+                            <TextBox x:Name="SearchBox"
+                                     TextChanged="SearchBox_TextChanged" />
+                            <TextBlock IsHitTestVisible="False"
+                                       Margin="4,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Theme:Brush.Foreground="GrayText"
+                                       Text="Search...">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=SearchBox, Path=Text}" Value="">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
                     </Grid>
+
+                    <!--  Right: scrollable single-page content  -->
                     <Border Grid.Column="1" Theme:Brush.BorderBrush="Theme=Transparent, HighContrast=Text">
                         <Border.Style>
                             <Style TargetType="Border">
@@ -890,27 +451,104 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
+                        <ScrollViewer x:Name="ContentScrollViewer"
+                                      ScrollChanged="ContentScrollViewer_ScrollChanged"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="24,8,24,24">
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <ContentControl Content="{Binding Selected.Selected.Header}" IsTabStop="False" />
-                            <ScrollViewer Grid.Row="1"
-                                          b:ScrollViewerEx.ScrollToTopOnChanged="{Binding Selected.Selected}"
-                                          HorizontalScrollBarVisibility="Disabled"
-                                          VerticalScrollBarVisibility="Auto">
-                                <ContentControl Margin="12,0,0,0"
-                                                Content="{Binding Selected.Selected}"
-                                                FocusVisualStyle="{x:Null}"
-                                                Focusable="False"
-                                                IsTabStop="False" />
-                            </ScrollViewer>
-                        </Grid>
+                                <!--  App behavior  -->
+                                <Border x:Name="SectionAppBehavior" Padding="0,16,0,16">
+                                    <StackPanel>
+                                        <TextBlock Margin="0,0,0,12"
+                                                   FontSize="18"
+                                                   FontWeight="SemiBold"
+                                                   Text="App behavior" />
+                                        <CheckBox Margin="0,4,0,4"
+                                                  HorizontalAlignment="Left"
+                                                  Content="{x:Static resx:Resources.SettingsUseLogarithmicVolume}"
+                                                  IsChecked="{Binding AppBehavior.UseLogarithmicVolume, Mode=TwoWay}" />
+                                        <CheckBox Margin="0,4,0,4"
+                                                  HorizontalAlignment="Left"
+                                                  Content="Start with Windows"
+                                                  IsChecked="{Binding AppBehavior.StartWithWindows, Mode=TwoWay}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Separator />
+
+                                <!--  Scroll behavior  -->
+                                <Border x:Name="SectionScrollBehavior" Padding="0,16,0,16">
+                                    <StackPanel>
+                                        <TextBlock Margin="0,0,0,12"
+                                                   FontSize="18"
+                                                   FontWeight="SemiBold"
+                                                   Text="Scroll behavior" />
+                                        <CheckBox Margin="0,4,0,4"
+                                                  HorizontalAlignment="Left"
+                                                  Content="{x:Static resx:Resources.SettingsUseScrollWheelInTray}"
+                                                  IsChecked="{Binding ScrollBehavior.UseScrollWheelInTray, Mode=TwoWay}" />
+                                        <CheckBox Margin="0,4,0,4"
+                                                  HorizontalAlignment="Left"
+                                                  Content="{x:Static resx:Resources.SettingsUseGlobalMouseWheelHook}"
+                                                  IsChecked="{Binding ScrollBehavior.UseGlobalMouseWheelHook, Mode=TwoWay}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Separator />
+
+                                <!--  Floating Mixer  -->
+                                <Border x:Name="SectionFloatingMixer" Padding="0,16,0,16">
+                                    <StackPanel>
+                                        <TextBlock Margin="0,0,0,12"
+                                                   FontSize="18"
+                                                   FontWeight="SemiBold"
+                                                   Text="Floating Mixer" />
+                                        <CheckBox Margin="0,4,0,4"
+                                                  HorizontalAlignment="Left"
+                                                  Content="Enable floating mixer (coming soon)"
+                                                  IsChecked="{Binding AppBehavior.FloatingMixerPlaceholderEnabled, Mode=TwoWay}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Separator />
+
+                                <!--  Shortcuts  -->
+                                <Border x:Name="SectionShortcuts" Padding="0,16,0,16">
+                                    <StackPanel>
+                                        <TextBlock Margin="0,0,0,12"
+                                                   FontSize="18"
+                                                   FontWeight="SemiBold"
+                                                   Text="Shortcuts" />
+                                        <ContentControl Content="{Binding Shortcuts}"
+                                                        FocusVisualStyle="{x:Null}"
+                                                        Focusable="False"
+                                                        IsTabStop="False" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Separator />
+
+                                <!--  About  -->
+                                <Border x:Name="SectionAbout" Padding="0,16,0,16">
+                                    <StackPanel>
+                                        <TextBlock Margin="0,0,0,12"
+                                                   FontSize="18"
+                                                   FontWeight="SemiBold"
+                                                   Text="About" />
+                                        <ContentControl Content="{Binding About}"
+                                                        FocusVisualStyle="{x:Null}"
+                                                        Focusable="False"
+                                                        IsTabStop="False" />
+                                    </StackPanel>
+                                </Border>
+
+                            </StackPanel>
+                        </ScrollViewer>
                     </Border>
                 </Grid>
-                <!--  Dialog  -->
+
+                <!--  Dialog overlay (unchanged)  -->
                 <Grid>
                     <Grid.Style>
                         <Style TargetType="Grid">
