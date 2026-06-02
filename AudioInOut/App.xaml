@@ -1324,7 +1324,6 @@
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="Transparent" />
                 <Setter Property="Theme:Brush.Foreground" Value="Theme=Text, HighContrast=ControlText" />
-                <Setter Property="b:ComboBoxEx.ItemClickEnabled" Value="True" />
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="FocusVisualStyle" Value="{StaticResource Windows10FocusVisualStyle}" />
                 <Setter Property="Template">
@@ -2162,42 +2161,6 @@
                          LostKeyboardFocus="{Event:Binding OnLostFocus}"
                          PreviewKeyDown="{Event:Binding OnPreviewKeyDown}"
                          Text="{Binding HotkeyText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type vm:SettingsSearchItemViewModel}">
-                <Grid Height="44">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="32" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock FontSize="15" Text="{Binding Glyph}">
-                        <TextBlock.Style>
-                            <Style BasedOn="{StaticResource GlyphTextBlockStyle}" TargetType="TextBlock">
-                                <Setter Property="Theme:Brush.Foreground" Value="Theme=SystemAccent, HighContrast=ControlText" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Path=IsMouseOver}" Value="True">
-                                        <Setter Property="Theme:Brush.Foreground" Value="Theme=SystemAccent, HighContrast=HighlightText" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Center"
-                               FontSize="15"
-                               Text="{Binding DisplayName}">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Theme:Brush.Foreground" Value="Theme=Text, HighContrast=ControlText" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Path=IsMouseOver}" Value="True">
-                                        <Setter Property="Theme:Brush.Foreground" Value="Theme=Text, HighContrast=HighlightText" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </Grid>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
