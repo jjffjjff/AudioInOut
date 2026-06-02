@@ -151,6 +151,12 @@ namespace AudioInOut
             set => _settings.Set("UseLogarithmicVolume", value);
         }
 
+        public bool FloatingMixerPlaceholderEnabled
+        {
+            get => _settings.Get("FloatingMixerPlaceholderEnabled", false);
+            set => _settings.Set("FloatingMixerPlaceholderEnabled", value);
+        }
+
         public WINDOWPLACEMENT? FullMixerWindowPlacement
         {
             get => _settings.Get("FullMixerWindowPlacement", default(WINDOWPLACEMENT?));
