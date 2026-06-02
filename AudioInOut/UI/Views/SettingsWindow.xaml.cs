@@ -90,8 +90,7 @@ namespace AudioInOut.UI.Views
             }
 
             _isScrollSpy = true;
-            var vm = (SettingsWindowViewModel)DataContext;
-            if (vm.SelectedSectionIndex != current)
+            if (DataContext is SettingsWindowViewModel vm && vm.SelectedSectionIndex != current)
                 vm.SelectedSectionIndex = current;
             _isScrollSpy = false;
         }
