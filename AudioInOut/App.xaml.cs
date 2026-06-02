@@ -240,44 +240,8 @@ namespace AudioInOut
 
         private Window CreateSettingsExperience()
         {
-            var defaultCategory = new SettingsCategoryViewModel(
-                AudioInOut.Properties.Resources.SettingsCategoryTitle,
-                "\xE71D",
-                AudioInOut.Properties.Resources.SettingsDescriptionText,
-                null,
-                new SettingsPageViewModel[]
-                    {
-                        new EarTrumpetShortcutsPageViewModel(Settings),
-                        new EarTrumpetMouseSettingsPageViewModel(Settings),
-                        new EarTrumpetCommunitySettingsPageViewModel(Settings),
-                        new EarTrumpetLegacySettingsPageViewModel(Settings),
-                        new EarTrumpetAboutPageViewModel(() => _errorReporter.DisplayDiagnosticData(), Settings)
-                    });
-
-            var allCategories = new List<SettingsCategoryViewModel>();
-            allCategories.Add(defaultCategory);
-
-            if (AddonManager.Host.SettingsItems != null)
-            {
-                allCategories.AddRange(AddonManager.Host.SettingsItems.Select(a => CreateAddonSettingsPage(a)));
-            }
-
-            var viewModel = new SettingsViewModel(AudioInOut.Properties.Resources.SettingsWindowText, allCategories);
-            viewModel.Selected = defaultCategory;
-            viewModel.Backstack.Clear();
+            var viewModel = new SettingsWindowViewModel(Settings, () => _errorReporter.DisplayDiagnosticData());
             return new SettingsWindow { DataContext = viewModel };
-        }
-
-        private SettingsCategoryViewModel CreateAddonSettingsPage(IEarTrumpetAddonSettingsPage addonSettingsPage)
-        {
-            var addon = (EarTrumpetAddon)addonSettingsPage;
-            var category = addonSettingsPage.GetSettingsCategory();
-
-            if (!addon.IsInternal())
-            {
-                category.Pages.Add(new AddonAboutPageViewModel(addon));
-            }
-            return category;
         }
 
         // Called by the future auth/payment flow once the user has paid for OverlayAppId.Value.
