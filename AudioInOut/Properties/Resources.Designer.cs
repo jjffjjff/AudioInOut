@@ -1717,5 +1717,47 @@ namespace AudioInOut.Properties {
                 return ResourceManager.GetString("WindowsLegacyMenuText", resourceCulture);
             }
         }
+
+        public static string ContextMenuOutputDevicesTitle {
+            get {
+                return ResourceManager.GetString("ContextMenuOutputDevicesTitle", resourceCulture);
+            }
+        }
+
+        public static string ContextMenuInputDevicesTitle {
+            get {
+                return ResourceManager.GetString("ContextMenuInputDevicesTitle", resourceCulture);
+            }
+        }
+
+        public static string ContextMenuSoundSettings {
+            get {
+                return ResourceManager.GetString("ContextMenuSoundSettings", resourceCulture);
+            }
+        }
+
+        public static string ContextMenuVolumeMixer {
+            get {
+                return ResourceManager.GetString("ContextMenuVolumeMixer", resourceCulture);
+            }
+        }
+
+        public static string ContextMenuFloatingMixer {
+            get {
+                return ResourceManager.GetString("ContextMenuFloatingMixer", resourceCulture);
+            }
+        }
+
+        public static string ContextMenuSettingsTooltip {
+            get {
+                return ResourceManager.GetString("ContextMenuSettingsTooltip", resourceCulture);
+            }
+        }
+
+        public static string ContextMenuExitTooltip {
+            get {
+                return ResourceManager.GetString("ContextMenuExitTooltip", resourceCulture);
+            }
+        }
     }
 }

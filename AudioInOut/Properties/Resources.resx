@@ -129,6 +129,27 @@
   <data name="ContextMenuSendFeedback" xml:space="preserve">
     <value>Send feedback</value>
   </data>
+  <data name="ContextMenuOutputDevicesTitle" xml:space="preserve">
+    <value>Output devices</value>
+  </data>
+  <data name="ContextMenuInputDevicesTitle" xml:space="preserve">
+    <value>Input devices</value>
+  </data>
+  <data name="ContextMenuSoundSettings" xml:space="preserve">
+    <value>Windows Sound Settings</value>
+  </data>
+  <data name="ContextMenuVolumeMixer" xml:space="preserve">
+    <value>Windows Volume Mixer</value>
+  </data>
+  <data name="ContextMenuFloatingMixer" xml:space="preserve">
+    <value>Floating Mixer</value>
+  </data>
+  <data name="ContextMenuSettingsTooltip" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ContextMenuExitTooltip" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="FullWindowTitleText" xml:space="preserve">
     <value>Volume Mixer</value>
   </data>

@@ -14,11 +14,15 @@ namespace AudioInOut.UI.Controls
             {
                 key = "ContextMenuSeparatorTemplate";
             }
+            else if (item is ContextMenuSectionTitle)
+            {
+                key = "ContextMenuSectionTitleTemplate";
+            }
             else if (item is ContextMenuItem && ((ContextMenuItem)item).Children != null)
             {
                 key = "ContextMenuSubItemTemplate";
             }
-            else if (item is ContextMenuItem )
+            else if (item is ContextMenuItem)
             {
                 key = "ContextMenuItemTemplate";
             }

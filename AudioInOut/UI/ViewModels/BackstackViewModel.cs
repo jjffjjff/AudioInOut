@@ -30,5 +30,11 @@ namespace AudioInOut.UI.ViewModels
             _stack.Push(action);
             RaisePropertyChanged(nameof(CanGoBack));
         }
+
+        public void Clear()
+        {
+            _stack.Clear();
+            RaisePropertyChanged(nameof(CanGoBack));
+        }
     }
 }

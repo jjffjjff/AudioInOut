@@ -56,7 +56,7 @@ namespace AudioInOut
             PackageName = PackageHelper.GetFamilyName(HasIdentity);
 
             Settings = new AppSettings();
-            _errorReporter = new ErrorReporter(Settings);
+            _errorReporter = new ErrorReporter();
 
             if (SingleInstanceAppMutex.TakeExclusivity())
             {
@@ -106,9 +106,6 @@ namespace AudioInOut
         {
             AddonManager.Load(shouldLoadInternalAddons: HasDevIdentity);
             Exit += (_, __) => AddonManager.Shutdown();
-#if DEBUG
-            DebugHelpers.Add();
-#endif
             _mixerWindow = new WindowHolder(CreateMixerExperience);
             _settingsWindow = new WindowHolder(CreateSettingsExperience);
 
@@ -125,8 +122,6 @@ namespace AudioInOut
             _trayIcon.Scrolled += trayIconScrolled;
             _trayIcon.SetTooltip(CollectionViewModel.GetTrayToolTip());
             _trayIcon.IsVisible = true;
-
-            DisplayFirstRunExperience();
         }
 
         private void trayIconScrolled(object _, int wheelDelta)
@@ -138,23 +133,6 @@ namespace AudioInOut
                 User32.SendMessage(hWndTooltip, User32.TTM_POPUP, IntPtr.Zero, IntPtr.Zero);
                 
                 CollectionViewModel.Default?.IncrementVolume(Math.Sign(wheelDelta) * 2);
-            }
-        }
-
-        private void DisplayFirstRunExperience()
-        {
-            if (!Settings.HasShownFirstRun
-#if DEBUG
-                || Keyboard.IsKeyDown(Key.LeftCtrl)
-#endif
-                )
-            {
-                Trace.WriteLine($"App DisplayFirstRunExperience Showing welcome dialog");
-                Settings.HasShownFirstRun = true;
-
-                var dialog = new DialogWindow { DataContext = new WelcomeViewModel(Settings) };
-                dialog.Show();
-                dialog.RaiseWindow();
             }
         }
 
@@ -189,23 +167,29 @@ namespace AudioInOut
 
         private IEnumerable<ContextMenuItem> GetTrayContextMenuItems()
         {
-            var ret = new List<ContextMenuItem>(CollectionViewModel.AllDevices.OrderBy(x => x.DisplayName).Select(dev => new ContextMenuItem
-            {
-                DisplayName = dev.DisplayName,
-                IsChecked = dev.Id == CollectionViewModel.Default?.Id,
-                Command = new RelayCommand(() => dev.MakeDefaultDevice()),
-            }));
+            var ret = new List<ContextMenuItem>();
 
-            if (!ret.Any())
-            {
-                ret.Add(new ContextMenuItem
+            ret.Add(new ContextMenuSectionTitle(AudioInOut.Properties.Resources.ContextMenuOutputDevicesTitle));
+
+            var outputDevices = CollectionViewModel.AllDevices
+                .OrderBy(x => x.DisplayName)
+                .Select(dev => new ContextMenuItem
                 {
-                    DisplayName = AudioInOut.Properties.Resources.ContextMenuNoDevices,
-                    IsEnabled = false,
-                });
-            }
+                    DisplayName = dev.DisplayName,
+                    IsChecked = dev.Id == CollectionViewModel.Default?.Id,
+                    Command = new RelayCommand(() => dev.MakeDefaultDevice()),
+                })
+                .ToList();
 
-            var recordingChildren = RecordingCollectionViewModel.AllDevices
+            if (outputDevices.Any())
+                ret.AddRange(outputDevices);
+            else
+                ret.Add(new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.ContextMenuNoDevices, IsEnabled = false });
+
+            ret.Add(new ContextMenuSeparator());
+            ret.Add(new ContextMenuSectionTitle(AudioInOut.Properties.Resources.ContextMenuInputDevicesTitle));
+
+            var inputDevices = RecordingCollectionViewModel.AllDevices
                 .OrderBy(x => x.DisplayName)
                 .Select(dev => new ContextMenuItem
                 {
@@ -213,60 +197,44 @@ namespace AudioInOut
                     IsChecked = dev.Id == RecordingCollectionViewModel.Default?.Id,
                     Command = new RelayCommand(() => dev.MakeDefaultDevice()),
                 })
-                .Cast<ContextMenuItem>()
                 .ToList();
 
-            if (!recordingChildren.Any())
-            {
-                recordingChildren.Add(new ContextMenuItem
-                {
-                    DisplayName = AudioInOut.Properties.Resources.ContextMenuNoRecordingDevices,
-                    IsEnabled = false,
-                });
-            }
+            if (inputDevices.Any())
+                ret.AddRange(inputDevices);
+            else
+                ret.Add(new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.ContextMenuNoRecordingDevices, IsEnabled = false });
 
             ret.Add(new ContextMenuSeparator());
             ret.Add(new ContextMenuItem
             {
-                DisplayName = AudioInOut.Properties.Resources.RecordingDevicesSubmenuText,
-                Children = recordingChildren,
+                DisplayName = AudioInOut.Properties.Resources.ContextMenuSoundSettings,
+                Command = new RelayCommand(() => SettingsPageHelper.Open("sound")),
+            });
+            ret.Add(new ContextMenuItem
+            {
+                DisplayName = AudioInOut.Properties.Resources.ContextMenuVolumeMixer,
+                Command = new RelayCommand(LegacyControlPanelHelper.StartLegacyAudioMixer),
+            });
+            ret.Add(new ContextMenuItem
+            {
+                DisplayName = AudioInOut.Properties.Resources.ContextMenuFloatingMixer,
+                Command = new RelayCommand(_mixerWindow.OpenOrBringToFront),
             });
 
-            ret.AddRange(new List<ContextMenuItem>
-                {
-                    new ContextMenuSeparator(),
-                    new ContextMenuItem
-                    {
-                        DisplayName = AudioInOut.Properties.Resources.WindowsLegacyMenuText,
-                        Children = new List<ContextMenuItem>
-                        {
-                            new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.LegacyVolumeMixerText, Command =  new RelayCommand(LegacyControlPanelHelper.StartLegacyAudioMixer) },
-                            new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.PlaybackDevicesText, Command = new RelayCommand(() => LegacyControlPanelHelper.Open("playback")) },
-                            new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.RecordingDevicesText, Command = new RelayCommand(() => LegacyControlPanelHelper.Open("recording")) },
-                            new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.SoundsControlPanelText, Command = new RelayCommand(() => LegacyControlPanelHelper.Open("sounds")) },
-                            new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.OpenSoundSettingsText, Command = new RelayCommand(() => SettingsPageHelper.Open("sound")) },
-                            new ContextMenuItem {
-                                DisplayName = Environment.OSVersion.IsAtLeast(OSVersions.Windows11) ?
-                                    AudioInOut.Properties.Resources.OpenAppsVolume_Windows11_Text
-                                    : AudioInOut.Properties.Resources.OpenAppsVolume_Windows10_Text, Command = new RelayCommand(() => SettingsPageHelper.Open("apps-volume")) },
-                        },
-                    },
-                    new ContextMenuSeparator(),
-                });
-
-            var addonItems = AddonManager.Host.TrayContextMenuItems?.OrderBy(x => x.NotificationAreaContextMenuItems.FirstOrDefault()?.DisplayName).SelectMany(ext => ext.NotificationAreaContextMenuItems);
-            if (addonItems != null && addonItems.Any())
+            ret.Add(new ContextMenuSeparator());
+            ret.Add(new ContextMenuItem
             {
-                ret.AddRange(addonItems);
-                ret.Add(new ContextMenuSeparator());
-            }
+                DisplayName = AudioInOut.Properties.Resources.ContextMenuSettingsTooltip,
+                IconGlyph = "\xE713",
+                Command = new RelayCommand(_settingsWindow.OpenOrBringToFront),
+            });
+            ret.Add(new ContextMenuItem
+            {
+                DisplayName = AudioInOut.Properties.Resources.ContextMenuExitTooltip,
+                IconGlyph = "\xE8BB",
+                Command = new RelayCommand(Shutdown),
+            });
 
-            ret.AddRange(new List<ContextMenuItem>
-                {
-                    new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.FullWindowTitleText, Command = new RelayCommand(_mixerWindow.OpenOrBringToFront) },
-                    new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.SettingsWindowText, Command = new RelayCommand(_settingsWindow.OpenOrBringToFront) },
-                    new ContextMenuItem { DisplayName = AudioInOut.Properties.Resources.ContextMenuExitTitle, Command = new RelayCommand(Shutdown) },
-                });
             return ret;
         }
 
@@ -295,6 +263,8 @@ namespace AudioInOut
             }
 
             var viewModel = new SettingsViewModel(AudioInOut.Properties.Resources.SettingsWindowText, allCategories);
+            viewModel.Selected = defaultCategory;
+            viewModel.Backstack.Clear();
             return new SettingsWindow { DataContext = viewModel };
         }
 

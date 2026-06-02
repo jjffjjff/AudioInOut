@@ -6,6 +6,7 @@ namespace AudioInOut.UI.ViewModels
     public class ContextMenuItem
     {
         public string Glyph { get; set; } = "\xE0E7"; // Checkmark
+        public string IconGlyph { get; set; }
         public string DisplayName { get; set; }
         public ICommand Command { get; set; }
         public bool IsChecked { get; set; }
@@ -16,4 +17,14 @@ namespace AudioInOut.UI.ViewModels
     public class ContextMenuSeparator : ContextMenuItem
     {
     }
+
+    public class ContextMenuSectionTitle : ContextMenuItem
+    {
+        public ContextMenuSectionTitle(string title)
+        {
+            DisplayName = title;
+            IsEnabled = false;
+        }
+    }
+
 }
