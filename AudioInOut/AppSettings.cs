@@ -169,5 +169,11 @@ namespace AudioInOut
             set => _settings.Set("SettingsWindowPlacement", value);
         }
 
+        public string AppearanceTheme
+        {
+            get => _settings.Get("AppearanceTheme", "System");
+            set => _settings.Set("AppearanceTheme", value);
+        }
+
     }
 }

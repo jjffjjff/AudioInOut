@@ -230,6 +230,7 @@
     <Compile Include="UI\Themes\ThemeBindingInfo.cs" />
     <Compile Include="UI\Helpers\TaskbarIconSource.cs" />
     <Compile Include="UI\ViewModels\AppBehaviorViewModel.cs" />
+    <Compile Include="UI\ViewModels\AppearanceSettingsViewModel.cs" />
     <Compile Include="UI\ViewModels\EarTrumpetMouseSettingsPageViewModel.cs" />
     <Compile Include="UI\ViewModels\EarTrumpetShortcutsPageViewModel.cs" />
     <Compile Include="Extensibility\IEarTrumpetAddonAppContent.cs" />
@@ -396,6 +397,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Mutable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Themes\IcomLight.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Themes\IcomDark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

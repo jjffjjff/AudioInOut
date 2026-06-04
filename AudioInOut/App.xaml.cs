@@ -45,6 +45,31 @@ namespace AudioInOut
 
         public static AppSettings Settings { get; private set; }
 
+        public static void ApplyIcomTheme(string mode)
+        {
+            bool isDark;
+            if (mode == "Dark") isDark = true;
+            else if (mode == "Light") isDark = false;
+            else isDark = !DataModel.SystemSettings.IsLightTheme;
+
+            var dictUri = new Uri(
+                isDark
+                    ? "pack://application:,,,/AudioInOut;component/UI/Themes/IcomDark.xaml"
+                    : "pack://application:,,,/AudioInOut;component/UI/Themes/IcomLight.xaml",
+                UriKind.Absolute);
+
+            var merged = Application.Current.Resources.MergedDictionaries;
+            var existing = merged.Where(d =>
+                d.Source != null &&
+                (d.Source.OriginalString.Contains("IcomLight") ||
+                 d.Source.OriginalString.Contains("IcomDark")))
+                .ToList();
+            foreach (var d in existing)
+                merged.Remove(d);
+
+            merged.Add(new ResourceDictionary { Source = dictUri });
+        }
+
         private void OnAppStartup(object sender, StartupEventArgs e)
         {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
@@ -82,6 +107,12 @@ namespace AudioInOut
         {
             _overlayClient = new NoopOverlayClient();
             ((UI.Themes.Manager)Resources["ThemeManager"]).Load();
+            ApplyIcomTheme(Settings.AppearanceTheme);
+            UI.Themes.Manager.Current.ThemeChanged += () =>
+            {
+                if (Settings.AppearanceTheme == "System")
+                    ApplyIcomTheme("System");
+            };
 
             var deviceManager = WindowsAudioFactory.Create(AudioDeviceKind.Playback);
             deviceManager.Loaded += (_, __) => CompleteStartup();

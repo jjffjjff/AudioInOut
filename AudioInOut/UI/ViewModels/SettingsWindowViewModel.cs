@@ -12,6 +12,7 @@ namespace AudioInOut.UI.ViewModels
         public EarTrumpetMouseSettingsPageViewModel ScrollBehavior { get; }
         public EarTrumpetShortcutsPageViewModel Shortcuts { get; }
         public EarTrumpetAboutPageViewModel About { get; }
+        public AppearanceSettingsViewModel Appearance { get; }
 
         private SettingsDialogViewModel _dialog;
         public SettingsDialogViewModel Dialog
@@ -49,6 +50,7 @@ namespace AudioInOut.UI.ViewModels
             ScrollBehavior = new EarTrumpetMouseSettingsPageViewModel(settings);
             Shortcuts = new EarTrumpetShortcutsPageViewModel(settings);
             About = new EarTrumpetAboutPageViewModel(openDiagnostics, settings);
+            Appearance = new AppearanceSettingsViewModel();
         }
 
         public void OnClosing(object sender, CancelEventArgs e)
