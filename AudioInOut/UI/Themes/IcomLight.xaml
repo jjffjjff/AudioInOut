@@ -1,0 +1,23 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="IcomCanvas"      Color="#F5F1EC" />
+    <SolidColorBrush x:Key="IcomWin"         Color="#FFFFFF" />
+    <SolidColorBrush x:Key="IcomCard"        Color="#FAF7F3" />
+    <SolidColorBrush x:Key="IcomSide"        Color="#FAF7F3" />
+    <SolidColorBrush x:Key="IcomField"       Color="#FFFFFF" />
+    <SolidColorBrush x:Key="IcomBorder"      Color="#D3CEC6" />
+    <SolidColorBrush x:Key="IcomBorderSoft"  Color="#E4DED5" />
+    <SolidColorBrush x:Key="IcomText"        Color="#111111" />
+    <SolidColorBrush x:Key="IcomText2"       Color="#626260" />
+    <SolidColorBrush x:Key="IcomText3"       Color="#9C9FA5" />
+    <SolidColorBrush x:Key="IcomHover"       Color="#EFE9E0" />
+    <SolidColorBrush x:Key="IcomChip"        Color="#EFE9E0" />
+    <SolidColorBrush x:Key="IcomSwOff"       Color="#DCD6CC" />
+    <SolidColorBrush x:Key="IcomSwOffBorder" Color="#D3CEC6" />
+    <SolidColorBrush x:Key="IcomSwOn"        Color="#111111" />
+    <SolidColorBrush x:Key="IcomKnob"        Color="#FFFFFF" />
+    <SolidColorBrush x:Key="IcomKnobBorder"  Color="#CFC8BE" />
+    <SolidColorBrush x:Key="IcomMarkBg"      Color="#111111" />
+    <SolidColorBrush x:Key="IcomMarkFg"      Color="#FFFFFF" />
+    <SolidColorBrush x:Key="IcomAccent"      Color="#FF5600" />
+</ResourceDictionary>

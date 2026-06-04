@@ -11,8 +11,6 @@
         Height="600"
         MinWidth="600"
         MinHeight="320"
-        Theme:AcrylicBrush.Background="AcrylicColor_Settings"
-        Theme:Options.Source="App"
         Background="Transparent"
         Closing="{Event:Binding OnClosing}"
         ResizeMode="CanResize"
@@ -20,207 +18,171 @@
         TextOptions.TextFormattingMode="Display"
         UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="48" ResizeBorderThickness="4" />
+    </WindowChrome.WindowChrome>
     <Window.Resources>
 
-        <!--  Shortcuts page content  -->
+        <!-- Shortcuts section content -->
         <DataTemplate DataType="{x:Type vm:EarTrumpetShortcutsPageViewModel}">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Style="{StaticResource BodyText}" Text="{x:Static resx:Resources.SettingsOpenEarTrumpetText}" />
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.DefaultHotkeyDescriptionText}" />
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodyText}"
-                               Text="{Binding DefaultHotKey}" />
-                    <TextBlock Grid.Row="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.HotkeyDescriptionText}" />
-                    <ContentControl Grid.Row="1"
-                                    Grid.Column="1"
-                                    Content="{Binding OpenFlyoutHotkey}"
-                                    IsTabStop="False" />
-                </Grid>
-                <TextBlock Style="{StaticResource BodyText}" Text="{x:Static resx:Resources.SettingsOpenMixerText}" />
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.DefaultHotkeyDescriptionText}" />
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodyText}"
-                               Text="{Binding DefaultMixerHotKey}" />
-                    <TextBlock Grid.Row="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.HotkeyDescriptionText}" />
-                    <ContentControl Grid.Row="1"
-                                    Grid.Column="1"
-                                    Content="{Binding OpenMixerHotkey}"
-                                    IsTabStop="False" />
-                </Grid>
-                <TextBlock Style="{StaticResource BodyText}" Text="{x:Static resx:Resources.SettingsOpenSettingsText}" />
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.DefaultHotkeyDescriptionText}" />
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodyText}"
-                               Text="{Binding DefaultSettingsHotKey}" />
-                    <TextBlock Grid.Row="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.HotkeyDescriptionText}" />
-                    <ContentControl Grid.Row="1"
-                                    Grid.Column="1"
-                                    Content="{Binding OpenSettingsHotkey}"
-                                    IsTabStop="False" />
-                </Grid>
-                <TextBlock Style="{StaticResource BodyText}" Text="{x:Static resx:Resources.SettingsAbsoluteVolumeUpText}" />
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.DefaultHotkeyDescriptionText}" />
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodyText}"
-                               Text="{Binding DefaultSettingsHotKey}" />
-                    <TextBlock Grid.Row="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.HotkeyDescriptionText}" />
-                    <ContentControl Grid.Row="1"
-                                    Grid.Column="1"
-                                    Content="{Binding AbsoluteVolumeUpHotkey}"
-                                    IsTabStop="False" />
-                </Grid>
-                <TextBlock Style="{StaticResource BodyText}" Text="{x:Static resx:Resources.SettingsAbsoluteVolumeDownText}" />
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.DefaultHotkeyDescriptionText}" />
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodyText}"
-                               Text="{Binding DefaultSettingsHotKey}" />
-                    <TextBlock Grid.Row="1"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource BodySubText}"
-                               Text="{x:Static resx:Resources.HotkeyDescriptionText}" />
-                    <ContentControl Grid.Row="1"
-                                    Grid.Column="1"
-                                    Content="{Binding AbsoluteVolumeDownHotkey}"
-                                    IsTabStop="False" />
-                </Grid>
+            <StackPanel>
+                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" Padding="16,11">
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
+                                       Text="{x:Static resx:Resources.SettingsOpenEarTrumpetText}" />
+                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
+                                BorderThickness="1" CornerRadius="9" Padding="10,5">
+                            <ContentControl Content="{Binding OpenFlyoutHotkey}"
+                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" Padding="16,11">
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
+                                       Text="{x:Static resx:Resources.SettingsOpenMixerText}" />
+                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
+                                BorderThickness="1" CornerRadius="9" Padding="10,5">
+                            <ContentControl Content="{Binding OpenMixerHotkey}"
+                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" Padding="16,11">
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
+                                       Text="{x:Static resx:Resources.SettingsOpenSettingsText}" />
+                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
+                                BorderThickness="1" CornerRadius="9" Padding="10,5">
+                            <ContentControl Content="{Binding OpenSettingsHotkey}"
+                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" Padding="16,11">
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
+                                       Text="{x:Static resx:Resources.SettingsAbsoluteVolumeUpText}" />
+                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
+                                BorderThickness="1" CornerRadius="9" Padding="10,5">
+                            <ContentControl Content="{Binding AbsoluteVolumeUpHotkey}"
+                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Padding="16,11">
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
+                                       Text="{x:Static resx:Resources.SettingsAbsoluteVolumeDownText}" />
+                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
+                        </StackPanel>
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
+                                BorderThickness="1" CornerRadius="9" Padding="10,5">
+                            <ContentControl Content="{Binding AbsoluteVolumeDownHotkey}"
+                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
+                        </Border>
+                    </Grid>
+                </Border>
             </StackPanel>
         </DataTemplate>
 
-        <!--  About page content  -->
+        <!-- About section content -->
         <DataTemplate DataType="{x:Type vm:EarTrumpetAboutPageViewModel}">
-            <StackPanel>
-                <StackPanel Margin="0,8,0,8" Orientation="Horizontal">
-                    <TextBlock FontSize="20" Text="Audio-InOut" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel>
-                        <TextBlock VerticalAlignment="Center"
-                                   Style="{StaticResource BodyText}"
-                                   Text="{Binding AboutText}" />
-                        <TextBlock VerticalAlignment="Center"
-                                   Style="{StaticResource BodyText}"
-                                   Text="Based on EarTrumpet by File-New-Project (MIT License)" />
-                        <TextBlock Style="{StaticResource HyperlinkBlock}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="52" />
+                    <ColumnDefinition Width="18" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Width="52" Height="52" CornerRadius="12" VerticalAlignment="Top"
+                        Background="{DynamicResource IcomMarkBg}">
+                    <TextBlock Text="A·IO" FontSize="13.5" FontWeight="Medium"
+                               Foreground="{DynamicResource IcomMarkFg}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Audio-InOut" FontSize="19" FontWeight="SemiBold"
+                               Foreground="{DynamicResource IcomText}" />
+                    <TextBlock Text="{Binding AboutText}" FontSize="13.5"
+                               Foreground="{DynamicResource IcomText2}" Margin="0,3,0,0" />
+                    <TextBlock Text="Based on EarTrumpet by File-New-Project (MIT License)"
+                               FontSize="13.5" Foreground="{DynamicResource IcomText2}"
+                               Margin="0,10,0,0" TextWrapping="Wrap" MaxWidth="360" />
+                    <StackPanel Margin="0,14,0,0">
+                        <TextBlock FontSize="13.5" Foreground="{DynamicResource IcomText}">
                             <Hyperlink Command="{Binding OpenPrivacyPolicyCommand}">
                                 <Run Text="{x:Static resx:Resources.PrivacyPolicyText}" />
                             </Hyperlink>
                         </TextBlock>
-                        <TextBlock Style="{StaticResource HyperlinkBlock}">
+                        <TextBlock FontSize="13.5" Foreground="{DynamicResource IcomText}" Margin="0,8,0,0">
                             <Hyperlink Command="{Binding OpenFeedbackCommand}">
                                 <Run Text="{x:Static resx:Resources.ContextMenuSendFeedback}" />
                             </Hyperlink>
                         </TextBlock>
-                        <TextBlock Style="{StaticResource HyperlinkBlock}">
+                        <TextBlock FontSize="13.5" Foreground="{DynamicResource IcomText}" Margin="0,8,0,0">
                             <Hyperlink Command="{Binding OpenDiagnosticsCommand}">
                                 <Run Text="{x:Static resx:Resources.TroubleshootEarTrumpetText}" />
                             </Hyperlink>
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
         </DataTemplate>
 
-        <!--  Sidebar item style  -->
+        <!-- Sidebar nav item -->
         <Style x:Key="SidebarListViewItem" TargetType="{x:Type ListViewItem}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
-            <Setter Property="Height" Value="36" />
-            <Setter Property="Padding" Value="16,0,0,0" />
+            <Setter Property="Height" Value="34" />
+            <Setter Property="Margin" Value="0,1,0,1" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource IcomText2}" />
             <Setter Property="FocusVisualStyle" Value="{StaticResource Windows10FocusVisualStyle}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListViewItem}">
                         <Border x:Name="Bd"
-                                Padding="{TemplateBinding Padding}"
+                                Padding="13,0"
                                 Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="8"
                                 SnapsToDevicePixels="true">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Bd" Property="Theme:Brush.Background" Value="Theme={Theme}ListLow, HighContrast=Highlight" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource IcomWin}" />
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource IcomBorderSoft}" />
+                                <Setter Property="Foreground" Value="{DynamicResource IcomText}" />
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsMouseOver" Value="True" />
                                     <Condition Property="IsSelected" Value="False" />
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="Bd" Property="Theme:Brush.Background" Value="Theme={Theme}ListLow, HighContrast=Highlight" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource IcomHover}" />
+                                <Setter Property="Foreground" Value="{DynamicResource IcomText}" />
                             </MultiTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -228,379 +190,433 @@
             </Setter>
         </Style>
 
-        <!--  Sidebar ListView  -->
+        <!-- Sidebar ListView container -->
         <Style x:Key="SidebarListView" TargetType="{x:Type ListView}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-            <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource SidebarListViewItem}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListView}">
-                        <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                            <ScrollViewer Padding="{TemplateBinding Padding}" Focusable="false">
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                            </ScrollViewer>
-                        </Border>
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
+        <!-- Toggle switch (pill CheckBox) -->
+        <Style x:Key="IcomToggle" TargetType="{x:Type CheckBox}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Border x:Name="Track"
+                                Width="40" Height="23"
+                                CornerRadius="11.5"
+                                Background="{DynamicResource IcomSwOff}"
+                                BorderBrush="{DynamicResource IcomSwOffBorder}"
+                                BorderThickness="1"
+                                Cursor="Hand">
+                            <Border x:Name="Knob"
+                                    Width="17" Height="17"
+                                    CornerRadius="8.5"
+                                    Background="{DynamicResource IcomKnob}"
+                                    BorderBrush="{DynamicResource IcomKnobBorder}"
+                                    BorderThickness="1"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,0,0,0" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ThicknessAnimation Storyboard.TargetName="Knob"
+                                                                Storyboard.TargetProperty="Margin"
+                                                                To="19,0,0,0" Duration="0:0:0.18" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ThicknessAnimation Storyboard.TargetName="Knob"
+                                                                Storyboard.TargetProperty="Margin"
+                                                                To="2,0,0,0" Duration="0:0:0.18" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                                <Setter TargetName="Track" Property="Background" Value="{DynamicResource IcomSwOn}" />
+                                <Setter TargetName="Track" Property="BorderBrush" Value="{DynamicResource IcomSwOn}" />
+                                <Setter TargetName="Knob" Property="Background" Value="{DynamicResource IcomWin}" />
+                                <Setter TargetName="Knob" Property="BorderBrush" Value="{DynamicResource IcomWin}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Window chrome buttons -->
+        <Style x:Key="IcomWinButton" TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Width" Value="34" />
+            <Setter Property="Height" Value="34" />
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+            <Setter Property="Foreground" Value="{DynamicResource IcomText3}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource IcomHover}" />
+                                <Setter Property="Foreground" Value="{DynamicResource IcomText2}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource IcomHover}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="IcomWinButtonClose" BasedOn="{StaticResource IcomWinButton}" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource IcomText}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Window.Resources>
 
-    <Grid>
-        <!--  Background — left column matches sidebar width  -->
+    <Border Background="{DynamicResource IcomWin}"
+            BorderBrush="{DynamicResource IcomBorder}"
+            BorderThickness="1">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="48" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-            <Border Name="AcrylicBackgroundActive" Theme:Brush.Background="AcrylicBackground" />
-            <Border Name="AcrylicBackgroundWhileDragging">
-                <Border.Style>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="Theme:Brush.Background" Value="AcrylicBackgroundFallback" />
-                        <Setter Property="Opacity" Value="0" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=WindowRoot, Path=(Theme:AcrylicBrush.IsSuppressed)}" Value="True">
-                                <DataTrigger.EnterActions>
-                                    <BeginStoryboard Name="IsSuppressed_Enter_AnimationsOn">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             From="0"
-                                                             To="1"
-                                                             Duration="00:00:00" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.EnterActions>
-                                <DataTrigger.ExitActions>
-                                    <BeginStoryboard Name="IsSuppressed_Exit_AnimationsOn">
-                                        <Storyboard>
-                                            <DoubleAnimationUsingKeyFrames BeginTime="0:0:0"
-                                                                           Storyboard.TargetProperty="Opacity"
-                                                                           Duration="0:00:00.25">
-                                                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="1" />
-                                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1" />
-                                                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0" />
-                                            </DoubleAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.ExitActions>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
+            <!-- Title bar -->
+            <Border Background="{DynamicResource IcomWin}"
+                    BorderBrush="{DynamicResource IcomBorderSoft}"
+                    BorderThickness="0,0,0,1">
+                <Grid Margin="20,0,8,0">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock FontSize="15" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource IcomText}" Text="Audio-InOut" />
+                        <Border Width="1" Height="16" Margin="11,0" VerticalAlignment="Center"
+                                Background="{DynamicResource IcomBorder}" />
+                        <TextBlock FontSize="15" Foreground="{DynamicResource IcomText3}" Text="Settings" />
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="MinimizeButton" Style="{StaticResource IcomWinButton}" Content="─"
+                                Click="MinimizeButton_Click" />
+                        <Button x:Name="MaximizeRestoreButton" Style="{StaticResource IcomWinButton}" Content="▢"
+                                Click="MaximizeRestoreButton_Click" />
+                        <Button x:Name="CloseButton" Style="{StaticResource IcomWinButtonClose}" Content="✕"
+                                Click="CloseButton_Click" />
+                    </StackPanel>
+                </Grid>
             </Border>
-            <Border Name="AcrylicBackgroundInactive">
-                <Border.Style>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="Theme:Brush.Background" Value="AcrylicBackgroundFallback" />
-                        <Setter Property="Opacity" Value="1" />
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Source={StaticResource ThemeManager}, Path=AnimationsEnabled}" Value="True" />
-                                    <Condition Binding="{Binding ElementName=WindowRoot, Path=IsActive}" Value="True" />
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.EnterActions>
-                                    <StopStoryboard BeginStoryboardName="IsActive_Exit_AnimationsOff" />
-                                    <StopStoryboard BeginStoryboardName="IsActive_Enter_AnimationsOff" />
-                                    <BeginStoryboard Name="IsActive_Enter_AnimationsOn">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             From="1"
-                                                             To="0"
-                                                             Duration="00:00:00.15" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </MultiDataTrigger.EnterActions>
-                                <MultiDataTrigger.ExitActions>
-                                    <StopStoryboard BeginStoryboardName="IsActive_Enter_AnimationsOff" />
-                                    <StopStoryboard BeginStoryboardName="IsActive_Exit_AnimationsOff" />
-                                    <BeginStoryboard Name="IsActive_Exit_AnimationsOn">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             From="0"
-                                                             To="1"
-                                                             Duration="00:00:00.15" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </MultiDataTrigger.ExitActions>
-                            </MultiDataTrigger>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Source={StaticResource ThemeManager}, Path=AnimationsEnabled}" Value="False" />
-                                    <Condition Binding="{Binding ElementName=WindowRoot, Path=IsActive}" Value="True" />
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.EnterActions>
-                                    <StopStoryboard BeginStoryboardName="IsActive_Enter_AnimationsOn" />
-                                    <StopStoryboard BeginStoryboardName="IsActive_Exit_AnimationsOn" />
-                                    <BeginStoryboard Name="IsActive_Enter_AnimationsOff">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             From="1"
-                                                             To="0"
-                                                             Duration="00:00:00" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </MultiDataTrigger.EnterActions>
-                                <MultiDataTrigger.ExitActions>
-                                    <StopStoryboard BeginStoryboardName="IsActive_Exit_AnimationsOn" />
-                                    <StopStoryboard BeginStoryboardName="IsActive_Enter_AnimationsOn" />
-                                    <BeginStoryboard Name="IsActive_Exit_AnimationsOff">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             From="0"
-                                                             To="1"
-                                                             Duration="00:00:00" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </MultiDataTrigger.ExitActions>
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
-            </Border>
-            <Border Grid.Column="1" Theme:Brush.Background="Background" />
-        </Grid>
 
-        <DockPanel LastChildFill="True">
-            <!--  TitleBar  -->
-            <Grid DockPanel.Dock="Top">
+            <!-- Body: sidebar + content -->
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Margin="14,0,0,0"
-                           Text="{Binding Title}"
-                           TextAlignment="Left" />
-                <Button x:Name="MinimizeButton"
-                        Grid.Column="1"
-                        Style="{StaticResource MinimizeButton}" />
-                <Button x:Name="MaximizeRestoreButton"
-                        Grid.Column="2"
-                        Style="{StaticResource MaximizeButton}" />
-                <Button x:Name="CloseButton"
-                        Grid.Column="3"
-                        Style="{StaticResource CloseButtonStyle}" />
-            </Grid>
 
-            <!--  Content  -->
-            <Grid>
-                <!--  Two-column layout: sidebar + scrollable content  -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="220" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <!--  Left sidebar  -->
+                <!-- Sidebar -->
+                <Grid Background="{DynamicResource IcomSide}">
+                    <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,1,0" />
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-
                         <ListView x:Name="SectionList"
+                                  Margin="12,14,12,0"
                                   SelectedIndex="{Binding SelectedSectionIndex, Mode=TwoWay}"
                                   SelectionChanged="SectionList_SelectionChanged"
                                   Style="{StaticResource SidebarListView}">
-                            <ListViewItem Content="App behavior" />
-                            <ListViewItem Content="Scroll behavior" />
-                            <ListViewItem Content="Floating Mixer" />
-                            <ListViewItem Content="Shortcuts" />
-                            <ListViewItem Content="About" />
+                            <ListViewItem>
+                                <TextBlock FontSize="14" FontWeight="Medium" Text="App behavior"
+                                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock FontSize="14" FontWeight="Medium" Text="Scroll behavior"
+                                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock FontSize="14" FontWeight="Medium" Text="Floating Mixer"
+                                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock FontSize="14" FontWeight="Medium" Text="Shortcuts"
+                                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock FontSize="14" FontWeight="Medium" Text="Appearance"
+                                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                            </ListViewItem>
+                            <ListViewItem>
+                                <TextBlock FontSize="14" FontWeight="Medium" Text="About"
+                                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                            </ListViewItem>
                         </ListView>
+                        <!-- Search field -->
+                        <Border Grid.Row="1" Height="36" Margin="12,0,12,14"
+                                Background="{DynamicResource IcomField}"
+                                BorderBrush="{DynamicResource IcomBorder}"
+                                BorderThickness="1" CornerRadius="8">
+                            <Grid Margin="13,0">
+                                <TextBox x:Name="SearchBox"
+                                         Background="Transparent" BorderThickness="0"
+                                         FontSize="13" Foreground="{DynamicResource IcomText}"
+                                         TextChanged="SearchBox_TextChanged" VerticalAlignment="Center" />
+                                <TextBlock IsHitTestVisible="False" FontSize="13"
+                                           Foreground="{DynamicResource IcomText3}"
+                                           Text="⌕  Search settings" VerticalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=SearchBox, Path=Text}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
 
-                        <!--  Search box  -->
-                        <Grid Grid.Row="1" Margin="12,8,12,12">
-                            <TextBox x:Name="SearchBox"
-                                     TextChanged="SearchBox_TextChanged" />
-                            <TextBlock IsHitTestVisible="False"
-                                       Margin="4,0,0,0"
-                                       VerticalAlignment="Center"
-                                       Theme:Brush.Foreground="GrayText"
-                                       Text="Search...">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ElementName=SearchBox, Path=Text}" Value="">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
+                <!-- Content pane -->
+                <ScrollViewer x:Name="ContentScrollViewer"
+                              Grid.Column="1"
+                              Background="{DynamicResource IcomWin}"
+                              HorizontalScrollBarVisibility="Disabled"
+                              ScrollChanged="ContentScrollViewer_ScrollChanged"
+                              VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="30,0,30,32">
+
+                        <!-- App behavior -->
+                        <Border x:Name="SectionAppBehavior" Padding="0,18,0,4">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource IcomText}" Text="App behavior" />
+                                <Border Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorderSoft}"
+                                        BorderThickness="1" CornerRadius="12">
+                                    <StackPanel>
+                                        <Border BorderBrush="{DynamicResource IcomBorderSoft}"
+                                                BorderThickness="0,0,0,1" MinHeight="46">
+                                            <Grid Margin="16,9">
+                                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                           FontSize="14" Foreground="{DynamicResource IcomText}"
+                                                           Text="{x:Static resx:Resources.SettingsUseLogarithmicVolume}"
+                                                           TextWrapping="Wrap" MaxWidth="360" />
+                                                <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                          Style="{StaticResource IcomToggle}"
+                                                          IsChecked="{Binding AppBehavior.UseLogarithmicVolume, Mode=TwoWay}" />
+                                            </Grid>
+                                        </Border>
+                                        <Border MinHeight="46">
+                                            <Grid Margin="16,9">
+                                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                           FontSize="14" Foreground="{DynamicResource IcomText}"
+                                                           Text="Start with Windows" />
+                                                <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                          Style="{StaticResource IcomToggle}"
+                                                          IsChecked="{Binding AppBehavior.StartWithWindows, Mode=TwoWay}" />
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Scroll behavior -->
+                        <Border x:Name="SectionScrollBehavior" Padding="0,18,0,4">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource IcomText}" Text="Scroll behavior" />
+                                <Border Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorderSoft}"
+                                        BorderThickness="1" CornerRadius="12">
+                                    <StackPanel>
+                                        <Border BorderBrush="{DynamicResource IcomBorderSoft}"
+                                                BorderThickness="0,0,0,1" MinHeight="46">
+                                            <Grid Margin="16,9">
+                                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                           FontSize="14" Foreground="{DynamicResource IcomText}"
+                                                           Text="{x:Static resx:Resources.SettingsUseScrollWheelInTray}"
+                                                           TextWrapping="Wrap" MaxWidth="360" />
+                                                <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                          Style="{StaticResource IcomToggle}"
+                                                          IsChecked="{Binding ScrollBehavior.UseScrollWheelInTray, Mode=TwoWay}" />
+                                            </Grid>
+                                        </Border>
+                                        <Border MinHeight="46">
+                                            <Grid Margin="16,9">
+                                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                           FontSize="14" Foreground="{DynamicResource IcomText}"
+                                                           Text="{x:Static resx:Resources.SettingsUseGlobalMouseWheelHook}"
+                                                           TextWrapping="Wrap" MaxWidth="360" />
+                                                <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                          Style="{StaticResource IcomToggle}"
+                                                          IsChecked="{Binding ScrollBehavior.UseGlobalMouseWheelHook, Mode=TwoWay}" />
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Floating Mixer -->
+                        <Border x:Name="SectionFloatingMixer" Padding="0,18,0,4">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource IcomText}" Text="Floating Mixer" />
+                                <Border Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorderSoft}"
+                                        BorderThickness="1" CornerRadius="12">
+                                    <Border MinHeight="46">
+                                        <Grid Margin="16,9">
+                                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                        Orientation="Horizontal">
+                                                <TextBlock FontSize="14" Foreground="{DynamicResource IcomText2}"
+                                                           Text="Enable floating mixer" Margin="0,0,8,0" />
+                                                <Border Background="{DynamicResource IcomChip}"
+                                                        CornerRadius="4" Padding="9,3">
+                                                    <TextBlock FontSize="11.5" FontWeight="Medium"
+                                                               Foreground="{DynamicResource IcomText2}" Text="Soon" />
+                                                </Border>
+                                            </StackPanel>
+                                            <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                      IsEnabled="False"
+                                                      Style="{StaticResource IcomToggle}"
+                                                      IsChecked="{Binding AppBehavior.FloatingMixerPlaceholderEnabled, Mode=TwoWay}" />
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Shortcuts -->
+                        <Border x:Name="SectionShortcuts" Padding="0,18,0,4">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource IcomText}" Text="Shortcuts" />
+                                <Border Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorderSoft}"
+                                        BorderThickness="1" CornerRadius="12">
+                                    <ContentControl Content="{Binding Shortcuts}"
+                                                    FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Appearance -->
+                        <Border x:Name="SectionAppearance" Padding="0,18,0,4">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource IcomText}" Text="Appearance" />
+                                <Border Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorderSoft}"
+                                        BorderThickness="1" CornerRadius="12">
+                                    <Border MinHeight="46">
+                                        <Grid Margin="16,9">
+                                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                       FontSize="14" Foreground="{DynamicResource IcomText}"
+                                                       Text="Theme" />
+                                            <ComboBox Width="120" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                      ItemsSource="{Binding Appearance.ThemeOptions}"
+                                                      SelectedItem="{Binding Appearance.SelectedTheme, Mode=TwoWay}" />
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- About -->
+                        <Border x:Name="SectionAbout" Padding="0,18,0,4">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource IcomText}" Text="About" />
+                                <Border Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorderSoft}"
+                                        BorderThickness="1" CornerRadius="12" Padding="18">
+                                    <ContentControl Content="{Binding About}"
+                                                    FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Dialog overlay -->
+            <Grid Grid.RowSpan="2">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Dialog}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid Background="LightGray" Opacity="0.5" />
+                <Border MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        BorderBrush="{DynamicResource IcomBorder}" BorderThickness="1" CornerRadius="12">
+                    <Grid Background="{DynamicResource IcomWin}">
+                        <Grid Margin="12" KeyboardNavigation.TabNavigation="Cycle">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.ColumnSpan="2" Orientation="Vertical">
+                                <TextBlock Margin="12,12,12,0" FontSize="16" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource IcomText}"
+                                           Text="{Binding Dialog.Title}" />
+                                <TextBlock Margin="12,12,12,24" FontSize="14"
+                                           Foreground="{DynamicResource IcomText2}"
+                                           Text="{Binding Dialog.Description}" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <Button Grid.Row="1" Margin="12,12,2,12" HorizontalAlignment="Stretch"
+                                    Command="{Binding Dialog.Button1Command}"
+                                    Content="{Binding Dialog.Button1Text}" />
+                            <Button Grid.Row="1" Grid.Column="1" Margin="2,12,12,12" HorizontalAlignment="Stretch"
+                                    Command="{Binding Dialog.Button2Command}"
+                                    Content="{Binding Dialog.Button2Text}" />
                         </Grid>
                     </Grid>
-
-                    <!--  Right: scrollable single-page content  -->
-                    <Border Grid.Column="1" Theme:Brush.BorderBrush="Theme=Transparent, HighContrast=Text">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Source={StaticResource ThemeManager}, Path=IsHighContrast}" Value="True">
-                                        <Setter Property="BorderThickness" Value="1,0,0,0" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <ScrollViewer x:Name="ContentScrollViewer"
-                                      ScrollChanged="ContentScrollViewer_ScrollChanged"
-                                      HorizontalScrollBarVisibility="Disabled"
-                                      VerticalScrollBarVisibility="Auto">
-                            <StackPanel Margin="24,8,24,24">
-
-                                <!--  App behavior  -->
-                                <Border x:Name="SectionAppBehavior" Padding="0,16,0,16">
-                                    <StackPanel>
-                                        <TextBlock Margin="0,0,0,12"
-                                                   FontSize="18"
-                                                   FontWeight="SemiBold"
-                                                   Text="App behavior" />
-                                        <CheckBox Margin="0,4,0,4"
-                                                  HorizontalAlignment="Left"
-                                                  Content="{x:Static resx:Resources.SettingsUseLogarithmicVolume}"
-                                                  IsChecked="{Binding AppBehavior.UseLogarithmicVolume, Mode=TwoWay}" />
-                                        <CheckBox Margin="0,4,0,4"
-                                                  HorizontalAlignment="Left"
-                                                  Content="Start with Windows"
-                                                  IsChecked="{Binding AppBehavior.StartWithWindows, Mode=TwoWay}" />
-                                    </StackPanel>
-                                </Border>
-
-                                <Separator />
-
-                                <!--  Scroll behavior  -->
-                                <Border x:Name="SectionScrollBehavior" Padding="0,16,0,16">
-                                    <StackPanel>
-                                        <TextBlock Margin="0,0,0,12"
-                                                   FontSize="18"
-                                                   FontWeight="SemiBold"
-                                                   Text="Scroll behavior" />
-                                        <CheckBox Margin="0,4,0,4"
-                                                  HorizontalAlignment="Left"
-                                                  Content="{x:Static resx:Resources.SettingsUseScrollWheelInTray}"
-                                                  IsChecked="{Binding ScrollBehavior.UseScrollWheelInTray, Mode=TwoWay}" />
-                                        <CheckBox Margin="0,4,0,4"
-                                                  HorizontalAlignment="Left"
-                                                  Content="{x:Static resx:Resources.SettingsUseGlobalMouseWheelHook}"
-                                                  IsChecked="{Binding ScrollBehavior.UseGlobalMouseWheelHook, Mode=TwoWay}" />
-                                    </StackPanel>
-                                </Border>
-
-                                <Separator />
-
-                                <!--  Floating Mixer  -->
-                                <Border x:Name="SectionFloatingMixer" Padding="0,16,0,16">
-                                    <StackPanel>
-                                        <TextBlock Margin="0,0,0,12"
-                                                   FontSize="18"
-                                                   FontWeight="SemiBold"
-                                                   Text="Floating Mixer" />
-                                        <CheckBox Margin="0,4,0,4"
-                                                  HorizontalAlignment="Left"
-                                                  Content="Enable floating mixer (coming soon)"
-                                                  IsChecked="{Binding AppBehavior.FloatingMixerPlaceholderEnabled, Mode=TwoWay}" />
-                                    </StackPanel>
-                                </Border>
-
-                                <Separator />
-
-                                <!--  Shortcuts  -->
-                                <Border x:Name="SectionShortcuts" Padding="0,16,0,16">
-                                    <StackPanel>
-                                        <TextBlock Margin="0,0,0,12"
-                                                   FontSize="18"
-                                                   FontWeight="SemiBold"
-                                                   Text="Shortcuts" />
-                                        <ContentControl Content="{Binding Shortcuts}"
-                                                        FocusVisualStyle="{x:Null}"
-                                                        Focusable="False"
-                                                        IsTabStop="False" />
-                                    </StackPanel>
-                                </Border>
-
-                                <Separator />
-
-                                <!--  About  -->
-                                <Border x:Name="SectionAbout" Padding="0,16,0,16">
-                                    <StackPanel>
-                                        <TextBlock Margin="0,0,0,12"
-                                                   FontSize="18"
-                                                   FontWeight="SemiBold"
-                                                   Text="About" />
-                                        <ContentControl Content="{Binding About}"
-                                                        FocusVisualStyle="{x:Null}"
-                                                        Focusable="False"
-                                                        IsTabStop="False" />
-                                    </StackPanel>
-                                </Border>
-
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Border>
-                </Grid>
-
-                <!--  Dialog overlay (unchanged)  -->
-                <Grid>
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Dialog}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                    <Grid Background="LightGray" Opacity="0.5" />
-                    <Border MinWidth="300"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Theme:Brush.BorderBrush="SystemAccent"
-                            BorderThickness="1">
-                        <Grid Theme:Brush.Background="Background">
-                            <Grid Margin="12" KeyboardNavigation.TabNavigation="Cycle">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.ColumnSpan="2" Orientation="Vertical">
-                                    <TextBlock Margin="12,12,12,0"
-                                               Style="{StaticResource HeadingText}"
-                                               Text="{Binding Dialog.Title}" />
-                                    <TextBlock Margin="12,12,12,24"
-                                               Style="{StaticResource BodyText}"
-                                               Text="{Binding Dialog.Description}" />
-                                </StackPanel>
-                                <Button Grid.Row="1"
-                                        Margin="12,12,2,12"
-                                        HorizontalAlignment="Stretch"
-                                        Theme:Brush.Background="SystemAccent"
-                                        Theme:Brush.Foreground="Light=ApplicationTextDarkTheme, Dark=Text"
-                                        Command="{Binding Dialog.Button1Command}"
-                                        Content="{Binding Dialog.Button1Text}" />
-                                <Button Grid.Row="1"
-                                        Grid.Column="1"
-                                        Margin="2,12,12,12"
-                                        HorizontalAlignment="Stretch"
-                                        Command="{Binding Dialog.Button2Command}"
-                                        Content="{Binding Dialog.Button2Text}" />
-                            </Grid>
-                        </Grid>
-                    </Border>
-                </Grid>
+                </Border>
             </Grid>
-        </DockPanel>
-    </Grid>
+
+        </Grid>
+    </Border>
+
 </Window>

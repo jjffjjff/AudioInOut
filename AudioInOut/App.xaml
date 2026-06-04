@@ -578,7 +578,7 @@
                 <Setter Property="PopupAnimation" Value="Fade" />
             </Style>
 
-            <!--  ContextMenu styles & templates  -->
+            <!--  ContextMenu styles & templates — Intercom  -->
             <Style TargetType="{x:Type ContextMenu}">
                 <Setter Property="SnapsToDevicePixels" Value="True" />
                 <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
@@ -587,149 +587,68 @@
                 <Setter Property="UsesItemContainerTemplate" Value="True" />
                 <Setter Property="ItemContainerTemplateSelector" Value="{StaticResource MenuSelector}" />
                 <Setter Property="Placement" Value="Mouse" />
-                <Setter Property="Grid.IsSharedSizeScope" Value="True" />
-                <Setter Property="MinWidth" Value="311" />
-                <Setter Property="HasDropShadow" Value="True" />
-                <Setter Property="FontSize" Value="12" />
-                <Setter Property="Theme:Brush.Foreground" Value="Theme={Theme}BaseHigh, HighContrast=MenuText" />
-                <Setter Property="Theme:Brush.Background" Value="Theme={Theme}ChromeMediumLow, HighContrast=Menu" />
-                <Setter Property="Theme:Brush.BorderBrush" Value="Light=LightChromeHigh, Dark=ControlDarkAppButtonTextDisabled/0.9, HighContrast=ControlText" />
+                <Setter Property="MinWidth" Value="280" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ContextMenu}">
-                            <Border x:Name="Border">
-                                <Border Padding="0,6"
-                                        Background="{TemplateBinding Background}"
-                                        BorderThickness="0"
-                                        CornerRadius="8">
-                                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
-                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            <Border Background="Transparent" Padding="0,0,8,8">
+                                <Border x:Name="Card"
+                                        Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorder}"
+                                        BorderThickness="1"
+                                        CornerRadius="12"
+                                        Padding="6">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="14" Direction="270"
+                                                          Opacity="0.22" ShadowDepth="4" />
+                                    </Border.Effect>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Hidden"
+                                                  MaxHeight="600"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <StackPanel IsItemsHost="True"
+                                                    KeyboardNavigation.DirectionalNavigation="Cycle" />
                                     </ScrollViewer>
                                 </Border>
                             </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="HasDropShadow" Value="True">
-                                    <Setter TargetName="Border" Property="CornerRadius" Value="8" />
-                                    <Setter TargetName="Border" Property="Background" Value="Transparent" />
-                                    <Setter TargetName="Border" Property="Padding" Value="0,0,5,5" />
-                                    <Setter TargetName="Border" Property="Effect">
-                                        <Setter.Value>
-                                            <DropShadowEffect BlurRadius="4"
-                                                              Opacity="0.8"
-                                                              ShadowDepth="2" />
-                                        </Setter.Value>
-                                    </Setter>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
             <Style TargetType="{x:Type Separator}">
-                <Setter Property="Margin" Value="0,3,0,3" />
+                <Setter Property="Margin" Value="10,5,10,5" />
                 <Setter Property="OverridesDefaultStyle" Value="True" />
-                <Setter Property="Theme:Brush.Foreground" Value="Theme={Theme}BaseMediumLow, HighContrast=ControlText" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Separator}">
-                            <Rectangle Height="1"
-                                       Margin="{TemplateBinding Margin}"
-                                       HorizontalAlignment="Stretch"
-                                       Fill="{TemplateBinding Foreground}" />
+                            <Rectangle Height="1" HorizontalAlignment="Stretch"
+                                       Fill="{DynamicResource IcomBorderSoft}" />
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
             <Style x:Key="{x:Type MenuItem}" TargetType="{x:Type MenuItem}">
                 <Setter Property="OverridesDefaultStyle" Value="True" />
-                <Setter Property="Theme:Brush.Foreground" Value="Theme=Text, HighContrast=ControlText" />
+                <Setter Property="Foreground" Value="{DynamicResource IcomText}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type MenuItem}">
                             <Border x:Name="Border"
-                                    Height="30"
-                                    Margin="6,0,6,0"
+                                    MinHeight="36"
                                     Background="Transparent"
                                     BorderThickness="0"
-                                    CornerRadius="4">
-                                <Grid Margin="0,-1,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="32" SharedSizeGroup="Icon" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Border x:Name="Check"
-                                            Width="14"
-                                            Height="14"
-                                            BorderThickness="1">
-                                        <TextBlock x:Name="CheckMark"
-                                                   Theme:Brush.Foreground="Theme={Theme}BaseMedium, HighContrast=ControlText"
-                                                   FontFamily="Segoe MDL2 Assets"
-                                                   SnapsToDevicePixels="False"
-                                                   Text="{TemplateBinding Tag}"
-                                                   Visibility="Hidden" />
-                                    </Border>
-                                    <ContentPresenter x:Name="HeaderHost"
-                                                      Grid.Column="1"
-                                                      Margin="0,0,8,0"
-                                                      ContentSource="Header"
-                                                      RecognizesAccessKey="False" />
-
-                                    <Border x:Name="OpenGlyph"
-                                            Grid.Column="2"
-                                            Width="20"
-                                            Height="14"
-                                            BorderThickness="1"
-                                            Visibility="Collapsed">
-                                        <TextBlock x:Name="GlyphText"
-                                                   Theme:Brush.Foreground="Theme={Theme}BaseMedium, HighContrast=ControlText"
-                                                   FontFamily="Segoe MDL2 Assets"
-                                                   SnapsToDevicePixels="False"
-                                                   Text="&#xE0E3;" />
-                                    </Border>
-
-                                    <Popup x:Name="Popup"
-                                           MinWidth="200"
-                                           AllowsTransparency="True"
-                                           Focusable="False"
-                                           HorizontalOffset="0"
-                                           IsOpen="{TemplateBinding IsSubmenuOpen}"
-                                           Placement="Right"
-                                           PopupAnimation="Fade">
-
-                                        <Border x:Name="SubmenuBorder"
-                                                Theme:Brush.Background="Theme={Theme}ChromeMediumLow, HighContrast=Menu"
-                                                Theme:Brush.BorderBrush="Theme={Theme}ChromeHigh, HighContrast=ControlText"
-                                                BorderThickness="1"
-                                                SnapsToDevicePixels="True">
-                                            <Border Padding="2,6"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="1">
-                                                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
-                                                </ScrollViewer>
-                                            </Border>
-                                        </Border>
-                                    </Popup>
-                                </Grid>
+                                    CornerRadius="8">
+                                <ContentPresenter x:Name="HeaderHost"
+                                                  Margin="8,0"
+                                                  ContentSource="Header"
+                                                  RecognizesAccessKey="False"
+                                                  VerticalAlignment="Center" />
                             </Border>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="ButtonBase.Command" Value="{x:Null}" />
-                                <Trigger Property="IsChecked" Value="True">
-                                    <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
-                                </Trigger>
                                 <Trigger Property="IsHighlighted" Value="True">
-                                    <Setter Property="Theme:Brush.Foreground" Value="Theme={Theme}BaseHigh, HighContrast=HighlightText" />
-                                    <Setter TargetName="Border" Property="Theme:Brush.Background" Value="Theme={Theme}ListLow, HighContrast=Highlight" />
-                                    <Setter TargetName="CheckMark" Property="Theme:Brush.Foreground" Value="Theme={Theme}BaseMedium, HighContrast=HighlightText" />
-                                    <Setter TargetName="GlyphText" Property="Theme:Brush.Foreground" Value="Theme={Theme}BaseMedium, HighContrast=HighlightText" />
+                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource IcomHover}" />
                                 </Trigger>
                                 <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Theme:Brush.Foreground" Value="Theme={Theme}BaseMediumLow, HighContrast=GrayText" />
-                                </Trigger>
-                                <Trigger Property="Role" Value="SubmenuHeader">
-                                    <Setter TargetName="OpenGlyph" Property="Visibility" Value="Visible" />
+                                    <Setter Property="Foreground" Value="{DynamicResource IcomText3}" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -737,18 +656,29 @@
                 </Setter>
             </Style>
             <DataTemplate x:Key="ContextMenuItemTemplate">
-                <MenuItem Command="{Binding Command}"
-                          Header="{Binding DisplayName}"
-                          IsCheckable="{Binding IsChecked}"
-                          IsChecked="{Binding IsChecked}"
-                          IsEnabled="{Binding IsEnabled}">
-                    <MenuItem.Icon>
-                        <TextBlock FontFamily="Segoe MDL2 Assets"
-                                   FontSize="14"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding IconGlyph}" />
-                    </MenuItem.Icon>
+                <MenuItem Command="{Binding Command}" IsEnabled="{Binding IsEnabled}">
+                    <MenuItem.Header>
+                        <Grid MinWidth="220">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Ellipse Width="7" Height="7" VerticalAlignment="Center">
+                                <Ellipse.Style>
+                                    <Style TargetType="Ellipse">
+                                        <Setter Property="Fill" Value="Transparent" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked}" Value="True">
+                                                <Setter Property="Fill" Value="{DynamicResource IcomAccent}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Ellipse.Style>
+                            </Ellipse>
+                            <TextBlock Grid.Column="1" Text="{Binding DisplayName}" FontSize="14"
+                                       Foreground="{DynamicResource IcomText}" VerticalAlignment="Center" />
+                        </Grid>
+                    </MenuItem.Header>
                 </MenuItem>
             </DataTemplate>
             <HierarchicalDataTemplate x:Key="ContextMenuSubItemTemplate" ItemsSource="{Binding Children}">
@@ -764,11 +694,10 @@
             <DataTemplate x:Key="ContextMenuSectionTitleTemplate">
                 <MenuItem IsEnabled="False" IsHitTestVisible="False">
                     <MenuItem.Header>
-                        <TextBlock Margin="-16,0,0,0"
-                                   Text="{Binding DisplayName}"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
-                                   Opacity="0.6" />
+                        <TextBlock Text="{Binding DisplayName}"
+                                   FontSize="13" FontWeight="Medium"
+                                   Foreground="{DynamicResource IcomText3}"
+                                   Margin="8,6,0,2" />
                     </MenuItem.Header>
                 </MenuItem>
             </DataTemplate>

@@ -56,7 +56,7 @@ namespace AudioInOut.UI.Views
         }
 
         private FrameworkElement[] GetSections() =>
-            new FrameworkElement[] { SectionAppBehavior, SectionScrollBehavior, SectionFloatingMixer, SectionShortcuts, SectionAbout };
+            new FrameworkElement[] { SectionAppBehavior, SectionScrollBehavior, SectionFloatingMixer, SectionShortcuts, SectionAppearance, SectionAbout };
 
         private void SectionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -101,7 +101,7 @@ namespace AudioInOut.UI.Views
             if (string.IsNullOrEmpty(query)) return;
 
             var sections = GetSections();
-            var sectionNames = new[] { "App behavior", "Scroll behavior", "Floating Mixer", "Shortcuts", "About" };
+            var sectionNames = new[] { "App behavior", "Scroll behavior", "Floating Mixer", "Shortcuts", "Appearance", "About" };
 
             for (int i = 0; i < sectionNames.Length; i++)
             {
@@ -128,6 +128,16 @@ namespace AudioInOut.UI.Views
             var pos = transform.Transform(new Point(0, 0));
             ContentScrollViewer.ScrollToVerticalOffset(ContentScrollViewer.VerticalOffset + pos.Y);
         }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+            => WindowState = System.Windows.WindowState.Minimized;
+
+        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
+            => WindowState = WindowState == System.Windows.WindowState.Maximized
+                ? System.Windows.WindowState.Normal
+                : System.Windows.WindowState.Maximized;
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
 
         private static bool SectionContainsText(DependencyObject element, string query)
         {
