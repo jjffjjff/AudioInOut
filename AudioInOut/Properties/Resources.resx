@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -417,10 +417,10 @@ Open [https://eartrumpet.app/jmp/fixfonts] now?</value>
   <data name="DeviceEventTrigger_LinkText" xml:space="preserve">
     <value>{Device} {Option}</value>
   </data>
-  <data name="EarTrumpetEventKind_Shutdown" xml:space="preserve">
+  <data name="AudioInOutEventKind_Shutdown" xml:space="preserve">
     <value>ends</value>
   </data>
-  <data name="EarTrumpetEventKind_Startup" xml:space="preserve">
+  <data name="AudioInOutEventKind_Startup" xml:space="preserve">
     <value>starts</value>
   </data>
   <data name="EditText" xml:space="preserve">

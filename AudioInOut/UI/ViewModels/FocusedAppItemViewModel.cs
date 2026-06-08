@@ -1,4 +1,3 @@
-using AudioInOut.Extensibility.Hosting;
 using AudioInOut.UI.Helpers;
 using System;
 using System.Collections.ObjectModel;
@@ -13,7 +12,6 @@ namespace AudioInOut.UI.ViewModels
         public IAppItemViewModel App { get; }
         public ObservableCollection<ToolbarItemViewModel> Toolbar { get; }
         public string DisplayName => App.DisplayName;
-        public ObservableCollection<object> Addons { get; }
 
         public FocusedAppItemViewModel(DeviceCollectionViewModel parent, IAppItemViewModel app)
         {
@@ -63,23 +61,6 @@ namespace AudioInOut.UI.ViewModels
                 });
             }
 
-            var contentItems = AddonManager.Host.AppContentItems;
-            if (contentItems != null)
-            {
-                Addons = new ObservableCollection<object>(contentItems.Select(a => a.GetContentForApp(App.Parent.Id, App.Id, () => RequestClose.Invoke())).ToArray());
-
-                var menuItems = contentItems.SelectMany(a => a.GetContextMenuItemsForApp(app.Parent.Id, app.AppId));
-                if (menuItems.Any())
-                {
-                    Toolbar.Insert(0, new ToolbarItemViewModel
-                    {
-                        GlyphFontSize = 16,
-                        DisplayName = Properties.Resources.MoreCommandsAccessibleText,
-                        Glyph = "\uE10C",
-                        Menu = new ObservableCollection<ContextMenuItem>(menuItems)
-                    });
-                }
-            }
         }
 
         public void Closing()

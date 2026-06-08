@@ -1,13 +1,9 @@
 using AudioInOut.DataModel.AppInformation;
 using AudioInOut.DataModel.Audio;
 using AudioInOut.DataModel.WindowsAudio;
-using AudioInOut.Extensibility;
-using AudioInOut.Extensibility.Hosting;
 using AudioInOut.Interop.Helpers;
-using AudioInOut.UI.Helpers;
 using AudioInOut.UI.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 #if DEBUG
@@ -15,53 +11,6 @@ namespace AudioInOut
 {
     class DebugHelpers
     {
-        class DebugContextMenuAddon : IEarTrumpetAddonNotificationAreaContextMenu
-        {
-            public IEnumerable<ContextMenuItem> NotificationAreaContextMenuItems
-            {
-                get
-                {
-                    return new List<ContextMenuItem>
-                        {
-                            new ContextMenuItem
-                            {
-                                DisplayName = "Developer options",
-                                Children = new List<ContextMenuItem>
-                                {
-                                    new ContextMenuItem
-                                    {
-                                        DisplayName = "Remove all devices",
-                                        Command = new RelayCommand(DebugRemoveAllDevices),
-                                        Glyph = "\xE894",
-                                        IsChecked = true,
-                                    },
-                                    new ContextMenuItem
-                                    {
-                                        DisplayName = "Add mock device",
-                                        Command = new RelayCommand(DebugAddMockDevice),
-                                        Glyph = "\xE948",
-                                        IsChecked = true,
-                                    },
-                                    new ContextMenuSeparator(),
-                                    new ContextMenuItem
-                                    {
-                                        DisplayName = "View colors",
-                                        Command = new RelayCommand(() => ProcessHelper.StartNoThrow("EarTrumpet.ColorTool.exe")),
-                                        Glyph = "\xE790",
-                                        IsChecked = true,
-                                    },
-                                },
-                            },
-                        };
-                }
-            }
-        }
-
-        public static void Add()
-        {
-            AddonManager.Host.TrayContextMenuItems.Add(new DebugContextMenuAddon());
-        }
-
         private static void DebugRemoveAllDevices()
         {
             var devManager = WindowsAudioFactory.Create(AudioDeviceKind.Playback);

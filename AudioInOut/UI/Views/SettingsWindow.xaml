@@ -23,89 +23,252 @@
     </WindowChrome.WindowChrome>
     <Window.Resources>
 
+        <!-- Hotkey chip — overrides App.xaml template; Style="{x:Null}" strips global TextBox (Margin=12, MinWidth=140, clear button) -->
+        <DataTemplate DataType="{x:Type vm:HotkeyViewModel}">
+            <StackPanel HorizontalAlignment="Right">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <!-- Chip pill -->
+                    <Border Grid.Column="0"
+                            Background="{DynamicResource IcomField}"
+                            BorderBrush="{DynamicResource IcomBorder}"
+                            BorderThickness="1" CornerRadius="8" Height="28" MinWidth="110">
+                        <Grid Margin="10,0">
+                            <TextBox Style="{x:Null}"
+                                     Background="Transparent" BorderThickness="0"
+                                     Padding="0" Margin="0" MinWidth="0" MinHeight="0"
+                                     FontSize="13" Foreground="{DynamicResource IcomText}"
+                                     VerticalAlignment="Center"
+                                     GotKeyboardFocus="{Event:Binding OnGotFocus}"
+                                     LostKeyboardFocus="{Event:Binding OnLostFocus}"
+                                     PreviewKeyDown="{Event:Binding OnPreviewKeyDown}"
+                                     Text="{Binding HotkeyText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock IsHitTestVisible="False" FontSize="12"
+                                       Foreground="{DynamicResource IcomText3}"
+                                       Text="click to set" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HotkeyText}" Value="">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                    <!-- Reset button — visible only when a hotkey is set -->
+                    <Button Grid.Column="1" Width="24" Height="24" Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Command="{Binding ResetCommand}"
+                            ToolTip="Clear shortcut">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="OverridesDefaultStyle" Value="True" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="BorderThickness" Value="0" />
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="5">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Bd" Property="Background" Value="{DynamicResource IcomHover}" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsHotkeySet}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <TextBlock Text="×" FontSize="13" Foreground="{DynamicResource IcomText3}" />
+                    </Button>
+                </Grid>
+                <!-- Conflict warning — visible when another shortcut uses the same key -->
+                <TextBlock FontSize="11" Foreground="#E8A020"
+                           Margin="0,3,0,0" HorizontalAlignment="Right"
+                           Text="{Binding ConflictWarning}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ConflictWarning}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConflictWarning}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Styled dropdown for Appearance section -->
+        <Style x:Key="IcomComboBox" TargetType="{x:Type ComboBox}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Foreground" Value="{DynamicResource IcomText}" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type ComboBoxItem}">
+                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                        <Setter Property="Foreground" Value="{DynamicResource IcomText}" />
+                        <Setter Property="FontSize" Value="13" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                    <Border x:Name="Bd" Background="Transparent"
+                                            CornerRadius="6" Padding="10,6">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource IcomHover}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid x:Name="MainGrid" SnapsToDevicePixels="True">
+                            <!-- Visual shell -->
+                            <Border x:Name="Bd"
+                                    Background="{DynamicResource IcomField}"
+                                    BorderBrush="{DynamicResource IcomBorder}"
+                                    BorderThickness="1" CornerRadius="8" />
+                            <!-- Selected item display -->
+                            <ContentPresenter x:Name="ContentSite"
+                                              Margin="10,0,28,0"
+                                              HorizontalAlignment="Left" VerticalAlignment="Center"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              IsHitTestVisible="False" />
+                            <!-- Chevron -->
+                            <TextBlock Text="&#xe70d;" FontFamily="Segoe MDL2 Assets"
+                                       FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                       Margin="0,0,10,0" Foreground="{DynamicResource IcomText3}"
+                                       IsHitTestVisible="False" />
+                            <!-- Transparent click target — toggles IsDropDownOpen -->
+                            <ToggleButton OverridesDefaultStyle="True" Focusable="False"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Border Background="Transparent" CornerRadius="8" />
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Placement="Bottom" StaysOpen="False" PopupAnimation="Fade">
+                                <Border Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorder}"
+                                        BorderThickness="1" CornerRadius="8" Padding="4" MinWidth="120">
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="10" Direction="270" Opacity="0.2" ShadowDepth="3" />
+                                    </Border.Effect>
+                                    <ScrollViewer MaxHeight="200" VerticalScrollBarVisibility="Auto">
+                                        <StackPanel IsItemsHost="True" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource IcomText3}" />
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource IcomText3}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!-- Shortcuts section content -->
-        <DataTemplate DataType="{x:Type vm:EarTrumpetShortcutsPageViewModel}">
+        <DataTemplate DataType="{x:Type vm:AudioInOutShortcutsPageViewModel}">
             <StackPanel>
-                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" Padding="16,11">
-                    <Grid>
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
-                                       Text="{x:Static resx:Resources.SettingsOpenEarTrumpetText}" />
-                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
-                        </StackPanel>
-                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
-                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
-                                BorderThickness="1" CornerRadius="9" Padding="10,5">
-                            <ContentControl Content="{Binding OpenFlyoutHotkey}"
-                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
-                        </Border>
+                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="46">
+                    <Grid Margin="16,9">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   FontSize="13" Foreground="{DynamicResource IcomText}"
+                                   Text="{x:Static resx:Resources.SettingsOpenEarTrumpetText}" />
+                        <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Content="{Binding OpenFlyoutHotkey}"
+                                        FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
                     </Grid>
                 </Border>
-                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" Padding="16,11">
-                    <Grid>
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
-                                       Text="{x:Static resx:Resources.SettingsOpenMixerText}" />
-                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
-                        </StackPanel>
-                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
-                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
-                                BorderThickness="1" CornerRadius="9" Padding="10,5">
-                            <ContentControl Content="{Binding OpenMixerHotkey}"
-                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
-                        </Border>
+                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="46">
+                    <Grid Margin="16,9">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   FontSize="13" Foreground="{DynamicResource IcomText}"
+                                   Text="{x:Static resx:Resources.SettingsOpenMixerText}" />
+                        <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Content="{Binding OpenMixerHotkey}"
+                                        FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
                     </Grid>
                 </Border>
-                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" Padding="16,11">
-                    <Grid>
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
-                                       Text="{x:Static resx:Resources.SettingsOpenSettingsText}" />
-                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
-                        </StackPanel>
-                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
-                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
-                                BorderThickness="1" CornerRadius="9" Padding="10,5">
-                            <ContentControl Content="{Binding OpenSettingsHotkey}"
-                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
-                        </Border>
+                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="46">
+                    <Grid Margin="16,9">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   FontSize="13" Foreground="{DynamicResource IcomText}"
+                                   Text="{x:Static resx:Resources.SettingsOpenSettingsText}" />
+                        <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Content="{Binding OpenSettingsHotkey}"
+                                        FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
                     </Grid>
                 </Border>
-                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" Padding="16,11">
-                    <Grid>
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
-                                       Text="{x:Static resx:Resources.SettingsAbsoluteVolumeUpText}" />
-                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
-                        </StackPanel>
-                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
-                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
-                                BorderThickness="1" CornerRadius="9" Padding="10,5">
-                            <ContentControl Content="{Binding AbsoluteVolumeUpHotkey}"
-                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
-                        </Border>
+                <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="46">
+                    <Grid Margin="16,9">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   FontSize="13" Foreground="{DynamicResource IcomText}"
+                                   Text="{x:Static resx:Resources.SettingsAbsoluteVolumeUpText}" />
+                        <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Content="{Binding AbsoluteVolumeUpHotkey}"
+                                        FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
                     </Grid>
                 </Border>
-                <Border Padding="16,11">
-                    <Grid>
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <TextBlock FontSize="14" Foreground="{DynamicResource IcomText}"
-                                       Text="{x:Static resx:Resources.SettingsAbsoluteVolumeDownText}" />
-                            <TextBlock FontSize="12" Foreground="{DynamicResource IcomText3}" Margin="0,2,0,0" Text="Default · None" />
-                        </StackPanel>
-                        <Border HorizontalAlignment="Right" VerticalAlignment="Center"
-                                Background="{DynamicResource IcomField}" BorderBrush="{DynamicResource IcomBorder}"
-                                BorderThickness="1" CornerRadius="9" Padding="10,5">
-                            <ContentControl Content="{Binding AbsoluteVolumeDownHotkey}"
-                                            FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
-                        </Border>
+                <Border MinHeight="46">
+                    <Grid Margin="16,9">
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   FontSize="13" Foreground="{DynamicResource IcomText}"
+                                   Text="{x:Static resx:Resources.SettingsAbsoluteVolumeDownText}" />
+                        <ContentControl HorizontalAlignment="Right" VerticalAlignment="Center"
+                                        Content="{Binding AbsoluteVolumeDownHotkey}"
+                                        FocusVisualStyle="{x:Null}" Focusable="False" IsTabStop="False" />
                     </Grid>
                 </Border>
             </StackPanel>
         </DataTemplate>
 
         <!-- About section content -->
-        <DataTemplate DataType="{x:Type vm:EarTrumpetAboutPageViewModel}">
+        <DataTemplate DataType="{x:Type vm:AudioInOutAboutPageViewModel}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="52" />
@@ -125,7 +288,7 @@
                                Foreground="{DynamicResource IcomText2}" Margin="0,3,0,0" />
                     <TextBlock Text="Based on EarTrumpet by File-New-Project (MIT License)"
                                FontSize="13.5" Foreground="{DynamicResource IcomText2}"
-                               Margin="0,10,0,0" TextWrapping="Wrap" MaxWidth="360" />
+                               Margin="0,10,0,0" HorizontalAlignment="Left" />
                     <StackPanel Margin="0,14,0,0">
                         <TextBlock FontSize="13.5" Foreground="{DynamicResource IcomText}">
                             <Hyperlink Command="{Binding OpenPrivacyPolicyCommand}">
@@ -354,27 +517,27 @@
                                   SelectionChanged="SectionList_SelectionChanged"
                                   Style="{StaticResource SidebarListView}">
                             <ListViewItem>
-                                <TextBlock FontSize="14" FontWeight="Medium" Text="App behavior"
+                                <TextBlock FontSize="13" FontWeight="Medium" Text="Appearance"
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                             </ListViewItem>
                             <ListViewItem>
-                                <TextBlock FontSize="14" FontWeight="Medium" Text="Scroll behavior"
+                                <TextBlock FontSize="13" FontWeight="Medium" Text="App behavior"
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                             </ListViewItem>
                             <ListViewItem>
-                                <TextBlock FontSize="14" FontWeight="Medium" Text="Floating Mixer"
+                                <TextBlock FontSize="13" FontWeight="Medium" Text="Scroll behavior"
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                             </ListViewItem>
                             <ListViewItem>
-                                <TextBlock FontSize="14" FontWeight="Medium" Text="Shortcuts"
+                                <TextBlock FontSize="13" FontWeight="Medium" Text="Floating Mixer"
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                             </ListViewItem>
                             <ListViewItem>
-                                <TextBlock FontSize="14" FontWeight="Medium" Text="Appearance"
+                                <TextBlock FontSize="13" FontWeight="Medium" Text="Shortcuts"
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                             </ListViewItem>
                             <ListViewItem>
-                                <TextBlock FontSize="14" FontWeight="Medium" Text="About"
+                                <TextBlock FontSize="13" FontWeight="Medium" Text="About"
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                             </ListViewItem>
                         </ListView>
@@ -414,22 +577,45 @@
                               HorizontalScrollBarVisibility="Disabled"
                               ScrollChanged="ContentScrollViewer_ScrollChanged"
                               VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="30,0,30,32">
+                    <StackPanel Margin="28,0,28,32">
+
+                        <!-- Appearance -->
+                        <Border x:Name="SectionAppearance" Padding="0,20,0,4">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,10" FontSize="15" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource IcomText}" Text="Appearance" />
+                                <Border Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorderSoft}"
+                                        BorderThickness="1" CornerRadius="12">
+                                    <Border MinHeight="50">
+                                        <Grid Margin="16,9">
+                                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                       FontSize="13" Foreground="{DynamicResource IcomText}"
+                                                       Text="Theme" />
+                                            <ComboBox Width="128" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                      Style="{StaticResource IcomComboBox}"
+                                                      ItemsSource="{Binding Appearance.ThemeOptions}"
+                                                      SelectedItem="{Binding Appearance.SelectedTheme, Mode=TwoWay}" />
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                            </StackPanel>
+                        </Border>
 
                         <!-- App behavior -->
-                        <Border x:Name="SectionAppBehavior" Padding="0,18,0,4">
+                        <Border x:Name="SectionAppBehavior" Padding="0,20,0,4">
                             <StackPanel>
-                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                <TextBlock Margin="0,0,0,10" FontSize="15" FontWeight="SemiBold"
                                            Foreground="{DynamicResource IcomText}" Text="App behavior" />
                                 <Border Background="{DynamicResource IcomCard}"
                                         BorderBrush="{DynamicResource IcomBorderSoft}"
                                         BorderThickness="1" CornerRadius="12">
                                     <StackPanel>
                                         <Border BorderBrush="{DynamicResource IcomBorderSoft}"
-                                                BorderThickness="0,0,0,1" MinHeight="46">
-                                            <Grid Margin="16,9">
+                                                BorderThickness="0,0,0,1" MinHeight="50">
+                                            <Grid Margin="16,10">
                                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                                                           FontSize="14" Foreground="{DynamicResource IcomText}"
+                                                           FontSize="13" Foreground="{DynamicResource IcomText}"
                                                            Text="{x:Static resx:Resources.SettingsUseLogarithmicVolume}"
                                                            TextWrapping="Wrap" MaxWidth="360" />
                                                 <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
@@ -437,10 +623,10 @@
                                                           IsChecked="{Binding AppBehavior.UseLogarithmicVolume, Mode=TwoWay}" />
                                             </Grid>
                                         </Border>
-                                        <Border MinHeight="46">
-                                            <Grid Margin="16,9">
+                                        <Border MinHeight="50">
+                                            <Grid Margin="16,10">
                                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                                                           FontSize="14" Foreground="{DynamicResource IcomText}"
+                                                           FontSize="13" Foreground="{DynamicResource IcomText}"
                                                            Text="Start with Windows" />
                                                 <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
                                                           Style="{StaticResource IcomToggle}"
@@ -453,19 +639,19 @@
                         </Border>
 
                         <!-- Scroll behavior -->
-                        <Border x:Name="SectionScrollBehavior" Padding="0,18,0,4">
+                        <Border x:Name="SectionScrollBehavior" Padding="0,20,0,4">
                             <StackPanel>
-                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                <TextBlock Margin="0,0,0,10" FontSize="15" FontWeight="SemiBold"
                                            Foreground="{DynamicResource IcomText}" Text="Scroll behavior" />
                                 <Border Background="{DynamicResource IcomCard}"
                                         BorderBrush="{DynamicResource IcomBorderSoft}"
                                         BorderThickness="1" CornerRadius="12">
                                     <StackPanel>
                                         <Border BorderBrush="{DynamicResource IcomBorderSoft}"
-                                                BorderThickness="0,0,0,1" MinHeight="46">
-                                            <Grid Margin="16,9">
+                                                BorderThickness="0,0,0,1" MinHeight="50">
+                                            <Grid Margin="16,10">
                                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                                                           FontSize="14" Foreground="{DynamicResource IcomText}"
+                                                           FontSize="13" Foreground="{DynamicResource IcomText}"
                                                            Text="{x:Static resx:Resources.SettingsUseScrollWheelInTray}"
                                                            TextWrapping="Wrap" MaxWidth="360" />
                                                 <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
@@ -473,10 +659,10 @@
                                                           IsChecked="{Binding ScrollBehavior.UseScrollWheelInTray, Mode=TwoWay}" />
                                             </Grid>
                                         </Border>
-                                        <Border MinHeight="46">
-                                            <Grid Margin="16,9">
+                                        <Border MinHeight="50">
+                                            <Grid Margin="16,10">
                                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                                                           FontSize="14" Foreground="{DynamicResource IcomText}"
+                                                           FontSize="13" Foreground="{DynamicResource IcomText}"
                                                            Text="{x:Static resx:Resources.SettingsUseGlobalMouseWheelHook}"
                                                            TextWrapping="Wrap" MaxWidth="360" />
                                                 <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
@@ -490,22 +676,22 @@
                         </Border>
 
                         <!-- Floating Mixer -->
-                        <Border x:Name="SectionFloatingMixer" Padding="0,18,0,4">
+                        <Border x:Name="SectionFloatingMixer" Padding="0,20,0,4">
                             <StackPanel>
-                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                <TextBlock Margin="0,0,0,10" FontSize="15" FontWeight="SemiBold"
                                            Foreground="{DynamicResource IcomText}" Text="Floating Mixer" />
                                 <Border Background="{DynamicResource IcomCard}"
                                         BorderBrush="{DynamicResource IcomBorderSoft}"
                                         BorderThickness="1" CornerRadius="12">
-                                    <Border MinHeight="46">
-                                        <Grid Margin="16,9">
+                                    <Border MinHeight="50">
+                                        <Grid Margin="16,10">
                                             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center"
                                                         Orientation="Horizontal">
-                                                <TextBlock FontSize="14" Foreground="{DynamicResource IcomText2}"
+                                                <TextBlock FontSize="13" Foreground="{DynamicResource IcomText2}"
                                                            Text="Enable floating mixer" Margin="0,0,8,0" />
                                                 <Border Background="{DynamicResource IcomChip}"
-                                                        CornerRadius="4" Padding="9,3">
-                                                    <TextBlock FontSize="11.5" FontWeight="Medium"
+                                                        CornerRadius="4" Padding="8,3">
+                                                    <TextBlock FontSize="11" FontWeight="Medium"
                                                                Foreground="{DynamicResource IcomText2}" Text="Soon" />
                                                 </Border>
                                             </StackPanel>
@@ -520,9 +706,9 @@
                         </Border>
 
                         <!-- Shortcuts -->
-                        <Border x:Name="SectionShortcuts" Padding="0,18,0,4">
+                        <Border x:Name="SectionShortcuts" Padding="0,20,0,4">
                             <StackPanel>
-                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                <TextBlock Margin="0,0,0,10" FontSize="15" FontWeight="SemiBold"
                                            Foreground="{DynamicResource IcomText}" Text="Shortcuts" />
                                 <Border Background="{DynamicResource IcomCard}"
                                         BorderBrush="{DynamicResource IcomBorderSoft}"
@@ -533,32 +719,10 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Appearance -->
-                        <Border x:Name="SectionAppearance" Padding="0,18,0,4">
-                            <StackPanel>
-                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
-                                           Foreground="{DynamicResource IcomText}" Text="Appearance" />
-                                <Border Background="{DynamicResource IcomCard}"
-                                        BorderBrush="{DynamicResource IcomBorderSoft}"
-                                        BorderThickness="1" CornerRadius="12">
-                                    <Border MinHeight="46">
-                                        <Grid Margin="16,9">
-                                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                                                       FontSize="14" Foreground="{DynamicResource IcomText}"
-                                                       Text="Theme" />
-                                            <ComboBox Width="120" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                                      ItemsSource="{Binding Appearance.ThemeOptions}"
-                                                      SelectedItem="{Binding Appearance.SelectedTheme, Mode=TwoWay}" />
-                                        </Grid>
-                                    </Border>
-                                </Border>
-                            </StackPanel>
-                        </Border>
-
                         <!-- About -->
-                        <Border x:Name="SectionAbout" Padding="0,18,0,4">
+                        <Border x:Name="SectionAbout" Padding="0,20,0,4">
                             <StackPanel>
-                                <TextBlock Margin="0,0,0,10" FontSize="19" FontWeight="SemiBold"
+                                <TextBlock Margin="0,0,0,10" FontSize="15" FontWeight="SemiBold"
                                            Foreground="{DynamicResource IcomText}" Text="About" />
                                 <Border Background="{DynamicResource IcomCard}"
                                         BorderBrush="{DynamicResource IcomBorderSoft}"

@@ -3,7 +3,7 @@
   <AppStoreName _locID="App_AppStoreName">
   </AppStoreName>
   <Keywords>
-    <Keyword _locID="App_keyword1">EarTrumpet</Keyword>
+    <Keyword _locID="App_keyword1">AudioInOut</Keyword>
     <Keyword _locID="App_keyword2">聲音</Keyword>
     <Keyword _locID="App_keyword3">混音器</Keyword>
     <Keyword _locID="App_keyword4">音量</Keyword>
@@ -11,14 +11,14 @@
     <Keyword _locID="App_keyword6">控制</Keyword>
     <Keyword _locID="App_keyword7">裝置</Keyword>
   </Keywords>
-  <Description _locID="App_Description">EarTrumpet 是一套功能強大的 Windows 音量控制程式</Description>
+  <Description _locID="App_Description">AudioInOut 是一套功能強大的 Windows 音量控制程式</Description>
   <ShortDescription _locID="App_ShortDescription">
   </ShortDescription>
-  <ShortTitle _locID="App_ShortTitle">EarTrumpet</ShortTitle>
+  <ShortTitle _locID="App_ShortTitle">AudioInOut</ShortTitle>
   <SortTitle _locID="App_SortTitle"/>
   <VoiceTitle _locID="App_VoiceTitle">Ear Trumpet</VoiceTitle>
   <DevStudio _locID="App_DevStudio"/>
-  <ReleaseNotes _locID="App_ReleaseNotes">完整更新日誌：https://github.com/File-New-Project/EarTrumpet/blob/master/CHANGELOG.md</ReleaseNotes>
+  <ReleaseNotes _locID="App_ReleaseNotes">完整更新日誌：https://github.com/File-New-Project/AudioInOut/blob/master/CHANGELOG.md</ReleaseNotes>
   <ScreenshotCaptions>
     <Caption DesktopImage="screenshot.png" _locID="App_caption1"/>
   </ScreenshotCaptions>
@@ -35,7 +35,7 @@
   <MinimumHardware/>
   <CopyrightAndTrademark _locID="App_CopyrightandTrademark">File-New-Project</CopyrightAndTrademark>
   <AdditionalLicenseTerms _locID="App_AdditionalLicenseTerms"/>
-  <WebsiteURL _locID="App_WebsiteURL">https://github.com/File-New-Project/EarTrumpet</WebsiteURL>
+  <WebsiteURL _locID="App_WebsiteURL">https://github.com/File-New-Project/AudioInOut</WebsiteURL>
   <SupportContactInfo _locID="App_SupportContactInfo"/>
   <PrivacyPolicyURL _locID="App_PrivacyURL"/>
 </ProductDescription>

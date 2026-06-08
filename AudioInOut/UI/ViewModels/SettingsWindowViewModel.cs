@@ -9,9 +9,9 @@ namespace AudioInOut.UI.ViewModels
     {
         public string Title { get; } = Properties.Resources.SettingsWindowText;
         public AppBehaviorViewModel AppBehavior { get; }
-        public EarTrumpetMouseSettingsPageViewModel ScrollBehavior { get; }
-        public EarTrumpetShortcutsPageViewModel Shortcuts { get; }
-        public EarTrumpetAboutPageViewModel About { get; }
+        public AudioInOutMouseSettingsPageViewModel ScrollBehavior { get; }
+        public AudioInOutShortcutsPageViewModel Shortcuts { get; }
+        public AudioInOutAboutPageViewModel About { get; }
         public AppearanceSettingsViewModel Appearance { get; }
 
         private SettingsDialogViewModel _dialog;
@@ -47,9 +47,9 @@ namespace AudioInOut.UI.ViewModels
         public SettingsWindowViewModel(AppSettings settings, Action openDiagnostics)
         {
             AppBehavior = new AppBehaviorViewModel(settings);
-            ScrollBehavior = new EarTrumpetMouseSettingsPageViewModel(settings);
-            Shortcuts = new EarTrumpetShortcutsPageViewModel(settings);
-            About = new EarTrumpetAboutPageViewModel(openDiagnostics, settings);
+            ScrollBehavior = new AudioInOutMouseSettingsPageViewModel(settings);
+            Shortcuts = new AudioInOutShortcutsPageViewModel(settings);
+            About = new AudioInOutAboutPageViewModel(openDiagnostics, settings);
             Appearance = new AppearanceSettingsViewModel();
         }
 

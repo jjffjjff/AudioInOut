@@ -56,7 +56,7 @@ namespace AudioInOut.UI.Views
         }
 
         private FrameworkElement[] GetSections() =>
-            new FrameworkElement[] { SectionAppBehavior, SectionScrollBehavior, SectionFloatingMixer, SectionShortcuts, SectionAppearance, SectionAbout };
+            new FrameworkElement[] { SectionAppearance, SectionAppBehavior, SectionScrollBehavior, SectionFloatingMixer, SectionShortcuts, SectionAbout };
 
         private void SectionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -101,7 +101,7 @@ namespace AudioInOut.UI.Views
             if (string.IsNullOrEmpty(query)) return;
 
             var sections = GetSections();
-            var sectionNames = new[] { "App behavior", "Scroll behavior", "Floating Mixer", "Shortcuts", "Appearance", "About" };
+            var sectionNames = new[] { "Appearance", "App behavior", "Scroll behavior", "Floating Mixer", "Shortcuts", "About" };
 
             for (int i = 0; i < sectionNames.Length; i++)
             {
