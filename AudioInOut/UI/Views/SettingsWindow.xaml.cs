@@ -16,7 +16,7 @@ namespace AudioInOut.UI.Views
     public partial class SettingsWindow : Window
     {
         private bool _isScrollSpy;
-        private readonly List<(TextBlock tb, string text)> _highlighted = new List<(TextBlock, string)>();
+        private readonly List<Tuple<TextBlock, string>> _highlighted = new List<Tuple<TextBlock, string>>();
 
         public SettingsWindow()
         {
@@ -131,8 +131,8 @@ namespace AudioInOut.UI.Views
 
         private void ClearHighlights()
         {
-            foreach (var (tb, text) in _highlighted)
-                tb.Text = text;
+            foreach (var entry in _highlighted)
+                entry.Item1.Text = entry.Item2;
             _highlighted.Clear();
         }
 
@@ -144,7 +144,7 @@ namespace AudioInOut.UI.Views
                 int idx = text.IndexOf(query, StringComparison.OrdinalIgnoreCase);
                 if (idx >= 0)
                 {
-                    _highlighted.Add((tb, text));
+                    _highlighted.Add(Tuple.Create(tb, text));
                     tb.Inlines.Clear();
                     if (idx > 0)
                         tb.Inlines.Add(new Run(text.Substring(0, idx)));
