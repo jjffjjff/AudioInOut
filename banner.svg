@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="150">
+  <rect width="500" height="150" rx="10" fill="#0d1117"/>
+
+  <!-- Title -->
+  <text x="250" y="28" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="15" font-weight="600" letter-spacing="3" fill="#e6edf3">AUDIO IN|OUT</text>
+
+  <!-- Separator -->
+  <line x1="248" y1="46" x2="248" y2="120" stroke="#21262d" stroke-width="1.5"/>
+
+  <!-- Output label -->
+  <text x="175" y="138" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" letter-spacing="1.5" fill="#4493f8">OUTPUT</text>
+
+  <!-- Input label -->
+  <text x="323" y="138" text-anchor="middle"
+        font-family="'Segoe UI',system-ui,sans-serif"
+        font-size="10" letter-spacing="1.5" fill="#3fb950">INPUT</text>
+
+  <!-- Output Bar 0 -->
+  <rect x="123" width="28" rx="3" fill="#4493f8">
+    <animate attributeName="height" values="55;20;70;35;60;15;50;55"
+             dur="2.1s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <animate attributeName="y" values="63;98;48;83;58;103;68;63"
+             dur="2.1s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+  </rect>
+
+  <!-- Output Bar 1 -->
+  <rect x="161" width="28" rx="3" fill="#58a6ff">
+    <animate attributeName="height" values="70;30;80;20;65;40;75;70"
+             dur="1.8s" begin="0.2s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <animate attributeName="y" values="48;88;38;98;53;78;43;48"
+             dur="1.8s" begin="0.2s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+  </rect>
+
+  <!-- Output Bar 2 -->
+  <rect x="199" width="28" rx="3" fill="#4493f8">
+    <animate attributeName="height" values="40;65;25;70;45;60;30;40"
+             dur="2.4s" begin="0.4s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <animate attributeName="y" values="78;53;93;48;73;58;88;78"
+             dur="2.4s" begin="0.4s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+  </rect>
+
+  <!-- Input Bar 0 -->
+  <rect x="271" width="28" rx="3" fill="#3fb950">
+    <animate attributeName="height" values="45;75;20;60;35;70;50;45"
+             dur="2.0s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <animate attributeName="y" values="73;43;98;58;83;48;68;73"
+             dur="2.0s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+  </rect>
+
+  <!-- Input Bar 1 -->
+  <rect x="309" width="28" rx="3" fill="#56d364">
+    <animate attributeName="height" values="65;25;75;40;80;20;60;65"
+             dur="1.7s" begin="0.3s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <animate attributeName="y" values="53;93;43;78;38;98;58;53"
+             dur="1.7s" begin="0.3s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+  </rect>
+
+  <!-- Input Bar 2 -->
+  <rect x="347" width="28" rx="3" fill="#3fb950">
+    <animate attributeName="height" values="30;60;45;70;25;55;40;30"
+             dur="2.3s" begin="0.1s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+    <animate attributeName="y" values="88;58;73;48;93;63;78;88"
+             dur="2.3s" begin="0.1s" repeatCount="indefinite" calcMode="spline"
+             keyTimes="0;0.14;0.29;0.43;0.57;0.71;0.86;1"
+             keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1"/>
+  </rect>
+</svg>

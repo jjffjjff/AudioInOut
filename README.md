@@ -1,0 +1,19 @@
+<div align="center">
+  <img src="banner.svg" alt="AudioInOut" width="500"/>
+</div>
+
+> **Windows only** — requires Windows 10 or later.
+
+System tray utility for switching audio devices and controlling per-app volume. Lives in the taskbar notification area.
+
+- Switch default **output device** (speakers/headphones) from the tray
+- Switch default **input device** (microphone) from the tray
+- Per-app **volume control** — set levels independently per running app
+- **Floating mixer** — detachable volume panel
+- Adapts to Windows **light and dark** theme
+
+## Download
+
+[→ Latest release](https://github.com/jjffjjff/AudioInOut/releases/latest)
+
+Download `AudioInOut.exe` and run it — no installer needed.
