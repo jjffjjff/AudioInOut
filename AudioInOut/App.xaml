@@ -1989,66 +1989,6 @@
             <DataTemplate DataType="{x:Type vm:TemporaryAppItemViewModel}">
                 <views:AppItemView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:SettingsAppItemViewModel}">
-                <Grid Margin="6">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <Border Width="{DynamicResource Mutable_AppIconSize}"
-                            Height="{DynamicResource Mutable_AppIconSize}"
-                            HorizontalAlignment="Center">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background">
-                                    <Setter.Value>
-                                        <SolidColorBrush Color="{Binding Background, Mode=OneTime}" />
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Source, ElementName=AppIcon}" Value="{x:Null}">
-                                        <Setter Property="Theme:Brush.Background" Value="SystemAccent" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <Grid>
-                            <ctl:ImageEx x:Name="AppIcon"
-                                         Width="{DynamicResource Mutable_AppIconSize}"
-                                         Height="{DynamicResource Mutable_AppIconSize}"
-                                         SourceEx="{Binding}"
-                                         Stretch="Fill" />
-                            <Border>
-                                <Border.Style>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Source, ElementName=AppIcon}" Value="{x:Null}">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-
-                                <TextBlock Margin="0,-1,0,0"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Theme:Brush.Foreground="Text"
-                                           FontSize="16"
-                                           FontWeight="SemiBold"
-                                           Text="{Binding IconText}"
-                                           TextAlignment="Center" />
-                            </Border>
-                        </Grid>
-                    </Border>
-                    <TextBlock Grid.Column="1"
-                               Margin="12,2"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Text="{Binding DisplayName}" />
-                </Grid>
-            </DataTemplate>
             <DataTemplate DataType="{x:Type vm:FocusedAppItemViewModel}">
                 <ContentControl Template="{StaticResource DialogChrome}">
                     <Grid>

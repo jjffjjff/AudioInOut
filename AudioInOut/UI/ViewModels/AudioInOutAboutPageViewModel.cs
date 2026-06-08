@@ -42,8 +42,8 @@ namespace AudioInOut.UI.ViewModels
             _openDiagnostics.Invoke();
         }
 
-        private void OpenGitHubIssueChooser() { }
+        private void OpenGitHubIssueChooser() => ProcessHelper.StartNoThrow("https://github.com/File-New-Project/EarTrumpet/issues");
         private void OpenAbout() { }
-        private void OpenPrivacyPolicy() { }
+        private void OpenPrivacyPolicy() => ProcessHelper.StartNoThrow("https://eartrumpet.app/privacy");
     }
 }

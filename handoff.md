@@ -1,10 +1,33 @@
 # AudioInOut Handoff — 2026-06-08
 
-## Latest Session — tray right-click menu placement
+## Latest Session — app icon
+
+- **New icon:** black squircle with white "I\O" — generated via Python/Pillow
+- **Files created/replaced:**
+  - `AudioInOut/Assets/Icon-Dark.ico` — multi-size (16/24/32/48/64/128/256px)
+  - `AudioInOut/Assets/Icon-Light.ico` — same design (both themes use black squircle)
+  - `AudioInOut/Assets/AppIcon.png` — 256px PNG for About section
+- **Wired into:**
+  - `AudioInOut.csproj` — `ApplicationIcon` already pointed to `Icon-Light.ico`; `AppIcon.png` added as `<Resource>`
+  - `SettingsWindow.xaml` About section — replaced `Border`+`TextBlock "A·IO"` placeholder with `<Image Source="...AppIcon.png">`
+  - Tray icon already references `Icon-Dark.ico` / `Icon-Light.ico` via `TaskbarIconSource.cs`
+- **Build:** clean
+
+
+## Previous Session — cleanup pass (#1 #3 #4 #5)
+
+- **#1 Tray icon resource keys** — `TaskbarIconSource.cs:122,124` used `"EarTrumpetIconDark/Light"`; renamed to `"AudioInOutIconDark/Light"` to match `App.xaml` definitions.
+- **#3 About page links** — `OpenGitHubIssueChooser()` and `OpenPrivacyPolicy()` wired via `ProcessHelper.StartNoThrow`; EarTrumpet GitHub issues + eartrumpet.app/privacy as placeholders. `OpenAbout()` left as stub (not bound in XAML).
+- **#4 Crash-path branding** — `App.xaml.cs:186` URL replaced with `ms-settings:fonts`; `Resources.resx` `CriticalFailureFontLookupHelpText` body updated to match (no eartrumpet.app URL remains).
+- **#5 Dead VM deletion** — deleted `AdvertisedCategorySettingsViewModel.cs`, `SettingsCategoryViewModel.cs`, `SettingsAppItemViewModel.cs`; removed their csproj entries; removed dead `SettingsAppItemViewModel` DataTemplate from `App.xaml`. `ModalDialogViewModel` kept (used by FlyoutViewModel/FullWindowViewModel). `SettingsPageHeaderViewModel` + `SettingsPageViewModel` kept (active base classes).
+- **Build:** clean (known GitVersion warnings only).
+
+
+## Previous Session — tray right-click menu placement
 
 - **Symptom:** menu opened to LEFT of cursor regardless of screen position.
-- **Root cause:** prior fixes (CustomPopupPlacementCallback + SetWindowPos override in `Opened`) both intentionally coded left-alignment (`x = point.X - menuWidth`) under the false belief that left = "standard tray behavior". Removing the override alone did not help — `PlacementMode.Top` with `PlacementTarget=null` falls back to the active window's bounds, so WPF still placed it leftward.
-- **Fix:** kept `SetWindowPos` in `Opened` but inverted math to left-align (`x = point.X`), with right-edge flip via `System.Windows.Forms.Screen.FromPoint(...).WorkingArea` for multi-monitor correctness.
+- **Root cause:** prior fixes both coded left-alignment under the false belief that left = "standard tray behavior". `PlacementMode.Top` with `PlacementTarget=null` falls back to the active window's bounds — removing the override alone still opened leftward.
+- **Fix:** kept `SetWindowPos` in `Opened`, inverted math to `x = point.X`, right-edge flip via `System.Windows.Forms.Screen.FromPoint(...).WorkingArea` for multi-monitor correctness.
 - **File:** `AudioInOut/UI/Helpers/ShellNotifyIcon.cs:320-348`
 - **Status:** confirmed working by user.
 
@@ -32,13 +55,19 @@
 | Floating mixer kept as-is | Intentional — not a pruning target |
 | Attribution string "Based on EarTrumpet by File-New-Project (MIT License)" kept in `SettingsWindow.xaml` | MIT License requires it |
 | `EarTrumpet.Package/` and `EarTrumpet.ColorTool/` NOT touched | Store package identity; renaming breaks build chain |
+| `AdvertisedCategorySettingsViewModel`, `SettingsCategoryViewModel`, `SettingsAppItemViewModel` deleted | Confirmed dead — no callers; `SettingsAppItemViewModel` DataTemplate also removed from App.xaml |
+| `ModalDialogViewModel`, `SettingsPageHeaderViewModel`, `SettingsPageViewModel` kept | Actively used — not dead despite old architecture label |
+| About page placeholder URLs: EarTrumpet GitHub issues + eartrumpet.app/privacy | No AudioInOut-specific URLs exist yet; replace when/if published |
+| App icon: black squircle + white "I\O", single design for both light/dark tray themes | Squircle provides own contrast; user-specified design |
+| Font crash URL → `ms-settings:fonts` | No AudioInOut help page; opens Windows font settings directly |
 
 ## Settled Artifacts
 
 ### Build command
 ```
-"C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin\msbuild.exe" AudioInOut.vs15.sln /p:Configuration=Debug /p:Platform=x86 /t:AudioInOut /v:minimal
+"C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin\msbuild.exe" AudioInOut.vs15.sln -p:Configuration=Debug -p:Platform=x86 -t:AudioInOut -v:minimal
 ```
+Note: use `-p:` not `/p:` — MSBuild.rsp in that directory strips `/` flags.  
 Output: `Build\Debug\AudioInOut.exe`. Known harmless warning: GitVersion conflicts with AssemblyInfo.cs.
 
 ### Renamed files (all via `git mv`)
@@ -72,6 +101,11 @@ Output: `Build\Debug\AudioInOut.exe`. Known harmless warning: GitVersion conflic
 | Actions addon deleted | ✅ Done |
 | Addon infrastructure fully deleted | ✅ Done |
 | Newtonsoft.Json removed | ✅ Done |
+| Tray icon resource keys fixed | ✅ Done |
+| About page links wired | ✅ Done (placeholder URLs) |
+| Crash-path EarTrumpet branding removed | ✅ Done |
+| Dead legacy settings VMs deleted | ✅ Done (3 files + DataTemplate) |
+| App icon (I\O squircle) | ✅ Done — tray, About page, exe |
 | Build clean | ✅ Confirmed |
 | Floating mixer | ✅ Kept intentionally |
 | Input device switching (original feature goal) | ✅ Done — already implemented via RecordingCollectionViewModel + AudioDeviceKind.Recording in tray menu |
@@ -83,15 +117,9 @@ Output: `Build\Debug\AudioInOut.exe`. Known harmless warning: GitVersion conflic
 
 ## Next Steps (priority order)
 
-1. **🔴 Fix tray icon crash** — `TaskbarIconSource.cs:122,124` looks up `"EarTrumpetIconDark"` / `"EarTrumpetIconLight"` but `App.xaml` only defines `AudioInOutIconLight` / `AudioInOutIconDark`. Null → tray icon dead → whole app broken. Rename the two resource keys.
+1. **Settings smoke test** — scroll-spy, sidebar nav, theme dropdown, hotkey conflict warning, reset button. Check: theme persistence, scroll-spy race in `SettingsWindow.xaml.cs:62-96`, `StartWithWindows` writes `Process.MainModule.FileName` (may be non-launchable under MSIX).
 
-2. **Settings smoke test** — scroll-spy, sidebar nav, theme dropdown, hotkey conflict warning, reset button. Check: theme persistence, scroll-spy race in `SettingsWindow.xaml.cs:62-96`, `StartWithWindows` writes `Process.MainModule.FileName` (may be non-launchable under MSIX).
-
-3. **Wire About page links** — `AudioInOutAboutPageViewModel.cs:45-47`: `OpenGitHubIssueChooser()`, `OpenAbout()`, `OpenPrivacyPolicy()` are empty stubs; three visible hyperlinks in Settings → About do nothing.
-
-4. **Fix crash-path EarTrumpet branding** — `App.xaml.cs:186` links to `eartrumpet.app/jmp/fixfonts`; `Resources.Designer.cs:487,496` still says "EarTrumpet couldn't start". Replace with neutral URL + resx update.
-
-5. **Delete legacy settings VM family** — `AdvertisedCategorySettingsViewModel`, `SettingsCategoryViewModel`, `SettingsPageHeaderViewModel`, `SettingsAppItemViewModel`, `ModalDialogViewModel` still on disk from old architecture. Commit `bbf5149` claimed these were deleted — they weren't. Also: `AudioInOutAboutPageViewModel` inherits `SettingsPageViewModel` vestigially.
+2. **Replace About page placeholder URLs** — once/if the fork has a published home, replace EarTrumpet URLs in `AudioInOutAboutPageViewModel.cs`.
 
 ## Repo
 
