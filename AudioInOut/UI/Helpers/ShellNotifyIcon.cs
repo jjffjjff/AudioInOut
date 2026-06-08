@@ -320,11 +320,28 @@ namespace AudioInOut.UI.Helpers
                 contextMenu.Opened += (_, __) =>
                 {
                     Trace.WriteLine("ShellNotifyIcon ContextMenu.Opened");
-                // Workaround: The framework expects there to already be a WPF window open and thus fails to take focus.
-                User32.SetForegroundWindow(((HwndSource)HwndSource.FromVisual(contextMenu)).Handle);
+                    var hwndSource = (HwndSource)HwndSource.FromVisual(contextMenu);
+                    // Workaround: The framework expects there to already be a WPF window open and thus fails to take focus.
+                    User32.SetForegroundWindow(hwndSource.Handle);
                     contextMenu.Focus();
-                // Disable only the exit animation.
-                ((Popup)contextMenu.Parent).PopupAnimation = PopupAnimation.None;
+                    // Disable only the exit animation.
+                    ((Popup)contextMenu.Parent).PopupAnimation = PopupAnimation.None;
+
+                    // Force left-align to cursor (open right); flip left only near right screen edge.
+                    if (point.X > 0 && User32.GetWindowRect(hwndSource.Handle, out RECT menuRect))
+                    {
+                        int menuWidth = menuRect.Right - menuRect.Left;
+                        int menuHeight = menuRect.Bottom - menuRect.Top;
+                        var screen = System.Windows.Forms.Screen.FromPoint(
+                            new System.Drawing.Point((int)point.X, (int)point.Y));
+                        int x = (int)point.X;
+                        if (x + menuWidth > screen.WorkingArea.Right) x = (int)point.X - menuWidth;
+                        if (x < screen.WorkingArea.Left) x = screen.WorkingArea.Left;
+                        int y = (int)point.Y - menuHeight;
+                        if (y < screen.WorkingArea.Top) y = (int)point.Y;
+                        User32.SetWindowPos(hwndSource.Handle, IntPtr.Zero, x, y, 0, 0,
+                            User32.WindowPosFlags.SWP_NOSIZE | User32.WindowPosFlags.SWP_NOZORDER | User32.WindowPosFlags.SWP_NOACTIVATE);
+                    }
                 };
                 contextMenu.Closed += (_, __) =>
                 {

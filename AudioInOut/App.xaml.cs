@@ -1,7 +1,5 @@
 using AudioInOut.DataModel.WindowsAudio;
 using AudioInOut.Diagnosis;
-using AudioInOut.Extensibility;
-using AudioInOut.Extensibility.Hosting;
 using AudioInOut.Extensions;
 using AudioInOut.Integration;
 using AudioInOut.Interop;
@@ -135,8 +133,6 @@ namespace AudioInOut
 
         private void CompleteStartup()
         {
-            AddonManager.Load(shouldLoadInternalAddons: HasDevIdentity);
-            Exit += (_, __) => AddonManager.Shutdown();
             _mixerWindow = new WindowHolder(CreateMixerExperience);
             _settingsWindow = new WindowHolder(CreateSettingsExperience);
 

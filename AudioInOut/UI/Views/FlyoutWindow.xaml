@@ -19,7 +19,7 @@
         Background="Transparent"
         Closing="{Event:Binding OnClosing}"
         Deactivated="{Event:Binding OnDeactivated}"
-        Icon="{Binding Source={StaticResource EarTrumpetIconLight}}"
+        Icon="{Binding Source={StaticResource AudioInOutIconLight}}"
         PreviewKeyDown="{Event:Binding OnPreviewKeyDown}"
         ResizeMode="NoResize"
         ShowInTaskbar="False"

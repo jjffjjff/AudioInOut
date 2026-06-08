@@ -113,8 +113,8 @@
             <Thickness x:Key="NoItemsPaneMargin">24</Thickness>
             <bcl:Double x:Key="MutedOpacity">0.4</bcl:Double>
 
-            <bcl:String x:Key="EarTrumpetIconLight">pack://application:,,,/AudioInOut;component/Assets/Icon-Light.ico</bcl:String>
-            <bcl:String x:Key="EarTrumpetIconDark">pack://application:,,,/AudioInOut;component/Assets/Icon-Dark.ico</bcl:String>
+            <bcl:String x:Key="AudioInOutIconLight">pack://application:,,,/AudioInOut;component/Assets/Icon-Light.ico</bcl:String>
+            <bcl:String x:Key="AudioInOutIconDark">pack://application:,,,/AudioInOut;component/Assets/Icon-Dark.ico</bcl:String>
 
             <Style x:Key="Windows10FocusVisualStyle">
                 <Setter Property="Control.Template">
@@ -481,7 +481,7 @@
                 <Setter Property="Theme:Brush.Background" Value="Transparent" />
                 <Setter Property="Theme:Brush.Foreground" Value="Text" />
                 <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="Icon" Value="{Binding Source={StaticResource EarTrumpetIconLight}}" />
+                <Setter Property="Icon" Value="{Binding Source={StaticResource AudioInOutIconLight}}" />
                 <Setter Property="ShowInTaskbar" Value="True" />
                 <Setter Property="WindowStyle" Value="None" />
                 <Setter Property="WindowChrome.WindowChrome">
@@ -501,7 +501,7 @@
                         <Setter Property="BorderThickness" Value="0" />
                     </Trigger>
                     <DataTrigger Binding="{Binding Source={StaticResource ThemeManager}, Path=IsSystemLightTheme}" Value="False">
-                        <Setter Property="Icon" Value="{Binding Source={StaticResource EarTrumpetIconDark}}" />
+                        <Setter Property="Icon" Value="{Binding Source={StaticResource AudioInOutIconDark}}" />
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -587,7 +587,7 @@
                 <Setter Property="UsesItemContainerTemplate" Value="True" />
                 <Setter Property="ItemContainerTemplateSelector" Value="{StaticResource MenuSelector}" />
                 <Setter Property="Placement" Value="Mouse" />
-                <Setter Property="MinWidth" Value="280" />
+                <Setter Property="MinWidth" Value="220" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ContextMenu}">
@@ -633,12 +633,12 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type MenuItem}">
                             <Border x:Name="Border"
-                                    MinHeight="36"
+                                    MinHeight="30"
                                     Background="Transparent"
                                     BorderThickness="0"
-                                    CornerRadius="8">
+                                    CornerRadius="7">
                                 <ContentPresenter x:Name="HeaderHost"
-                                                  Margin="8,0"
+                                                  Margin="6,0"
                                                   ContentSource="Header"
                                                   RecognizesAccessKey="False"
                                                   VerticalAlignment="Center" />
@@ -658,12 +658,12 @@
             <DataTemplate x:Key="ContextMenuItemTemplate">
                 <MenuItem Command="{Binding Command}" IsEnabled="{Binding IsEnabled}">
                     <MenuItem.Header>
-                        <Grid MinWidth="220">
+                        <Grid MinWidth="180">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="18" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Ellipse Width="7" Height="7" VerticalAlignment="Center">
+                            <Ellipse Width="6" Height="6" VerticalAlignment="Center">
                                 <Ellipse.Style>
                                     <Style TargetType="Ellipse">
                                         <Setter Property="Fill" Value="Transparent" />
@@ -675,8 +675,8 @@
                                     </Style>
                                 </Ellipse.Style>
                             </Ellipse>
-                            <TextBlock Grid.Column="1" Text="{Binding DisplayName}" FontSize="14"
-                                       Foreground="{DynamicResource IcomText}" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{Binding DisplayName}" FontSize="13"
+                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=MenuItem}}" VerticalAlignment="Center" />
                         </Grid>
                     </MenuItem.Header>
                 </MenuItem>
@@ -695,9 +695,9 @@
                 <MenuItem IsEnabled="False" IsHitTestVisible="False">
                     <MenuItem.Header>
                         <TextBlock Text="{Binding DisplayName}"
-                                   FontSize="13" FontWeight="Medium"
+                                   FontSize="11" FontWeight="Medium"
                                    Foreground="{DynamicResource IcomText3}"
-                                   Margin="8,6,0,2" />
+                                   Margin="6,5,0,1" />
                     </MenuItem.Header>
                 </MenuItem>
             </DataTemplate>
@@ -2064,26 +2064,11 @@
                                   ScrollViewer.CanContentScroll="True"
                                   ScrollViewer.VerticalScrollBarVisibility="Auto" />
 
-                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Addons}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
                     </Grid>
                 </ContentControl>
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:FocusedDeviceViewModel}">
-                <ContentControl Template="{StaticResource DialogChrome}">
-                    <ItemsControl ItemsSource="{Binding Addons}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </ContentControl>
+                <ContentControl Template="{StaticResource DialogChrome}" />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:HotkeyViewModel}">
                 <TextBox GotKeyboardFocus="{Event:Binding OnGotFocus}"

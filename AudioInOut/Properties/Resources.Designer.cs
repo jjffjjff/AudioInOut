@@ -614,18 +614,18 @@ namespace AudioInOut.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ends.
         /// </summary>
-        public static string EarTrumpetEventKind_Shutdown {
+        public static string AudioInOutEventKind_Shutdown {
             get {
-                return ResourceManager.GetString("EarTrumpetEventKind_Shutdown", resourceCulture);
+                return ResourceManager.GetString("AudioInOutEventKind_Shutdown", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to starts.
         /// </summary>
-        public static string EarTrumpetEventKind_Startup {
+        public static string AudioInOutEventKind_Startup {
             get {
-                return ResourceManager.GetString("EarTrumpetEventKind_Startup", resourceCulture);
+                return ResourceManager.GetString("AudioInOutEventKind_Startup", resourceCulture);
             }
         }
         

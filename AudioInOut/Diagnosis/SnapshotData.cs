@@ -1,5 +1,4 @@
 using AudioInOut.DataModel;
-using AudioInOut.Extensibility.Hosting;
 using AudioInOut.Interop;
 using AudioInOut.Interop.Helpers;
 using AudioInOut.UI.Themes;
@@ -88,7 +87,6 @@ namespace AudioInOut.Diagnosis
                 {
                     { "systemDpi", () => User32.GetDpiForSystem() },
                     { "taskbarDpi", () => WindowsTaskbar.Dpi },
-                    { "addons", () => AddonManager.GetDiagnosticInfo() },
                     { "region", () =>  new RegionInfo(CultureInfo.CurrentCulture.LCID).TwoLetterISORegionName }
                 };
             }

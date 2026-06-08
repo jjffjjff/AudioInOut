@@ -392,10 +392,10 @@ Möchten Sie [https://eartrumpet.app/jmp/fixfonts] öffnen?</value>
   <data name="DeviceEventTrigger_LinkText" xml:space="preserve">
     <value>{Device} {Option}</value>
   </data>
-  <data name="EarTrumpetEventKind_Shutdown" xml:space="preserve">
+  <data name="AudioInOutEventKind_Shutdown" xml:space="preserve">
     <value>endet</value>
   </data>
-  <data name="EarTrumpetEventKind_Startup" xml:space="preserve">
+  <data name="AudioInOutEventKind_Startup" xml:space="preserve">
     <value>startet</value>
   </data>
   <data name="EditText" xml:space="preserve">
