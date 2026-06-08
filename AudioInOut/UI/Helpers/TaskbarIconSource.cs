@@ -119,9 +119,9 @@ namespace AudioInOut.UI.Helpers
             switch (kind)
             {
                 case IconKind.AppIcon:
-                    return IconHelper.LoadIconForTaskbar((string)App.Current.Resources["EarTrumpetIconDark"], dpi);
+                    return IconHelper.LoadIconForTaskbar((string)App.Current.Resources["AudioInOutIconDark"], dpi);
                 case IconKind.AppIcon_LightTheme:
-                    return IconHelper.LoadIconForTaskbar((string)App.Current.Resources["EarTrumpetIconLight"], dpi);
+                    return IconHelper.LoadIconForTaskbar((string)App.Current.Resources["AudioInOutIconLight"], dpi);
                 case IconKind.Muted:
                     return IconHelper.LoadIconForTaskbar(SndVolSSO.GetPath(SndVolSSO.IconId.Muted), dpi);
                 case IconKind.NoDevice:

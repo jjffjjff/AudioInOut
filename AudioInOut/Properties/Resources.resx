@@ -310,7 +310,7 @@
   <data name="CriticalFailureFontLookupHelpText" xml:space="preserve">
     <value>A broken font on your system is preventing Audio-InOut from starting.
 
-Open [https://eartrumpet.app/jmp/fixfonts] now?</value>
+Open Windows font settings now?</value>
   </data>
   <data name="ToggleMuteToolTip" xml:space="preserve">
     <value>Toggle mute</value>

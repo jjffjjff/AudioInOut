@@ -183,7 +183,7 @@ namespace AudioInOut
                     MessageBoxResult.OK) == MessageBoxResult.OK)
                 {
                     Trace.WriteLine($"App OnCriticalFontLoadFailure OK");
-                    ProcessHelper.StartNoThrow("https://eartrumpet.app/jmp/fixfonts");
+                    ProcessHelper.StartNoThrow("ms-settings:fonts");
                 }
                 Environment.Exit(0);
             }).Start();

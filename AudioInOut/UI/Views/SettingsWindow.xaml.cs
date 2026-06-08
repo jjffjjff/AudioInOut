@@ -3,9 +3,11 @@ using AudioInOut.Interop;
 using AudioInOut.Interop.Helpers;
 using AudioInOut.UI.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Media;
 
@@ -14,6 +16,7 @@ namespace AudioInOut.UI.Views
     public partial class SettingsWindow : Window
     {
         private bool _isScrollSpy;
+        private readonly List<(TextBlock tb, string text)> _highlighted = new List<(TextBlock, string)>();
 
         public SettingsWindow()
         {
@@ -97,6 +100,8 @@ namespace AudioInOut.UI.Views
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            ClearHighlights();
+
             var query = SearchBox.Text.Trim();
             if (string.IsNullOrEmpty(query)) return;
 
@@ -108,6 +113,7 @@ namespace AudioInOut.UI.Views
                 if (sectionNames[i].IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     ScrollToSection(sections[i]);
+                    ApplyHighlights(sections[i], query);
                     return;
                 }
             }
@@ -117,9 +123,43 @@ namespace AudioInOut.UI.Views
                 if (SectionContainsText(sections[i], query))
                 {
                     ScrollToSection(sections[i]);
+                    ApplyHighlights(sections[i], query);
                     return;
                 }
             }
+        }
+
+        private void ClearHighlights()
+        {
+            foreach (var (tb, text) in _highlighted)
+                tb.Text = text;
+            _highlighted.Clear();
+        }
+
+        private void ApplyHighlights(DependencyObject element, string query)
+        {
+            if (element is TextBlock tb && !string.IsNullOrEmpty(tb.Text))
+            {
+                var text = tb.Text;
+                int idx = text.IndexOf(query, StringComparison.OrdinalIgnoreCase);
+                if (idx >= 0)
+                {
+                    _highlighted.Add((tb, text));
+                    tb.Inlines.Clear();
+                    if (idx > 0)
+                        tb.Inlines.Add(new Run(text.Substring(0, idx)));
+                    tb.Inlines.Add(new Run(text.Substring(idx, query.Length))
+                    {
+                        Background = new SolidColorBrush(Color.FromArgb(200, 255, 165, 0))
+                    });
+                    if (idx + query.Length < text.Length)
+                        tb.Inlines.Add(new Run(text.Substring(idx + query.Length)));
+                }
+            }
+
+            int count = VisualTreeHelper.GetChildrenCount(element);
+            for (int i = 0; i < count; i++)
+                ApplyHighlights(VisualTreeHelper.GetChild(element, i), query);
         }
 
         private void ScrollToSection(FrameworkElement section)
