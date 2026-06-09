@@ -685,20 +685,6 @@
                                         BorderThickness="1" CornerRadius="12">
                                     <StackPanel>
                                         <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="50">
-                                            <Grid Margin="16,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" VerticalAlignment="Center"
-                                                           FontSize="13" Foreground="{DynamicResource IcomText}"
-                                                           Text="Enable floating mixer" />
-                                                <CheckBox Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                                          Style="{StaticResource IcomToggle}"
-                                                          IsChecked="{Binding AppBehavior.FloatingMixerPlaceholderEnabled, Mode=TwoWay}" />
-                                            </Grid>
-                                        </Border>
-                                        <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="50">
                                             <Grid Margin="16,9">
                                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
                                                            FontSize="13" Foreground="{DynamicResource IcomText}"

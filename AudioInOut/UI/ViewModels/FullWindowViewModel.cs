@@ -62,6 +62,9 @@ namespace AudioInOut.UI.ViewModels
             {
                 if (_showActiveOnly) RaisePropertyChanged(nameof(DisplayedDevices));
             };
+
+            IsVerticalLayout = App.Settings.FloatingMixerDefaultLayout == "Vertical";
+            ShowActiveOnly = App.Settings.FloatingMixerDefaultSources == "Only active";
         }
 
         private void OnDevicesChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
