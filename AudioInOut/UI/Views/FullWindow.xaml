@@ -22,10 +22,42 @@
         SizeChanged="{Event:Binding OnSizeChanged}"
         SizeToContent="WidthAndHeight"
         Style="{StaticResource DialogWindowStyle}"
+        Topmost="{Binding IsPinnedToTop}"
         TextOptions.TextFormattingMode="Display"
         UseLayoutRounding="True"
         WindowStartupLocation="CenterOwner">
     <Window.Resources>
+        <Style x:Key="MixerToolbarToggleButtonStyle" TargetType="ToggleButton">
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="31" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Cursor" Value="Arrow" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Theme:Brush.Background"
+                                        Value="Theme={Theme}ListLow, HighContrast=Highlight" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Theme:Brush.Background"
+                                        Value="Theme={Theme}ListMedium, HighContrast=Highlight" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <DataTemplate DataType="{x:Type vm:DeviceViewModel}">
             <views:DeviceView Width="{StaticResource WindowAndItemSize}" Device="{Binding}" />
         </DataTemplate>
@@ -143,10 +175,95 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Padding="12,8,12,8"
                                Text="{Binding ElementName=WindowRoot, Path=Title}"
                                TextAlignment="Left" />
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                Margin="0,0,8,0">
+                        <!-- 1. Pin to top -->
+                        <ToggleButton IsChecked="{Binding IsPinnedToTop, Mode=TwoWay}"
+                                      Style="{StaticResource MixerToolbarToggleButtonStyle}"
+                                      ToolTipService.ToolTip="Pin to top">
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       FontSize="10"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="&#xE718;">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Theme:Brush.Foreground" Value="Text" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
+                                                         Value="True">
+                                                <Setter Property="Theme:Brush.Foreground" Value="SystemAccent" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </ToggleButton>
+                        <!-- 2. Layout toggle (horizontal ↔ vertical) -->
+                        <ToggleButton IsChecked="{Binding IsVerticalLayout, Mode=TwoWay}"
+                                      Style="{StaticResource MixerToolbarToggleButtonStyle}">
+                            <ToggleButton.ToolTip>
+                                <ToolTip>
+                                    <ToolTip.Style>
+                                        <Style TargetType="ToolTip">
+                                            <Setter Property="Content" Value="Vertical view" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsVerticalLayout}" Value="True">
+                                                    <Setter Property="Content" Value="Horizontal view" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ToolTip.Style>
+                                </ToolTip>
+                            </ToggleButton.ToolTip>
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       FontSize="10"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Theme:Brush.Foreground" Value="Text" />
+                                        <Setter Property="Text" Value="&#xE8A4;" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
+                                                         Value="True">
+                                                <Setter Property="Theme:Brush.Foreground" Value="SystemAccent" />
+                                                <Setter Property="Text" Value="&#xE8C0;" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </ToggleButton>
+                        <!-- 3. Show active only -->
+                        <ToggleButton IsChecked="{Binding ShowActiveOnly, Mode=TwoWay}"
+                                      Style="{StaticResource MixerToolbarToggleButtonStyle}"
+                                      ToolTipService.ToolTip="Show only active I/O">
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       FontSize="10"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="&#xE71C;">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Theme:Brush.Foreground" Value="Text" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
+                                                         Value="True">
+                                                <Setter Property="Theme:Brush.Foreground" Value="SystemAccent" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </ToggleButton>
+                    </StackPanel>
                     <Button x:Name="CloseButton"
                             Grid.Column="2"
                             Style="{StaticResource CloseButtonStyle}" />
@@ -190,12 +307,29 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <ItemsControl IsTabStop="False" ItemsSource="{Binding AllDevices}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
+                            <ItemsControl IsTabStop="False" ItemsSource="{Binding DisplayedDevices}">
+                                <ItemsControl.Style>
+                                    <Style TargetType="ItemsControl">
+                                        <Setter Property="ItemsPanel">
+                                            <Setter.Value>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsVerticalLayout}" Value="True">
+                                                <Setter Property="ItemsPanel">
+                                                    <Setter.Value>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Vertical" />
+                                                        </ItemsPanelTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ItemsControl.Style>
                             </ItemsControl>
                             <Border Grid.Row="1" Theme:Brush.Background="Background">
                                 <Border.Style>
