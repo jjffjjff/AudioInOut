@@ -1,6 +1,8 @@
 using AudioInOut.UI.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,6 +17,35 @@ namespace AudioInOut.UI.ViewModels
         public ICommand DisplaySettingsChanged { get; }
         public bool IsManyDevicesMode => AllDevices.Count > SmallDeviceCountLimit;
 
+        private bool _isPinnedToTop;
+        public bool IsPinnedToTop
+        {
+            get => _isPinnedToTop;
+            set { _isPinnedToTop = value; RaisePropertyChanged(nameof(IsPinnedToTop)); }
+        }
+
+        private bool _isVerticalLayout;
+        public bool IsVerticalLayout
+        {
+            get => _isVerticalLayout;
+            set { _isVerticalLayout = value; RaisePropertyChanged(nameof(IsVerticalLayout)); }
+        }
+
+        private bool _showActiveOnly;
+        public bool ShowActiveOnly
+        {
+            get => _showActiveOnly;
+            set
+            {
+                _showActiveOnly = value;
+                RaisePropertyChanged(nameof(ShowActiveOnly));
+                RaisePropertyChanged(nameof(DisplayedDevices));
+            }
+        }
+
+        public IEnumerable<DeviceViewModel> DisplayedDevices =>
+            _showActiveOnly ? BuildActiveDevices() : (IEnumerable<DeviceViewModel>)AllDevices;
+
         private readonly DeviceCollectionViewModel _mainViewModel;
         private WindowViewState _state;
 
@@ -26,11 +57,25 @@ namespace AudioInOut.UI.ViewModels
             _mainViewModel.AllDevices.CollectionChanged += OnDevicesChanged;
 
             DisplaySettingsChanged = new RelayCommand(() => Dialog.IsVisible = false);
+
+            _mainViewModel.DefaultChanged += (_, __) =>
+            {
+                if (_showActiveOnly) RaisePropertyChanged(nameof(DisplayedDevices));
+            };
         }
 
         private void OnDevicesChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(IsManyDevicesMode));
+            if (_showActiveOnly) RaisePropertyChanged(nameof(DisplayedDevices));
+        }
+
+        private IEnumerable<DeviceViewModel> BuildActiveDevices()
+        {
+            return AllDevices.Where(d =>
+                d == _mainViewModel.Default ||
+                d.PeakValue1 > 0 ||
+                d.PeakValue2 > 0).ToList();
         }
 
         public void OpenPopup(object vm, FrameworkElement container)
