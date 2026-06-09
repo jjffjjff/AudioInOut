@@ -159,7 +159,7 @@ namespace AudioInOut
 
         public string FloatingMixerDefaultLayout
         {
-            get => _settings.Get("FloatingMixerDefaultLayout", "Horizontal");
+            get => _settings.Get("FloatingMixerDefaultLayout", "Vertical");
             set => _settings.Set("FloatingMixerDefaultLayout", value);
         }
 

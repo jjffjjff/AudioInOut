@@ -151,7 +151,7 @@
     <value>Exit</value>
   </data>
   <data name="FullWindowTitleText" xml:space="preserve">
-    <value>Volume Mixer</value>
+    <value>Floating mixer</value>
   </data>
   <data name="LegacyVolumeMixerText" xml:space="preserve">
     <value>Volume Mixer</value>
