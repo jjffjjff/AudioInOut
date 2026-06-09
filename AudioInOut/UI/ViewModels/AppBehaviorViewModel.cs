@@ -1,5 +1,6 @@
 using AudioInOut.UI.Helpers;
 using Microsoft.Win32;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace AudioInOut.UI.ViewModels
@@ -51,6 +52,30 @@ namespace AudioInOut.UI.ViewModels
         {
             get => _settings.FloatingMixerPlaceholderEnabled;
             set => _settings.FloatingMixerPlaceholderEnabled = value;
+        }
+
+        public List<string> FloatingMixerLayoutOptions { get; } = new List<string> { "Horizontal", "Vertical" };
+
+        public string FloatingMixerDefaultLayout
+        {
+            get => _settings.FloatingMixerDefaultLayout;
+            set
+            {
+                _settings.FloatingMixerDefaultLayout = value;
+                RaisePropertyChanged(nameof(FloatingMixerDefaultLayout));
+            }
+        }
+
+        public List<string> FloatingMixerSourcesOptions { get; } = new List<string> { "All", "Only active" };
+
+        public string FloatingMixerDefaultSources
+        {
+            get => _settings.FloatingMixerDefaultSources;
+            set
+            {
+                _settings.FloatingMixerDefaultSources = value;
+                RaisePropertyChanged(nameof(FloatingMixerDefaultSources));
+            }
         }
 
         public AppBehaviorViewModel(AppSettings settings)
