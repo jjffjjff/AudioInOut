@@ -683,24 +683,44 @@
                                 <Border Background="{DynamicResource IcomCard}"
                                         BorderBrush="{DynamicResource IcomBorderSoft}"
                                         BorderThickness="1" CornerRadius="12">
-                                    <Border MinHeight="50">
-                                        <Grid Margin="16,10">
-                                            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center"
-                                                        Orientation="Horizontal">
-                                                <TextBlock FontSize="13" Foreground="{DynamicResource IcomText2}"
-                                                           Text="Enable floating mixer" Margin="0,0,8,0" />
-                                                <Border Background="{DynamicResource IcomChip}"
-                                                        CornerRadius="4" Padding="8,3">
-                                                    <TextBlock FontSize="11" FontWeight="Medium"
-                                                               Foreground="{DynamicResource IcomText2}" Text="Soon" />
-                                                </Border>
-                                            </StackPanel>
-                                            <CheckBox HorizontalAlignment="Right" VerticalAlignment="Center"
-                                                      IsEnabled="False"
-                                                      Style="{StaticResource IcomToggle}"
-                                                      IsChecked="{Binding AppBehavior.FloatingMixerPlaceholderEnabled, Mode=TwoWay}" />
-                                        </Grid>
-                                    </Border>
+                                    <StackPanel>
+                                        <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="50">
+                                            <Grid Margin="16,10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" VerticalAlignment="Center"
+                                                           FontSize="13" Foreground="{DynamicResource IcomText}"
+                                                           Text="Enable floating mixer" />
+                                                <CheckBox Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                          Style="{StaticResource IcomToggle}"
+                                                          IsChecked="{Binding AppBehavior.FloatingMixerPlaceholderEnabled, Mode=TwoWay}" />
+                                            </Grid>
+                                        </Border>
+                                        <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="50">
+                                            <Grid Margin="16,9">
+                                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                           FontSize="13" Foreground="{DynamicResource IcomText}"
+                                                           Text="Default view" />
+                                                <ComboBox Width="128" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                          Style="{StaticResource IcomComboBox}"
+                                                          ItemsSource="{Binding AppBehavior.FloatingMixerLayoutOptions}"
+                                                          SelectedItem="{Binding AppBehavior.FloatingMixerDefaultLayout, Mode=TwoWay}" />
+                                            </Grid>
+                                        </Border>
+                                        <Border MinHeight="50">
+                                            <Grid Margin="16,9">
+                                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                           FontSize="13" Foreground="{DynamicResource IcomText}"
+                                                           Text="Default sources" />
+                                                <ComboBox Width="128" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                          Style="{StaticResource IcomComboBox}"
+                                                          ItemsSource="{Binding AppBehavior.FloatingMixerSourcesOptions}"
+                                                          SelectedItem="{Binding AppBehavior.FloatingMixerDefaultSources, Mode=TwoWay}" />
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
                                 </Border>
                             </StackPanel>
                         </Border>
