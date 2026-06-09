@@ -157,6 +157,18 @@ namespace AudioInOut
             set => _settings.Set("FloatingMixerPlaceholderEnabled", value);
         }
 
+        public string FloatingMixerDefaultLayout
+        {
+            get => _settings.Get("FloatingMixerDefaultLayout", "Horizontal");
+            set => _settings.Set("FloatingMixerDefaultLayout", value);
+        }
+
+        public string FloatingMixerDefaultSources
+        {
+            get => _settings.Get("FloatingMixerDefaultSources", "All");
+            set => _settings.Set("FloatingMixerDefaultSources", value);
+        }
+
         public WINDOWPLACEMENT? FullMixerWindowPlacement
         {
             get => _settings.Get("FullMixerWindowPlacement", default(WINDOWPLACEMENT?));
