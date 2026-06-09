@@ -9,6 +9,7 @@ using AudioInOut.UI.ViewModels;
 using AudioInOut.UI.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -143,12 +144,20 @@ namespace AudioInOut
             Settings.AbsoluteVolumeDownHotkeyTyped += AbsoluteVolumeDecrement;
             Settings.RegisterHotkeys();
 
+            CollectionViewModel.AllDevices.CollectionChanged += OnTrayDevicesChanged;
+            RecordingCollectionViewModel.AllDevices.CollectionChanged += OnTrayDevicesChanged;
+
             _trayIcon.PrimaryInvoke += (_, type) => _flyoutViewModel.OpenFlyout(type);
             _trayIcon.SecondaryInvoke += (_, args) => _trayIcon.ShowContextMenu(GetTrayContextMenuItems(), args.Point);
             _trayIcon.TertiaryInvoke += (_, __) => CollectionViewModel.Default?.ToggleMute.Execute(null);
             _trayIcon.Scrolled += trayIconScrolled;
             _trayIcon.SetTooltip(CollectionViewModel.GetTrayToolTip());
             _trayIcon.IsVisible = true;
+        }
+
+        private void OnTrayDevicesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Dispatcher.BeginInvoke((Action)(() => _trayIcon.UpdateContextMenuItems(GetTrayContextMenuItems())));
         }
 
         private void trayIconScrolled(object _, int wheelDelta)
@@ -198,7 +207,7 @@ namespace AudioInOut
 
             ret.Add(new ContextMenuSectionTitle(AudioInOut.Properties.Resources.ContextMenuOutputDevicesTitle));
 
-            var outputDevices = CollectionViewModel.AllDevices
+            var outputDevices = CollectionViewModel.VisibleDevices
                 .OrderBy(x => x.DisplayName)
                 .Select(dev => new ContextMenuItem
                 {
@@ -216,7 +225,7 @@ namespace AudioInOut
             ret.Add(new ContextMenuSeparator());
             ret.Add(new ContextMenuSectionTitle(AudioInOut.Properties.Resources.ContextMenuInputDevicesTitle));
 
-            var inputDevices = RecordingCollectionViewModel.AllDevices
+            var inputDevices = RecordingCollectionViewModel.VisibleDevices
                 .OrderBy(x => x.DisplayName)
                 .Select(dev => new ContextMenuItem
                 {

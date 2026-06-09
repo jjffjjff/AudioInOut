@@ -211,6 +211,159 @@
             </Setter>
         </Style>
 
+        <!-- Eye visibility toggle button -->
+        <Style x:Key="EyeToggleButton" TargetType="{x:Type ToggleButton}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="Bg" Background="Transparent" CornerRadius="6" Width="32" Height="32">
+                            <Grid>
+                                <TextBlock x:Name="EyeIcon"
+                                           Text="&#xE7B3;"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="14"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource IcomText2}" />
+                                <Line x:Name="Strike"
+                                      X1="6" Y1="24" X2="24" Y2="6"
+                                      Stroke="{DynamicResource IcomText3}"
+                                      StrokeThickness="1.5"
+                                      Visibility="Collapsed" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="EyeIcon" Property="Opacity" Value="0.3" />
+                                <Setter TargetName="EyeIcon" Property="Foreground" Value="{DynamicResource IcomText3}" />
+                                <Setter TargetName="Strike" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource IcomHover}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Devices section content -->
+        <DataTemplate DataType="{x:Type vm:DevicesPageViewModel}">
+            <StackPanel>
+                <!-- Output header with column labels -->
+                <Grid Margin="16,4,16,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="130" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Output" FontSize="12" FontWeight="Medium"
+                               Foreground="{DynamicResource IcomText3}" VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="Rename" FontSize="11"
+                               Foreground="{DynamicResource IcomText3}" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" Margin="0,0,12,0" />
+                    <TextBlock Grid.Column="2" Text="Hide" FontSize="11"
+                               Foreground="{DynamicResource IcomText3}" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Grid>
+                <ItemsControl ItemsSource="{Binding OutputDevices}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="46">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsConnected}" Value="False">
+                                                <Setter Property="Opacity" Value="0.45" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                                                <Setter Property="Opacity" Value="0.45" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid Margin="16,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" VerticalAlignment="Center"
+                                               FontSize="13" Foreground="{DynamicResource IcomText}"
+                                               Text="{Binding DeviceName}" TextTrimming="CharacterEllipsis"
+                                               Margin="0,0,8,0" />
+                                    <Border Grid.Column="1" Height="28" Margin="0,0,12,0"
+                                            Background="{DynamicResource IcomField}"
+                                            BorderBrush="{DynamicResource IcomBorder}"
+                                            BorderThickness="1" CornerRadius="8">
+                                        <TextBox Style="{x:Null}"
+                                                 Background="Transparent" BorderThickness="0"
+                                                 Padding="8,0" Margin="0" MinWidth="0" MinHeight="0"
+                                                 FontSize="12" Foreground="{DynamicResource IcomText}"
+                                                 VerticalAlignment="Center"
+                                                 Text="{Binding AliasText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                    <ToggleButton Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                  IsChecked="{Binding IsHidden, Mode=TwoWay}"
+                                                  Style="{StaticResource EyeToggleButton}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Text="Input" FontSize="12" FontWeight="Medium"
+                           Foreground="{DynamicResource IcomText3}" Margin="2,12,0,6" />
+                <ItemsControl ItemsSource="{Binding InputDevices}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource IcomBorderSoft}" BorderThickness="0,0,0,1" MinHeight="46">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsConnected}" Value="False">
+                                                <Setter Property="Opacity" Value="0.45" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                                                <Setter Property="Opacity" Value="0.45" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid Margin="16,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" VerticalAlignment="Center"
+                                               FontSize="13" Foreground="{DynamicResource IcomText}"
+                                               Text="{Binding DeviceName}" TextTrimming="CharacterEllipsis"
+                                               Margin="0,0,8,0" />
+                                    <Border Grid.Column="1" Height="28" Margin="0,0,12,0"
+                                            Background="{DynamicResource IcomField}"
+                                            BorderBrush="{DynamicResource IcomBorder}"
+                                            BorderThickness="1" CornerRadius="8">
+                                        <TextBox Style="{x:Null}"
+                                                 Background="Transparent" BorderThickness="0"
+                                                 Padding="8,0" Margin="0" MinWidth="0" MinHeight="0"
+                                                 FontSize="12" Foreground="{DynamicResource IcomText}"
+                                                 VerticalAlignment="Center"
+                                                 Text="{Binding AliasText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                    <ToggleButton Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                  IsChecked="{Binding IsHidden, Mode=TwoWay}"
+                                                  Style="{StaticResource EyeToggleButton}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </DataTemplate>
+
         <!-- Shortcuts section content -->
         <DataTemplate DataType="{x:Type vm:AudioInOutShortcutsPageViewModel}">
             <StackPanel>
@@ -503,6 +656,10 @@
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                             </ListViewItem>
                             <ListViewItem>
+                                <TextBlock FontSize="13" FontWeight="Medium" Text="Devices"
+                                           Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
+                            </ListViewItem>
+                            <ListViewItem>
                                 <TextBlock FontSize="13" FontWeight="Medium" Text="Scroll behavior"
                                            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListViewItem}}" />
                             </ListViewItem>
@@ -626,6 +783,19 @@
                                             </Grid>
                                         </Border>
                                     </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Devices -->
+                        <Border x:Name="SectionDevices" Padding="0,20,0,4">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,10" FontSize="15" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource IcomText}" Text="Devices" />
+                                <Border Background="{DynamicResource IcomCard}"
+                                        BorderBrush="{DynamicResource IcomBorderSoft}"
+                                        BorderThickness="1" CornerRadius="12" Padding="4,4,4,0">
+                                    <ContentControl Content="{Binding Devices}" />
                                 </Border>
                             </StackPanel>
                         </Border>

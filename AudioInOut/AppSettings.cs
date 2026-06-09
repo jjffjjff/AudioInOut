@@ -1,6 +1,8 @@
 using AudioInOut.DataModel.Storage;
 using AudioInOut.Interop.Helpers;
+using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using static AudioInOut.Interop.User32;
@@ -185,6 +187,74 @@ namespace AudioInOut
         {
             get => _settings.Get("AppearanceTheme", "System");
             set => _settings.Set("AppearanceTheme", value);
+        }
+
+        public event Action DeviceDisplaySettingsChanged;
+
+        public string GetDeviceAlias(string deviceId)
+        {
+            var stored = _settings.Get("DeviceAlias_" + deviceId, string.Empty);
+            return string.IsNullOrEmpty(stored) ? null : stored;
+        }
+
+        public void SetDeviceAlias(string deviceId, string alias)
+        {
+            _settings.Set("DeviceAlias_" + deviceId, string.IsNullOrWhiteSpace(alias) ? "" : alias.Trim());
+            DeviceDisplaySettingsChanged?.Invoke();
+        }
+
+        public bool IsDeviceHidden(string deviceId)
+        {
+            return _settings.Get("DeviceHidden_" + deviceId, false);
+        }
+
+        public void SetDeviceHidden(string deviceId, bool hidden)
+        {
+            _settings.Set("DeviceHidden_" + deviceId, hidden);
+            DeviceDisplaySettingsChanged?.Invoke();
+        }
+
+        public string GetStoredDeviceName(string deviceId)
+        {
+            return _settings.Get("DeviceName_" + deviceId, string.Empty);
+        }
+
+        public void SetStoredDeviceName(string deviceId, string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+                _settings.Set("DeviceName_" + deviceId, name);
+        }
+
+        public IEnumerable<Tuple<string, bool>> GetModifiedDeviceIds()
+        {
+            const string regPath = @"Software\AudioInOut";
+            using (var regKey = Registry.CurrentUser.OpenSubKey(regPath))
+            {
+                if (regKey == null) return Enumerable.Empty<Tuple<string, bool>>();
+
+                var seen = new HashSet<string>();
+                var results = new List<Tuple<string, bool>>();
+                foreach (var name in regKey.GetValueNames())
+                {
+                    string id = null;
+                    if (name.StartsWith("DeviceAlias_"))
+                        id = name.Substring("DeviceAlias_".Length);
+                    else if (name.StartsWith("DeviceHidden_"))
+                        id = name.Substring("DeviceHidden_".Length);
+
+                    if (id != null && seen.Add(id))
+                    {
+                        bool hasAlias = !string.IsNullOrEmpty(GetDeviceAlias(id));
+                        bool isHidden = IsDeviceHidden(id);
+                        if (hasAlias || isHidden)
+                        {
+                            bool isOutput = id.StartsWith("{0.0.0.");
+                            results.Add(Tuple.Create(id, isOutput));
+                        }
+                    }
+                }
+                return results;
+            }
         }
 
     }

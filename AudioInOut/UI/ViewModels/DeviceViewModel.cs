@@ -31,7 +31,27 @@ namespace AudioInOut.UI.ViewModels
             Microphone,
         }
 
-        public string DisplayName => _device.DisplayName;
+        public string OriginalDisplayName => _device.DisplayName;
+
+        public string DisplayName
+        {
+            get
+            {
+                var alias = _settings?.GetDeviceAlias(_device.Id);
+                return string.IsNullOrEmpty(alias) ? _device.DisplayName : alias;
+            }
+        }
+
+        public bool IsHiddenByUser
+        {
+            get => _settings != null && _settings.IsDeviceHidden(_device.Id);
+            set
+            {
+                if (_settings != null)
+                    _settings.SetDeviceHidden(_device.Id, value);
+            }
+        }
+
         public string AccessibleName => IsMuted ? Properties.Resources.AppOrDeviceMutedFormatAccessibleText.Replace("{Name}", DisplayName) :
             Properties.Resources.AppOrDeviceFormatAccessibleText.Replace("{Name}", DisplayName).Replace("{Volume}", Volume.ToString());
         public string DeviceDescription => ((IAudioDeviceWindowsAudio)_device).DeviceDescription;
@@ -70,13 +90,17 @@ namespace AudioInOut.UI.ViewModels
         protected readonly WeakReference<DeviceCollectionViewModel> _parent;
         private bool _isDisplayNameVisible;
         private DeviceIconKind _iconKind;
+        private readonly AppSettings _settings;
 
-        public DeviceViewModel(DeviceCollectionViewModel parent, IAudioDeviceManager deviceManager, IAudioDevice device) : base(device)
+        public DeviceViewModel(DeviceCollectionViewModel parent, IAudioDeviceManager deviceManager, IAudioDevice device, AppSettings settings) : base(device)
         {
             _deviceManager = deviceManager;
             _device = device;
             _parent = new WeakReference<DeviceCollectionViewModel>(parent);
             Apps = new ObservableCollection<IAppItemViewModel>();
+            _settings = settings;
+            if (_settings != null)
+                _settings.DeviceDisplaySettingsChanged += OnDisplaySettingsChanged;
 
             _device.PropertyChanged += OnPropertyChanged;
             _device.Groups.CollectionChanged += OnCollectionChanged;
@@ -91,8 +115,16 @@ namespace AudioInOut.UI.ViewModels
 
         ~DeviceViewModel()
         {
+            if (_settings != null)
+                _settings.DeviceDisplaySettingsChanged -= OnDisplaySettingsChanged;
             _device.PropertyChanged -= OnPropertyChanged;
             _device.Groups.CollectionChanged -= OnCollectionChanged;
+        }
+
+        private void OnDisplaySettingsChanged()
+        {
+            RaisePropertyChanged(nameof(DisplayName));
+            RaisePropertyChanged(nameof(IsHiddenByUser));
         }
 
         private void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

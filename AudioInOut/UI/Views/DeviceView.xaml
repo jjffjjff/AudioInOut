@@ -8,6 +8,15 @@
              xmlns:views="clr-namespace:AudioInOut.UI.Views"
              IsTabStop="False">
     <Grid Name="GridRoot">
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Device.IsHiddenByUser}" Value="True">
+                        <Setter Property="Opacity" Value="0.5" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

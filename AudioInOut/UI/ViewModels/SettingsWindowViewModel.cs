@@ -13,6 +13,7 @@ namespace AudioInOut.UI.ViewModels
         public AudioInOutShortcutsPageViewModel Shortcuts { get; }
         public AudioInOutAboutPageViewModel About { get; }
         public AppearanceSettingsViewModel Appearance { get; }
+        public DevicesPageViewModel Devices { get; }
 
         private SettingsDialogViewModel _dialog;
         public SettingsDialogViewModel Dialog
@@ -51,6 +52,8 @@ namespace AudioInOut.UI.ViewModels
             Shortcuts = new AudioInOutShortcutsPageViewModel(settings);
             About = new AudioInOutAboutPageViewModel(openDiagnostics, settings);
             Appearance = new AppearanceSettingsViewModel();
+            var app = (App)System.Windows.Application.Current;
+            Devices = new DevicesPageViewModel(app.CollectionViewModel, app.RecordingCollectionViewModel, settings);
         }
 
         public void OnClosing(object sender, CancelEventArgs e)

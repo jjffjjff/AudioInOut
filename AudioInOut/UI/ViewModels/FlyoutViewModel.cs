@@ -19,7 +19,7 @@ namespace AudioInOut.UI.ViewModels
         public ModalDialogViewModel Dialog { get; }
         public bool IsExpanded { get; private set; }
         public bool IsExpandingOrCollapsing { get; private set; }
-        public bool CanExpand => _mainViewModel.AllDevices.Count > 1;
+        public bool CanExpand => _mainViewModel.VisibleDevices.Count > 1;
         public string DeviceNameText => Devices.Count > 0 ? Devices[0].DisplayName : null;
         public FlyoutViewState State { get; private set; }
         public ObservableCollection<DeviceViewModel> Devices { get; private set; }
@@ -45,7 +45,7 @@ namespace AudioInOut.UI.ViewModels
             _returnFocusToTray = returnFocusToTray;
             _mainViewModel = mainViewModel;
             _mainViewModel.DefaultChanged += OnDefaultPlaybackDeviceChanged;
-            _mainViewModel.AllDevices.CollectionChanged += AllDevices_CollectionChanged;
+            _mainViewModel.VisibleDevices.CollectionChanged += AllDevices_CollectionChanged;
             AllDevices_CollectionChanged(null, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
             // This timer is used to enable clicking on the tray icon while the flyout is open, and not causing a
@@ -129,7 +129,7 @@ namespace AudioInOut.UI.ViewModels
                         RemoveDevice(Devices[i].Id);
                     }
 
-                    foreach (var device in _mainViewModel.AllDevices)
+                    foreach (var device in _mainViewModel.VisibleDevices)
                     {
                         AddDevice(device);
                     }
@@ -166,7 +166,7 @@ namespace AudioInOut.UI.ViewModels
             }
             else
             {
-                var foundAllDevice = _mainViewModel.AllDevices.FirstOrDefault(d => d.Id == e.Id);
+                var foundAllDevice = _mainViewModel.VisibleDevices.FirstOrDefault(d => d.Id == e.Id);
                 if (foundAllDevice != null)
                 {
                     // We found the device in AllDevices which was not in Devices.
@@ -196,7 +196,7 @@ namespace AudioInOut.UI.ViewModels
             if (IsExpanded)
             {
                 // Add any that aren't existing.
-                foreach (var device in _mainViewModel.AllDevices)
+                foreach (var device in _mainViewModel.VisibleDevices)
                 {
                     if (!Devices.Contains(device))
                     {

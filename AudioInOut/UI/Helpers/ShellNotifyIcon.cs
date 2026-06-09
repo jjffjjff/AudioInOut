@@ -53,6 +53,7 @@ namespace AudioInOut.UI.Helpers
         private bool _isVisible;
         private bool _isListeningForInput;
         private bool _isContextMenuOpen;
+        private ContextMenu _activeContextMenu;
         private string _text;
         private RECT _iconLocation;
         private System.Drawing.Point _cursorPosition;
@@ -287,8 +288,21 @@ namespace AudioInOut.UI.Helpers
             IconSource.CheckForUpdate();
         }
 
+        public void UpdateContextMenuItems(IEnumerable newItemsSource)
+        {
+            if (_activeContextMenu?.IsOpen == true)
+                _activeContextMenu.ItemsSource = newItemsSource;
+        }
+
         public void ShowContextMenu(IEnumerable itemsSource, Point point)
         {
+            // Reset stale guard if the menu was closed without Closed firing (e.g., device connect/disconnect during menu).
+            if (_isContextMenuOpen && _activeContextMenu?.IsOpen != true)
+            {
+                _isContextMenuOpen = false;
+                _activeContextMenu = null;
+            }
+
             if (!_isContextMenuOpen)
             {
                 _isContextMenuOpen = true;
@@ -343,10 +357,12 @@ namespace AudioInOut.UI.Helpers
                             User32.WindowPosFlags.SWP_NOSIZE | User32.WindowPosFlags.SWP_NOZORDER | User32.WindowPosFlags.SWP_NOACTIVATE);
                     }
                 };
+                _activeContextMenu = contextMenu;
                 contextMenu.Closed += (_, __) =>
                 {
                     Trace.WriteLine("ShellNotifyIcon ContextMenu.Closed");
                     _isContextMenuOpen = false;
+                    _activeContextMenu = null;
                     SetFocus();
                 };
                 try
@@ -358,6 +374,7 @@ namespace AudioInOut.UI.Helpers
                 {
                     Trace.WriteLine($"ShellNotifyIcon ContextMenu IsOpen THREW: {ex}");
                     _isContextMenuOpen = false;
+                    _activeContextMenu = null;
                 }
             }
         }
