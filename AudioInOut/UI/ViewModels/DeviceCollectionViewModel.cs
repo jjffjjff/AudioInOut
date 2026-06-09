@@ -21,6 +21,7 @@ namespace AudioInOut.UI.ViewModels
         public event Action TrayPropertyChanged;
 
         public ObservableCollection<DeviceViewModel> AllDevices { get; private set; } = new ObservableCollection<DeviceViewModel>();
+        public ObservableCollection<DeviceViewModel> VisibleDevices { get; private set; } = new ObservableCollection<DeviceViewModel>();
         public DeviceViewModel Default { get; private set; }
 
         private readonly IAudioDeviceManager _deviceManager;
@@ -37,6 +38,7 @@ namespace AudioInOut.UI.ViewModels
             _deviceManager.DefaultChanged += OnDefaultChanged;
             _deviceManager.Devices.CollectionChanged += OnCollectionChanged;
             OnCollectionChanged(null, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            _settings.DeviceDisplaySettingsChanged += RebuildVisibleDevices;
 
             _peakMeterTimer = new Timer(1000 / 30); // 30 fps
             _peakMeterTimer.AutoReset = true;
@@ -70,6 +72,7 @@ namespace AudioInOut.UI.ViewModels
 
             Default = device;
             DefaultChanged?.Invoke(this, Default);
+            RebuildVisibleDevices();
 
             if (Default != null)
             {
@@ -87,14 +90,16 @@ namespace AudioInOut.UI.ViewModels
                 e.PropertyName == nameof(Default.IsMuted) ||
                 e.PropertyName == nameof(Default.DisplayName))
             {
-                TrayPropertyChanged.Invoke();
+                TrayPropertyChanged?.Invoke();
             }
         }
 
         protected virtual void AddDevice(IAudioDevice device)
         {
-            var newDevice = new DeviceViewModel(this, _deviceManager, device);
+            _settings.SetStoredDeviceName(device.Id, device.DisplayName);
+            var newDevice = new DeviceViewModel(this, _deviceManager, device, _settings);
             AllDevices.AddSorted(newDevice, DeviceViewModel.CompareByDisplayName);
+            RebuildVisibleDevices();
         }
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -116,6 +121,7 @@ namespace AudioInOut.UI.ViewModels
                     if (allExisting != null)
                     {
                         AllDevices.Remove(allExisting);
+                        RebuildVisibleDevices();
                     }
                     break;
 
@@ -234,6 +240,16 @@ namespace AudioInOut.UI.ViewModels
         {
             _isFullWindowVisible = true;
             StartOrStopPeakTimer();
+        }
+
+        private void RebuildVisibleDevices()
+        {
+            VisibleDevices.Clear();
+            foreach (var d in AllDevices)
+            {
+                if (!d.IsHiddenByUser || d == Default)
+                    VisibleDevices.Add(d);
+            }
         }
 
         public string GetTrayToolTip()

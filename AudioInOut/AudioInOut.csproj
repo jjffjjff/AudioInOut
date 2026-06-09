@@ -215,6 +215,7 @@
     <Compile Include="UI\ViewModels\SettingsPageHeaderViewModel.cs" />
     <Compile Include="UI\ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="UI\ViewModels\SettingsWindowViewModel.cs" />
+    <Compile Include="UI\ViewModels\DevicesPageViewModel.cs" />
     <Compile Include="Interop\Helpers\ProcessHelper.cs" />
     <Compile Include="UI\Helpers\SystemSoundsHelper.cs" />
     <Compile Include="UI\Helpers\WindowAnimationLibrary.cs" />
