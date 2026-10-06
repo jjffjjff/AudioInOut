@@ -6,7 +6,6 @@
              xmlns:b="clr-namespace:AudioInOut.UI.Behaviors"
              xmlns:bcl="clr-namespace:System;assembly=mscorlib"
              xmlns:ctl="clr-namespace:AudioInOut.UI.Controls"
-             xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
              xmlns:local="clr-namespace:AudioInOut"
              xmlns:resx="clr-namespace:AudioInOut.Properties"
              xmlns:views="clr-namespace:AudioInOut.UI.Views"

@@ -22,8 +22,6 @@
     <TargetFrameworkProfile />
     <ApplicationIcon>Assets\Icon-Light.ico</ApplicationIcon>
     <ApplicationManifest>App.manifest</ApplicationManifest>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86' OR '$(Configuration)|$(Platform)' == 'VSDebug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -62,9 +60,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="XamlAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=20a987d8023d9690, processorArchitecture=MSIL">
-      <HintPath>..\packages\XamlAnimatedGif.2.1.0\lib\net45\XamlAnimatedGif.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -362,7 +357,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="App.manifest" />
-    <None Include="packages.config" />
     <None Include="prebuild.ps1" />
     <None Include="README.md" />
   </ItemGroup>
@@ -419,9 +413,4 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-  </Target>
 </Project>
