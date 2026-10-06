@@ -17,3 +17,7 @@ System tray utility for switching audio devices and controlling per-app volume. 
 [→ Latest release](https://github.com/jjffjjff/AudioInOut/releases/latest)
 
 Download `AudioInOut.exe` and run it — no installer needed.
+
+## Credits and license
+
+AudioInOut is a fork of [EarTrumpet](https://github.com/File-New-Project/EarTrumpet) by Rafael Rivera, Dave Amenta and contributors. Released under the [MIT License](LICENSE) (includes upstream's Excluded Entities clause).

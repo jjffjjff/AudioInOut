@@ -29,3 +29,11 @@ packages/
 # OS
 ~$*
 Thumbs.db
+
+# Local / agent working files
+.claude/
+.firecrawl/
+docs/
+handoff.md
+UpgradeLog.htm
+EarTrumpet.Package/
