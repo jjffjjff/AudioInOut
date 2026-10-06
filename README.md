@@ -20,7 +20,7 @@ System tray utility for switching audio devices and controlling per-app volume. 
 
 [→ Latest release](https://github.com/jjffjjff/AudioInOut/releases/latest)
 
-Download `AudioInOut.exe` and run it — no installer needed.
+Download the `.zip`, extract it, and run `AudioInOut.exe` — no installer needed.
 
 ## Credits and license
 
