@@ -22,7 +22,10 @@ jobs:
         run: |
           Copy-Item Build/Release/AudioInOut.exe .
           # zip = exe + translations (satellite resource folders)
-          Compress-Archive -Path Build/Release/AudioInOut.exe, Build/Release/AudioInOut.exe.config, (Get-ChildItem Build/Release -Directory) -DestinationPath AudioInOut-translations.zip
+          New-Item -ItemType Directory stage | Out-Null
+          Copy-Item Build/Release/AudioInOut.exe, Build/Release/AudioInOut.exe.config stage/
+          Copy-Item (Get-ChildItem Build/Release -Directory).FullName stage/ -Recurse
+          Compress-Archive -Path stage/* -DestinationPath AudioInOut-translations.zip
       - uses: actions/upload-artifact@v4
         with:
           name: AudioInOut
