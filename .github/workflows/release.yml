@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: microsoft/setup-msbuild@v2
+      - uses: nuget/setup-nuget@v2
+      - run: nuget restore AudioInOut.vs15.sln
+      - run: msbuild AudioInOut/AudioInOut.csproj /p:Configuration=Release /p:Platform=x86 /m
+      - name: Package
+        shell: pwsh
+        run: |
+          Remove-Item Build/Release/*.pdb
+          Compress-Archive -Path Build/Release/* -DestinationPath "AudioInOut-${{ github.ref_name }}.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AudioInOut
+          path: AudioInOut-*.zip
+      - name: Draft release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "${{ github.ref_name }}" "AudioInOut-${{ github.ref_name }}.zip" --draft --title "AudioInOut ${{ github.ref_name }}" --generate-notes
