@@ -52,14 +52,11 @@ Windows has the facility to set the persisted playback device on a per-applicati
 To provide good performance, audio metering is sampled on a background thread, and then dispatched on the foreground thread as a batch.
 
 ## EarTrumpet.Diagnosis
-### Bugsnag
-We use Bugsnag as our error reporting service. Secure (TLS) connections are made to notify.bugsnag.com at notification time.
-
 ### CircularBufferTraceListener
 Contains a small internal buffer of log messages that are only shown at the users' request.
 
 ### ErrorReporter
-Encapsulates the Bugsnag connection and manages the metadata that is sent at notification time.
+Routes warnings to an in-memory log shown only at the user's request.
 
 ### LocalDataExporter
 Transforms an `IAudioDeviceManager` into a string for debug purposes at the users' request.

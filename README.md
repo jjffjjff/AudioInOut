@@ -6,6 +6,10 @@
 
 System tray utility for switching audio devices and controlling per-app volume. Lives in the taskbar notification area.
 
+<div align="center">
+  <img src="screenshots/tray-menu.png" alt="AudioInOut tray menu" width="260"/>
+</div>
+
 - Switch default **output device** (speakers/headphones) from the tray
 - Switch default **input device** (microphone) from the tray
 - Per-app **volume control** — set levels independently per running app
