@@ -54,4 +54,4 @@ jobs:
         env:
           GH_REPO: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "${{ github.ref_name }}" AudioInOut-Setup.exe AudioInOut.exeAudioInOut-translations.zip --draft --title "AudioInOut ${{ github.ref_name }}" --generate-notes
+        run: gh release create "${{ github.ref_name }}" AudioInOut-Setup.exe AudioInOut.exe AudioInOut-translations.zip --draft --title "AudioInOut ${{ github.ref_name }}" --generate-notes
