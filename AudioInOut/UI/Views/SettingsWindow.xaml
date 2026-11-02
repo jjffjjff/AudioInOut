@@ -778,7 +778,6 @@
                                                            TextWrapping="Wrap" Margin="0,0,16,0" />
                                                 <CheckBox Grid.Column="1" VerticalAlignment="Center"
                                                           Style="{StaticResource IcomToggle}"
-                                                          IsEnabled="{Binding AppBehavior.IsStartupSettingEnabled}"
                                                           IsChecked="{Binding AppBehavior.StartWithWindows, Mode=TwoWay}" />
                                             </Grid>
                                         </Border>

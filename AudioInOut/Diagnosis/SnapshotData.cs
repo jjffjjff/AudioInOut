@@ -71,7 +71,6 @@ namespace AudioInOut.Diagnosis
                     { "UseAccentColor", () => SystemSettings.UseAccentColor },
                     { "AnimationsEnabled", () => Manager.Current.AnimationsEnabled },
                     { "IsHighContrast", () => SystemParameters.HighContrast },
-                    { "HasIdentity", () => AudioInOut.App.HasIdentity },
                     { "IsShuttingDown", () => AudioInOut.App.IsShuttingDown },
                     { "Culture", () =>  CultureInfo.CurrentCulture.Name },
                     { "CurrentUICulture", () => CultureInfo.CurrentUICulture.Name },

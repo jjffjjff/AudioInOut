@@ -1,7 +1,6 @@
 using AudioInOut.DataModel.WindowsAudio;
 using AudioInOut.Diagnosis;
 using AudioInOut.Extensions;
-using AudioInOut.Integration;
 using AudioInOut.Interop;
 using AudioInOut.Interop.Helpers;
 using AudioInOut.UI.Helpers;
@@ -15,7 +14,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace AudioInOut
@@ -23,9 +21,6 @@ namespace AudioInOut
     public partial class App
     {
         public static bool IsShuttingDown { get; private set; }
-        public static bool HasIdentity { get; private set; }
-        public static bool HasDevIdentity { get; private set; }
-        public static string PackageName { get; private set; }
         public static Version PackageVersion { get; private set; }
         public static TimeSpan Duration => s_appTimer.Elapsed;
 
@@ -35,7 +30,6 @@ namespace AudioInOut
 
         private static readonly Stopwatch s_appTimer = Stopwatch.StartNew();
         private FlyoutViewModel _flyoutViewModel;
-        private IOverlayClient _overlayClient;
 
         private ShellNotifyIcon _trayIcon;
         private WindowHolder _mixerWindow;
@@ -74,10 +68,7 @@ namespace AudioInOut
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
             Exit += (_, __) => IsShuttingDown = true;
-            HasIdentity = PackageHelper.CheckHasIdentity();
-            HasDevIdentity = PackageHelper.HasDevIdentity();
-            PackageVersion = PackageHelper.GetVersion(HasIdentity);
-            PackageName = PackageHelper.GetFamilyName(HasIdentity);
+            PackageVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 
             Settings = new AppSettings();
             _errorReporter = new ErrorReporter();
@@ -104,7 +95,6 @@ namespace AudioInOut
 
         private void ContinueStartup()
         {
-            _overlayClient = new NoopOverlayClient();
             ((UI.Themes.Manager)Resources["ThemeManager"]).Load();
             ApplyIcomTheme(Settings.AppearanceTheme);
             UI.Themes.Manager.Current.ThemeChanged += () =>
@@ -128,8 +118,6 @@ namespace AudioInOut
             // Initialize the FlyoutWindow last because its Show/Hide cycle will pump messages, causing UI frames
             // to be executed, breaking the assumption that startup is complete.
             FlyoutWindow.Initialize();
-            var helper = new WindowInteropHelper(FlyoutWindow);
-            _overlayClient.Register(helper.Handle, OverlayAppId.Value);
         }
 
         private void CompleteStartup()
@@ -278,12 +266,6 @@ namespace AudioInOut
         {
             var viewModel = new SettingsWindowViewModel(Settings, () => _errorReporter.DisplayDiagnosticData());
             return new SettingsWindow { DataContext = viewModel };
-        }
-
-        // Called by the future auth/payment flow once the user has paid for OverlayAppId.Value.
-        public void UnlockOverlay()
-        {
-            _overlayClient?.Unlock(OverlayAppId.Value);
         }
 
         private Window CreateMixerExperience() => new FullWindow { DataContext = new FullWindowViewModel(CollectionViewModel) };

@@ -72,8 +72,6 @@
     <Compile Include="DataModel\AppInformation\Internal\ModernAppInfo.cs" />
     <Compile Include="DataModel\AppInformation\Internal\SystemSoundsAppInfo.cs" />
     <Compile Include="DataModel\AppInformation\Internal\ZombieProcessException.cs" />
-    <Compile Include="DataModel\Audio\Mocks\AudioDevice.cs" />
-    <Compile Include="DataModel\Audio\Mocks\AudioDeviceSession.cs" />
     <Compile Include="DataModel\WindowsAudio\AudioDeviceKind.cs" />
     <Compile Include="DataModel\WindowsAudio\IAudioDeviceManagerWindowsAudio.cs" />
     <Compile Include="DataModel\Audio\IAudioDeviceSessionComparer.cs" />
@@ -94,27 +92,20 @@
     <Compile Include="DataModel\Storage\Internal\RegistrySettingsBag.cs" />
     <Compile Include="DataModel\Storage\Serializer.cs" />
     <Compile Include="DataModel\Storage\StorageFactory.cs" />
-    <Compile Include="DataModel\Storage\Internal\WindowsStorageSettingsBag.cs" />
-    <Compile Include="DebugHelpers.cs" />
     <Compile Include="Diagnosis\ErrorReporter.cs" />
     <Compile Include="Diagnosis\SnapshotData.cs" />
     <Compile Include="Extensibility\Shared\PlaybackDataModelHost.cs" />
     <Compile Include="Extensibility\Shared\RecordingDataModelHost.cs" />
     <Compile Include="Extensibility\Shared\ResourceLoader.cs" />
-    <Compile Include="Integration\IOverlayClient.cs" />
-    <Compile Include="Integration\OverlayAppId.cs" />
-    <Compile Include="Integration\NoopOverlayClient.cs" />
     <Compile Include="Extensions\EventBinding\EventBindingExtension.cs" />
     <Compile Include="Extensions\EventBinding\HandledEventBindingExtension.cs" />
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Features.cs" />
     <Compile Include="Interop\Helpers\AudioPolicyConfigFactoryImplFor21H2.cs" />
     <Compile Include="Interop\Helpers\AudioPolicyConfigFactoryImplForDownlevel.cs" />
     <Compile Include="Interop\Helpers\InputHelper.cs" />
     <Compile Include="Interop\Helpers\MouseHook.cs" />
     <Compile Include="Interop\Helpers\SettingsPageHelper.cs" />
-    <Compile Include="Interop\Helpers\PackageHelper.cs" />
     <Compile Include="Interop\IShellItemImageFactory.cs" />
     <Compile Include="Interop\MMDeviceAPI\IAudioPolicyConfigFactoryVariantFor21H2.cs" />
     <Compile Include="Interop\MMDeviceAPI\IAudioPolicyConfigFactory.cs" />
@@ -362,11 +353,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Icon-Light.ico" />
-    <Resource Include="Assets\Logo-Dark.png" />
-    <Resource Include="Assets\Logo-Light.png" />
     <Resource Include="Assets\Icon-Dark.ico" />
     <Resource Include="Assets\AppIcon.png" />
-    <Resource Include="Assets\Welcome.gif" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.af-ZA.resx" />
