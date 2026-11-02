@@ -7,6 +7,8 @@ Build/
 x86/
 x64/
 
+Output/
+
 # NuGet
 packages/
 
