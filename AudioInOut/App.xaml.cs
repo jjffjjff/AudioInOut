@@ -35,7 +35,6 @@ namespace AudioInOut
         private ShellNotifyIcon _trayIcon;
         private WindowHolder _mixerWindow;
         private WindowHolder _settingsWindow;
-        private ErrorReporter _errorReporter;
 
         public static AppSettings Settings { get; private set; }
 
@@ -72,7 +71,6 @@ namespace AudioInOut
             PackageVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 
             Settings = new AppSettings();
-            _errorReporter = new ErrorReporter();
 
             if (SingleInstanceAppMutex.TakeExclusivity())
             {
@@ -265,7 +263,7 @@ namespace AudioInOut
 
         private Window CreateSettingsExperience()
         {
-            var viewModel = new SettingsWindowViewModel(Settings, () => _errorReporter.DisplayDiagnosticData());
+            var viewModel = new SettingsWindowViewModel(Settings);
             return new SettingsWindow { DataContext = viewModel };
         }
 

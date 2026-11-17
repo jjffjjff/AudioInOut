@@ -93,14 +93,9 @@
     <Compile Include="DataModel\Storage\Serializer.cs" />
     <Compile Include="DataModel\Storage\StorageFactory.cs" />
     <Compile Include="Diagnosis\ErrorReporter.cs" />
-    <Compile Include="Diagnosis\SnapshotData.cs" />
-    <Compile Include="Extensibility\Shared\PlaybackDataModelHost.cs" />
-    <Compile Include="Extensibility\Shared\RecordingDataModelHost.cs" />
-    <Compile Include="Extensibility\Shared\ResourceLoader.cs" />
     <Compile Include="Extensions\EventBinding\EventBindingExtension.cs" />
     <Compile Include="Extensions\EventBinding\HandledEventBindingExtension.cs" />
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Interop\Helpers\AudioPolicyConfigFactoryImplFor21H2.cs" />
     <Compile Include="Interop\Helpers\AudioPolicyConfigFactoryImplForDownlevel.cs" />
     <Compile Include="Interop\Helpers\InputHelper.cs" />
@@ -145,7 +140,6 @@
     <Compile Include="UI\ViewModels\AudioInOutMouseSettingsPageViewModel.cs" />
     <Compile Include="UI\ViewModels\AudioInOutShortcutsPageViewModel.cs" />
     <Compile Include="DataModel\Storage\ISettingsBag.cs" />
-    <Compile Include="Extensibility\Shared\ServiceBus.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\IPropertyStoreExtensions.cs" />
@@ -191,7 +185,6 @@
     <Compile Include="Interop\User32.cs" />
     <Compile Include="Interop\Uxtheme.cs" />
     <Compile Include="Interop\RECT.cs" />
-    <Compile Include="Diagnosis\CircularBufferTraceListener.cs" />
     <Compile Include="Interop\Helpers\ImmersiveSystemColors.cs" />
     <Compile Include="UI\ViewModels\AudioInOutAboutPageViewModel.cs" />
     <Compile Include="UI\ViewModels\HotkeyViewModel.cs" />
@@ -222,7 +215,6 @@
     <Compile Include="UI\ViewModels\ToolbarItemViewModel.cs" />
     <Compile Include="Interop\Helpers\AccentPolicyLibrary.cs" />
     <Compile Include="DataModel\WindowsAudio\Internal\AudioPolicyConfigService.cs" />
-    <Compile Include="Diagnosis\LocalDataExporter.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="UI\Views\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
@@ -357,39 +349,7 @@
     <Resource Include="Assets\AppIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.af-ZA.resx" />
-    <EmbeddedResource Include="Properties\Resources.ar-SA.resx" />
-    <EmbeddedResource Include="Properties\Resources.bs-latn-ba.resx" />
-    <EmbeddedResource Include="Properties\Resources.ca-ES.resx" />
-    <EmbeddedResource Include="Properties\Resources.cs-CZ.resx" />
-    <EmbeddedResource Include="Properties\Resources.da-DK.resx" />
-    <EmbeddedResource Include="Properties\Resources.de-DE.resx" />
-    <EmbeddedResource Include="Properties\Resources.el-GR.resx" />
-    <EmbeddedResource Include="Properties\Resources.es-ES.resx" />
-    <EmbeddedResource Include="Properties\Resources.fi-FI.resx" />
     <EmbeddedResource Include="Properties\Resources.fr-FR.resx" />
-    <EmbeddedResource Include="Properties\Resources.he-IL.resx" />
-    <EmbeddedResource Include="Properties\Resources.hr-HR.resx" />
-    <EmbeddedResource Include="Properties\Resources.hu-HU.resx" />
-    <EmbeddedResource Include="Properties\Resources.it-IT.resx" />
-    <EmbeddedResource Include="Properties\Resources.ja-JP.resx" />
-    <EmbeddedResource Include="Properties\Resources.ko-KR.resx" />
-    <EmbeddedResource Include="Properties\Resources.nl-NL.resx" />
-    <EmbeddedResource Include="Properties\Resources.no-NO.resx" />
-    <EmbeddedResource Include="Properties\Resources.pl-PL.resx" />
-    <EmbeddedResource Include="Properties\Resources.pt-BR.resx" />
-    <EmbeddedResource Include="Properties\Resources.pt-PT.resx" />
-    <EmbeddedResource Include="Properties\Resources.ro-RO.resx" />
-    <EmbeddedResource Include="Properties\Resources.ru-RU.resx" />
-    <EmbeddedResource Include="Properties\Resources.sl-SI.resx" />
-    <EmbeddedResource Include="Properties\Resources.sv-SE.resx" />
-    <EmbeddedResource Include="Properties\Resources.ta-IN.resx" />
-    <EmbeddedResource Include="Properties\Resources.th-TH.resx" />
-    <EmbeddedResource Include="Properties\Resources.tr-TR.resx" />
-    <EmbeddedResource Include="Properties\Resources.uk-UA.resx" />
-    <EmbeddedResource Include="Properties\Resources.vi-VN.resx" />
-    <EmbeddedResource Include="Properties\Resources.zh-CN.resx" />
-    <EmbeddedResource Include="Properties\Resources.zh-TW.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -51,41 +51,6 @@ Windows has the facility to set the persisted playback device on a per-applicati
 ### Peak values
 To provide good performance, audio metering is sampled on a background thread, and then dispatched on the foreground thread as a batch.
 
-## EarTrumpet.Diagnosis
-### CircularBufferTraceListener
-Contains a small internal buffer of log messages that are only shown at the users' request.
-
-### ErrorReporter
-Routes warnings to an in-memory log shown only at the user's request.
-
-### LocalDataExporter
-Transforms an `IAudioDeviceManager` into a string for debug purposes at the users' request.
-
-### SnapshotData
-Contains metadata dictionaries populated during crash notification or at the users' request.
-
-## EarTrumpet.Extensibility
-Contains support for loading add-on assemblies.
-
-Add-ons must implement a single `IAddonLifecycle` in an external add-on assembly.
-
-## EarTrumpet.Extensibility.Hosting
-`AddonManager` uses an `AddonResolver` to load all applicable add-ons into an `AddonHost` (`AddonManager.Host`) where they can be accessed directly.
-
-### Assembly loading
-`AppDomain.CurrentDomain.AssemblyResolve` locates dependent assemblies residing in add-on directories.
-
-### Version selection
-Add-ons are placed in the `Versions\[EarTrumpet version]` folder. An add-on can support multiple versions of EarTrumpet in one package.
-
-If an compatible EarTrumpet version can't be found, the add-on won't be loaded. See `AddonResolver` for more details.
-
-## EarTrumpet.Extensibility.Shared
-Hosts **required** static global data.
-
-### ServiceBus
-Used for cross add-on communication. An add-on could register at `ApplicationLifecycleEvent.Startup` and another could retrieve the service at `ApplicationLifecycleEvent.Startup2`.
-
 ## EarTrumpet.Interop
 Contains Platform Invoke (P/Invoke) declarations and interfaces.
 

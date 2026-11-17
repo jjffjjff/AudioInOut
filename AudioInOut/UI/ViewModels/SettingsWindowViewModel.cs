@@ -45,12 +45,12 @@ namespace AudioInOut.UI.ViewModels
 
         private WindowViewState _state;
 
-        public SettingsWindowViewModel(AppSettings settings, Action openDiagnostics)
+        public SettingsWindowViewModel(AppSettings settings)
         {
             AppBehavior = new AppBehaviorViewModel(settings);
             ScrollBehavior = new AudioInOutMouseSettingsPageViewModel(settings);
             Shortcuts = new AudioInOutShortcutsPageViewModel(settings);
-            About = new AudioInOutAboutPageViewModel(openDiagnostics, settings);
+            About = new AudioInOutAboutPageViewModel(settings);
             Appearance = new AppearanceSettingsViewModel();
             var app = (App)System.Windows.Application.Current;
             Devices = new DevicesPageViewModel(app.CollectionViewModel, app.RecordingCollectionViewModel, settings);

@@ -3,26 +3,8 @@ using System.Diagnostics;
 
 namespace AudioInOut.Diagnosis
 {
-    class ErrorReporter
+    static class ErrorReporter
     {
-        private static ErrorReporter s_instance;
-        private readonly CircularBufferTraceListener _listener;
-
-        public ErrorReporter()
-        {
-            Debug.Assert(s_instance == null);
-            s_instance = this;
-
-            _listener = new CircularBufferTraceListener();
-            Trace.Listeners.Clear();
-            Trace.Listeners.Add(_listener);
-        }
-
-        public void DisplayDiagnosticData()
-        {
-            LocalDataExporter.DumpAndShowData(_listener.GetLogText());
-        }
-
         public static void LogWarning(Exception ex) => Trace.WriteLine($"## Warning ##: {ex}");
     }
 }
