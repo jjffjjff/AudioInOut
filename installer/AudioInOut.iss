@@ -36,6 +36,7 @@ Name: "{autodesktop}\AudioInOut"; Filename: "{app}\AudioInOut.exe"; Tasks: deskt
 ; Same key the in-app "Start with Windows" toggle uses, so the two stay in sync.
 [Registry]
 Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "AudioInOut"; ValueData: """{app}\AudioInOut.exe"""; Tasks: startup; Flags: uninsdeletevalue
+Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run"; ValueName: "AudioInOut"; Tasks: startup; Flags: deletevalue
 
 [Run]
 Filename: "{app}\AudioInOut.exe"; Description: "Launch AudioInOut"; Flags: nowait postinstall skipifsilent

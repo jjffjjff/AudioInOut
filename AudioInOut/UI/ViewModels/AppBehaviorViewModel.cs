@@ -8,6 +8,7 @@ namespace AudioInOut.UI.ViewModels
     public class AppBehaviorViewModel : BindableBase
     {
         private const string RunKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+        private const string StartupApprovedPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run";
         private const string RunKeyName = "AudioInOut";
 
         private readonly AppSettings _settings;
@@ -33,11 +34,16 @@ namespace AudioInOut.UI.ViewModels
                     if (value)
                     {
                         var exePath = Process.GetCurrentProcess().MainModule?.FileName;
-                        if (exePath != null) key.SetValue(RunKeyName, exePath);
+                        if (exePath != null) key.SetValue(RunKeyName, $"\"{exePath}\"");
                     }
                     else
                         key.DeleteValue(RunKeyName, throwOnMissingValue: false);
                 }
+
+                // Windows (Task Manager > Startup) can mark the entry disabled here, which silently
+                // overrides the Run key. Drop that override so the toggle actually takes effect.
+                using (var approved = Registry.CurrentUser.OpenSubKey(StartupApprovedPath, true))
+                    approved?.DeleteValue(RunKeyName, throwOnMissingValue: false);
             }
         }
 
