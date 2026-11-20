@@ -86,6 +86,12 @@
             <Setter Property="PanningMode" Value="VerticalOnly" />
             <Setter Property="Focusable" Value="False" />
             <Setter Property="Margin" Value="0" />
+            <!-- Vertical layout is exactly one column wide: never scroll sideways (it also made focus scroll the title off-screen). -->
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVerticalLayout}" Value="False">
+                    <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <DataTemplate DataType="{x:Type vm:DeviceViewModel}">
             <views:DeviceView Width="{StaticResource WindowAndItemSize}"
@@ -94,9 +100,7 @@
         </DataTemplate>
     </Window.Resources>
     <Grid x:Name="LayoutRoot">
-        <ScrollViewer Name="BaseVisual"
-                      HorizontalScrollBarVisibility="Auto"
-                      VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Name="BaseVisual" VerticalScrollBarVisibility="Auto">
             <Grid Name="ContentGrid" VerticalAlignment="Top">
 
                 <Border VerticalAlignment="Center" Theme:Brush.Background="FlyoutBackground">
