@@ -150,8 +150,7 @@
                                Text="{Binding ElementName=WindowRoot, Path=Title}"
                                TextAlignment="Left" />
                     <StackPanel Grid.Column="1"
-                                Orientation="Horizontal"
-                                Margin="0,0,8,0">
+                                Orientation="Horizontal">
                         <!-- 1. Pin to top -->
                         <ToggleButton IsChecked="{Binding IsPinnedToTop, Mode=TwoWay}"
                                       ToolTipService.ToolTip="Pin to top"
