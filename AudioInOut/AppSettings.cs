@@ -219,6 +219,14 @@ namespace AudioInOut
                 _settings.Set("DeviceName_" + deviceId, name);
         }
 
+        public void RemoveDevice(string deviceId)
+        {
+            _settings.Remove("DeviceAlias_" + deviceId);
+            _settings.Remove("DeviceHidden_" + deviceId);
+            _settings.Remove("DeviceName_" + deviceId);
+            DeviceDisplaySettingsChanged?.Invoke();
+        }
+
         public IEnumerable<Tuple<string, bool>> GetModifiedDeviceIds()
         {
             const string regPath = @"Software\AudioInOut";

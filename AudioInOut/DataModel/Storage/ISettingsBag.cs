@@ -6,6 +6,7 @@ namespace AudioInOut.DataModel.Storage
     {
         string Namespace { get; }
         bool HasKey(string key);
+        void Remove(string key);
         T Get<T>(string key, T defaultValue);
         void Set<T>(string key, T value);
 

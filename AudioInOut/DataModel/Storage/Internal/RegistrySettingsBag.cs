@@ -19,6 +19,14 @@ namespace AudioInOut.DataModel.Storage.Internal
             }
         }
 
+        public void Remove(string key)
+        {
+            using (var regKey = Registry.CurrentUser.CreateSubKey(s_earTrumpetKey, true))
+            {
+                regKey.DeleteValue(key, false);
+            }
+        }
+
         public T Get<T>(string key, T defaultValue)
         {
             if (defaultValue is string)
