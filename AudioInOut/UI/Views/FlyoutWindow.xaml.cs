@@ -164,6 +164,11 @@ namespace AudioInOut.UI.Views
                 }
             }
 
+            // Horizontal layout lays devices side by side: widen the window (up to the working area) to fit.
+            var maxWidth = Math.Abs(adjustedWorkingAreaRight - adjustedWorkingAreaLeft) / this.DpiX();
+            var baseWidth = (double)FindResource("WindowAndItemSize");
+            Width = Math.Max(baseWidth, Math.Min(LayoutRoot.DesiredSize.Width, maxWidth));
+
             double flyoutWidth = Width * this.DpiX();
             double flyoutHeight = (LayoutRoot.DesiredSize.Height) * this.DpiY();
 

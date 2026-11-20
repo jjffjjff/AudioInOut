@@ -75,10 +75,7 @@ namespace AudioInOut.UI.ViewModels
 
         private IEnumerable<DeviceViewModel> BuildActiveDevices()
         {
-            return AllDevices.Where(d =>
-                d == _mainViewModel.Default ||
-                d.PeakValue1 > 0 ||
-                d.PeakValue2 > 0).ToList();
+            return AllDevices.Where(_mainViewModel.IsDeviceActive).ToList();
         }
 
         public void OpenPopup(object vm, FrameworkElement container)
