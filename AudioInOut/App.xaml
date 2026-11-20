@@ -235,7 +235,7 @@
             <!-- Mixer toolbar (floating mixer + tray flyout): shared button chrome and icons. -->
             <Style x:Key="MixerToolbarToggleButtonStyle" TargetType="ButtonBase">
                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-                <Setter Property="Width" Value="32" />
+                <Setter Property="Width" Value="36" />
                 <Setter Property="Height" Value="31" />
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderThickness" Value="0" />
@@ -266,7 +266,7 @@
             </Style>
             <Style x:Key="MixerToolbarGlyphStyle" TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="12" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Theme:Brush.Foreground" Value="Text" />
@@ -286,8 +286,9 @@
                                     Background="{TemplateBinding Background}"
                                     SnapsToDevicePixels="True">
                                 <Path x:Name="icon"
-                                      Width="14"
-                                      Height="14"
+                                      Width="12"
+                                      Height="12"
+                                      Stretch="Uniform"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       Data="M1,2 H4 V12 H1 Z M5.5,2 H8.5 V12 H5.5 Z M10,2 H13 V12 H10 Z"

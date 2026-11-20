@@ -185,10 +185,10 @@
                                     <TextBlock.Style>
                                         <Style BasedOn="{StaticResource DeviceTitleTextStyle}" TargetType="TextBlock">
                                             <!-- Room for chevron + detach (+ layout and filter toggles when expanded). -->
-                                            <Setter Property="Margin" Value="12,0,72,0" />
+                                            <Setter Property="Margin" Value="12,0,84,0" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsExpanded}" Value="True">
-                                                    <Setter Property="Margin" Value="12,0,136,0" />
+                                                    <Setter Property="Margin" Value="12,0,156,0" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
