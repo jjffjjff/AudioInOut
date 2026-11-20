@@ -28,6 +28,7 @@
         UseLayoutRounding="True"
         WindowStyle="None">
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <Style x:Key="ExpandCollapseButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
@@ -85,6 +86,12 @@
             <Setter Property="PanningMode" Value="VerticalOnly" />
             <Setter Property="Focusable" Value="False" />
             <Setter Property="Margin" Value="0" />
+            <!-- Vertical layout is exactly one column wide: never scroll sideways (it also made focus scroll the title off-screen). -->
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVerticalLayout}" Value="False">
+                    <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
         <DataTemplate DataType="{x:Type vm:DeviceViewModel}">
             <views:DeviceView Width="{StaticResource WindowAndItemSize}"
@@ -126,7 +133,30 @@
                     <ItemsControl Name="DevicesList"
                                   FocusVisualStyle="{x:Null}"
                                   IsTabStop="False"
-                                  ItemsSource="{Binding Devices}" />
+                                  ItemsSource="{Binding DisplayedDevices}">
+                        <ItemsControl.Style>
+                            <Style TargetType="ItemsControl">
+                                <Setter Property="ItemsPanel">
+                                    <Setter.Value>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsVerticalLayout}" Value="False">
+                                        <Setter Property="ItemsPanel">
+                                            <Setter.Value>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ItemsControl.Style>
+                    </ItemsControl>
                     <Button Height="{DynamicResource Mutable_DeviceTitleCellHeight}"
                             Command="{Binding ExpandCollapse}"
                             IsEnabled="{Binding CanExpand}">
@@ -152,12 +182,22 @@
                         </Button.Style>
                         <Button.Content>
                             <Grid>
-                                <TextBlock Margin="12,0,32,0"
-                                           HorizontalAlignment="Left"
+                                <TextBlock HorizontalAlignment="Left"
                                            Theme:Brush.Foreground="{Binding (Theme:Brush.Foreground), RelativeSource={RelativeSource AncestorType=Button}}"
-                                           Style="{StaticResource DeviceTitleTextStyle}"
                                            Text="{Binding DeviceNameText}"
-                                           TextTrimming="CharacterEllipsis" />
+                                           TextTrimming="CharacterEllipsis">
+                                    <TextBlock.Style>
+                                        <Style BasedOn="{StaticResource DeviceTitleTextStyle}" TargetType="TextBlock">
+                                            <!-- Room for chevron + detach (+ layout and filter toggles when expanded). -->
+                                            <Setter Property="Margin" Value="12,0,84,0" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                                    <Setter Property="Margin" Value="12,0,156,0" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                                 <TextBlock Margin="{StaticResource WindowMargin}"
                                            HorizontalAlignment="Right"
                                            Theme:Brush.Foreground="{Binding (Theme:Brush.Foreground), RelativeSource={RelativeSource AncestorType=Button}}"
@@ -186,6 +226,29 @@
                             </Grid>
                         </Button.Content>
                     </Button>
+                    <!-- View options: sibling of the expand button so clicks don't toggle expand/collapse. -->
+                    <StackPanel Height="{DynamicResource Mutable_DeviceTitleCellHeight}"
+                                Margin="0,0,40,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal">
+                        <ToggleButton VerticalAlignment="Center"
+                                      IsChecked="{Binding IsVerticalLayout, Mode=TwoWay}"
+                                      Style="{StaticResource MixerLayoutToggleStyle}"
+                                      Visibility="{Binding IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <ToggleButton VerticalAlignment="Center"
+                                      IsChecked="{Binding ShowActiveOnly, Mode=TwoWay}"
+                                      Style="{StaticResource MixerHideInactiveToggleStyle}"
+                                      Visibility="{Binding IsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Style="{StaticResource MixerToolbarGlyphStyle}" Text="&#xE71C;" />
+                        </ToggleButton>
+                        <Button VerticalAlignment="Center"
+                                Command="{Binding DetachToFloatingMixer}"
+                                Style="{StaticResource MixerToolbarToggleButtonStyle}"
+                                ToolTipService.ToolTip="Open in floating mixer">
+                            <TextBlock Style="{StaticResource MixerToolbarGlyphStyle}" Text="&#xE8A7;" />
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </Grid>
         </ScrollViewer>

@@ -27,37 +27,6 @@
         UseLayoutRounding="True"
         WindowStartupLocation="CenterOwner">
     <Window.Resources>
-        <Style x:Key="MixerToolbarToggleButtonStyle" TargetType="ToggleButton">
-            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-            <Setter Property="Width" Value="32" />
-            <Setter Property="Height" Value="31" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Cursor" Value="Arrow" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border x:Name="border"
-                                Background="{TemplateBinding Background}"
-                                SnapsToDevicePixels="True">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Theme:Brush.Background"
-                                        Value="Theme={Theme}ListLow, HighContrast=Highlight" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Theme:Brush.Background"
-                                        Value="Theme={Theme}ListMedium, HighContrast=Highlight" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <DataTemplate DataType="{x:Type vm:DeviceViewModel}">
             <views:DeviceView Width="{StaticResource WindowAndItemSize}" Device="{Binding}" />
         </DataTemplate>
@@ -181,87 +150,31 @@
                                Text="{Binding ElementName=WindowRoot, Path=Title}"
                                TextAlignment="Left" />
                     <StackPanel Grid.Column="1"
-                                Orientation="Horizontal"
-                                Margin="0,0,8,0">
+                                Orientation="Horizontal">
                         <!-- 1. Pin to top -->
                         <ToggleButton IsChecked="{Binding IsPinnedToTop, Mode=TwoWay}"
-                                      Style="{StaticResource MixerToolbarToggleButtonStyle}"
-                                      ToolTipService.ToolTip="Pin to top">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
-                                       FontSize="10"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="&#xE718;">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Theme:Brush.Foreground" Value="Text" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
-                                                         Value="True">
-                                                <Setter Property="Theme:Brush.Foreground" Value="SystemAccent" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </ToggleButton>
-                        <!-- 2. Layout toggle (horizontal ↔ vertical) -->
-                        <ToggleButton IsChecked="{Binding IsVerticalLayout, Mode=TwoWay}"
+                                      ToolTipService.ToolTip="Pin to top"
                                       Style="{StaticResource MixerToolbarToggleButtonStyle}">
-                            <ToggleButton.ToolTip>
-                                <ToolTip>
-                                    <ToolTip.Style>
-                                        <Style TargetType="ToolTip">
-                                            <Setter Property="Content" Value="Vertical view" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsVerticalLayout}" Value="True">
-                                                    <Setter Property="Content" Value="Horizontal view" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ToolTip.Style>
-                                </ToolTip>
-                            </ToggleButton.ToolTip>
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
-                                       FontSize="10"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center">
+                            <TextBlock>
                                 <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Theme:Brush.Foreground" Value="Text" />
-                                        <Setter Property="Text" Value="&#xE8A4;" />
+                                    <Style BasedOn="{StaticResource MixerToolbarGlyphStyle}" TargetType="TextBlock">
+                                        <Setter Property="Text" Value="&#xE718;" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
-                                                         Value="True">
-                                                <Setter Property="Theme:Brush.Foreground" Value="SystemAccent" />
-                                                <Setter Property="Text" Value="&#xE8C0;" />
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}" Value="True">
+                                                <Setter Property="Text" Value="&#xE840;" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
                         </ToggleButton>
-                        <!-- 3. Show active only -->
+                        <!-- 2. Layout toggle (horizontal / vertical) -->
+                        <ToggleButton IsChecked="{Binding IsVerticalLayout, Mode=TwoWay}"
+                                      Style="{StaticResource MixerLayoutToggleStyle}" />
+                        <!-- 3. Hide inactive -->
                         <ToggleButton IsChecked="{Binding ShowActiveOnly, Mode=TwoWay}"
-                                      Style="{StaticResource MixerToolbarToggleButtonStyle}"
-                                      ToolTipService.ToolTip="Show only active I/O">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
-                                       FontSize="10"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="&#xE71C;">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Theme:Brush.Foreground" Value="Text" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"
-                                                         Value="True">
-                                                <Setter Property="Theme:Brush.Foreground" Value="SystemAccent" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
+                                      Style="{StaticResource MixerHideInactiveToggleStyle}">
+                            <TextBlock Style="{StaticResource MixerToolbarGlyphStyle}" Text="&#xE71C;" />
                         </ToggleButton>
                     </StackPanel>
                     <Button x:Name="CloseButton"

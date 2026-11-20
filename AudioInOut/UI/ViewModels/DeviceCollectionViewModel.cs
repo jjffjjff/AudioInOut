@@ -24,6 +24,10 @@ namespace AudioInOut.UI.ViewModels
         public ObservableCollection<DeviceViewModel> VisibleDevices { get; private set; } = new ObservableCollection<DeviceViewModel>();
         public DeviceViewModel Default { get; private set; }
 
+        /// <summary>True for the default device or any device currently producing audio peaks.</summary>
+        public bool IsDeviceActive(DeviceViewModel device) =>
+            device == Default || device.PeakValue1 > 0 || device.PeakValue2 > 0;
+
         private readonly IAudioDeviceManager _deviceManager;
         private readonly Timer _peakMeterTimer;
         private readonly AppSettings _settings;

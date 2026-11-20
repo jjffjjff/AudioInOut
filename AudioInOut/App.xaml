@@ -231,6 +231,100 @@
                 <Setter Property="Theme:Brush.Foreground" Value="Theme=ApplicationText{Theme}Theme, HighContrast=WindowText" />
                 <Setter Property="Theme:Brush.BorderBrush" Value="Theme={Theme}ChromeDisabledLow, HighContrast=WindowFrame" />
             </Style>
+
+            <!-- Mixer toolbar (floating mixer + tray flyout): shared button chrome and icons. -->
+            <Style x:Key="MixerToolbarToggleButtonStyle" TargetType="ButtonBase">
+                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+                <Setter Property="Width" Value="36" />
+                <Setter Property="Height" Value="31" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="Cursor" Value="Arrow" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ButtonBase">
+                            <Border x:Name="border"
+                                    Background="{TemplateBinding Background}"
+                                    SnapsToDevicePixels="True">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Theme:Brush.Background"
+                                            Value="Theme={Theme}ListLow, HighContrast=Highlight" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="Theme:Brush.Background"
+                                            Value="Theme={Theme}ListMedium, HighContrast=Highlight" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="MixerToolbarGlyphStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Theme:Brush.Foreground" Value="Text" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}" Value="True">
+                        <Setter Property="Theme:Brush.Foreground" Value="SystemAccent" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <!-- Layout toggle: icon shows the CURRENT layout (checked = vertical). Tooltip names the action. -->
+            <Style x:Key="MixerLayoutToggleStyle" BasedOn="{StaticResource MixerToolbarToggleButtonStyle}" TargetType="ToggleButton">
+                <Setter Property="ToolTipService.ToolTip" Value="Switch to vertical layout" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border x:Name="border"
+                                    Background="{TemplateBinding Background}"
+                                    SnapsToDevicePixels="True">
+                                <Path x:Name="icon"
+                                      Width="12"
+                                      Height="12"
+                                      Stretch="Uniform"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="M1,2 H4 V12 H1 Z M5.5,2 H8.5 V12 H5.5 Z M10,2 H13 V12 H10 Z"
+                                      Theme:Brush.Fill="Text" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="icon" Property="Data" Value="M2,1 H12 V4 H2 Z M2,5.5 H12 V8.5 H2 Z M2,10 H12 V13 H2 Z" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Theme:Brush.Background"
+                                            Value="Theme={Theme}ListLow, HighContrast=Highlight" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="Theme:Brush.Background"
+                                            Value="Theme={Theme}ListMedium, HighContrast=Highlight" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="ToolTipService.ToolTip" Value="Switch to horizontal layout" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="MixerHideInactiveToggleStyle" BasedOn="{StaticResource MixerToolbarToggleButtonStyle}" TargetType="ToggleButton">
+                <Setter Property="ToolTipService.ToolTip" Value="Hide inactive devices" />
+                <Style.Triggers>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="ToolTipService.ToolTip" Value="Show all devices" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
             <Style x:Key="CaptionButtonStyle" TargetType="Button">
                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                 <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />

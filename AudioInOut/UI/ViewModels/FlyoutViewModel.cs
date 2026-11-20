@@ -1,6 +1,7 @@
 using AudioInOut.UI.Helpers;
 using AudioInOut.Interop.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -20,7 +21,38 @@ namespace AudioInOut.UI.ViewModels
         public bool IsExpanded { get; private set; }
         public bool IsExpandingOrCollapsing { get; private set; }
         public bool CanExpand => _mainViewModel.VisibleDevices.Count > 1;
-        public string DeviceNameText => Devices.Count > 0 ? Devices[0].DisplayName : null;
+        public string DeviceNameText => DisplayedDevices.Count > 0 ? DisplayedDevices[0].DisplayName : null;
+        public ICommand DetachToFloatingMixer { get; }
+
+        private IList<DeviceViewModel> _displayedDevices = new List<DeviceViewModel>();
+        public IList<DeviceViewModel> DisplayedDevices => _displayedDevices;
+
+        private bool _isVerticalLayout;
+        public bool IsVerticalLayout
+        {
+            get => _isVerticalLayout;
+            set
+            {
+                if (_isVerticalLayout == value) return;
+                _isVerticalLayout = value;
+                RaisePropertyChanged(nameof(IsVerticalLayout));
+                InvalidateWindowSize();
+            }
+        }
+
+        private bool _showActiveOnly;
+        public bool ShowActiveOnly
+        {
+            get => _showActiveOnly;
+            set
+            {
+                if (_showActiveOnly == value) return;
+                _showActiveOnly = value;
+                RaisePropertyChanged(nameof(ShowActiveOnly));
+                UpdateTextVisibility();
+                RaiseDevicesChanged();
+            }
+        }
         public FlyoutViewState State { get; private set; }
         public ObservableCollection<DeviceViewModel> Devices { get; private set; }
         public ICommand ExpandCollapse { get; private set; }
@@ -32,13 +64,18 @@ namespace AudioInOut.UI.ViewModels
         private readonly Dispatcher _currentDispatcher = Dispatcher.CurrentDispatcher;
         private readonly Action _returnFocusToTray;
         private readonly AppSettings _settings;
+        private readonly Action _openFloatingMixer;
         private bool _closedDuringOpen;
         private MouseHook _mh;
         private Rect _winRect;
 
-        public FlyoutViewModel(DeviceCollectionViewModel mainViewModel, Action returnFocusToTray, AppSettings settings)
+        public FlyoutViewModel(DeviceCollectionViewModel mainViewModel, Action returnFocusToTray, AppSettings settings, Action openFloatingMixer = null)
         {
             _settings = settings;
+            _openFloatingMixer = openFloatingMixer;
+            // Session-only view options, seeded from the floating mixer defaults (not persisted).
+            _isVerticalLayout = settings.FloatingMixerDefaultLayout == "Vertical";
+            _showActiveOnly = settings.FloatingMixerDefaultSources == "Only active";
             IsExpanded = _settings.IsExpanded;
             Dialog = new ModalDialogViewModel();
             Devices = new ObservableCollection<DeviceViewModel>();
@@ -59,6 +96,12 @@ namespace AudioInOut.UI.ViewModels
                 BeginClose(LastInput);
             });
             DisplaySettingsChanged = new RelayCommand(() => BeginClose(InputType.Command));
+            DetachToFloatingMixer = new RelayCommand(() =>
+            {
+                // Close first: closing returns focus to the tray, which would otherwise steal it from the new window.
+                BeginClose(InputType.Command);
+                _openFloatingMixer?.Invoke();
+            });
 
             _mh = new MouseHook();
             _mh.MouseWheelEvent += OnMouseWheelEvent;
@@ -182,10 +225,15 @@ namespace AudioInOut.UI.ViewModels
 
         private void UpdateTextVisibility()
         {
-            // Show display name on only the "top" device, which handles Expanded and Collapsed.
-            for (var i = 0; i < Devices.Count; i++)
+            _displayedDevices = _showActiveOnly
+                ? Devices.Where(_mainViewModel.IsDeviceActive).ToList()
+                : Devices.ToList();
+            RaisePropertyChanged(nameof(DisplayedDevices));
+
+            // Show display name on only the "top" displayed device, which handles Expanded and Collapsed.
+            foreach (var device in Devices)
             {
-                Devices[i].IsDisplayNameVisible = i > 0;
+                device.IsDisplayNameVisible = _displayedDevices.IndexOf(device) != 0;
             }
         }
 
