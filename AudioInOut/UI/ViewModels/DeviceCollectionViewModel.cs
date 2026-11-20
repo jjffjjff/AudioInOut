@@ -264,6 +264,9 @@ namespace AudioInOut.UI.ViewModels
                 var prefixText = $"Audio-InOut: {stateText} - ";
                 var deviceName = $"{Default.DeviceDescription} ({Default.EnumeratorName})";
 
+                // A user nickname always wins over the Windows device name.
+                var hasAlias = !string.Equals(Default.DisplayName, Default.OriginalDisplayName, StringComparison.Ordinal);
+
                 // Remote Audio devices may not contain an enumerator name or description.
 
                 if (string.IsNullOrWhiteSpace(Default.EnumeratorName))
@@ -272,6 +275,11 @@ namespace AudioInOut.UI.ViewModels
                 }
 
                 if (string.IsNullOrWhiteSpace(Default.DeviceDescription) && string.IsNullOrWhiteSpace(Default.EnumeratorName))
+                {
+                    deviceName = Default.DisplayName;
+                }
+
+                if (hasAlias)
                 {
                     deviceName = Default.DisplayName;
                 }

@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Input;
+using AudioInOut.UI.Helpers;
 
 namespace AudioInOut.UI.ViewModels
 {
@@ -64,6 +66,8 @@ namespace AudioInOut.UI.ViewModels
                 RaisePropertyChanged(nameof(IsHidden));
             }
         }
+
+        public ICommand RemoveCommand { get; set; }
 
         public bool IsModified =>
             !string.IsNullOrEmpty(_settings.GetDeviceAlias(DeviceId)) || _settings.IsDeviceHidden(DeviceId);
@@ -133,6 +137,13 @@ namespace AudioInOut.UI.ViewModels
 
         private void AddEntry(ObservableCollection<DeviceEntryViewModel> target, DeviceEntryViewModel entry)
         {
+            entry.RemoveCommand = new RelayCommand(() =>
+            {
+                // Only offered for devices that are not connected.
+                if (entry.IsConnected) return;
+                _settings.RemoveDevice(entry.DeviceId);
+                target.Remove(entry);
+            });
             target.Add(entry);
             entry.PropertyChanged += (_, e) =>
             {
