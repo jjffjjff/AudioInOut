@@ -211,6 +211,37 @@
             </Setter>
         </Style>
 
+        <!-- Forget-device (x) button -->
+        <Style x:Key="ForgetDeviceButton" TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Bg" Background="Transparent" CornerRadius="6" Width="24" Height="24"
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock x:Name="Icon" Text="&#xE711;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource IcomText3}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource IcomHover}" />
+                                <Setter TargetName="Icon" Property="Foreground" Value="{DynamicResource IcomText}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsConnected}" Value="False">
+                    <Setter Property="Visibility" Value="Visible" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <!-- Eye visibility toggle button -->
         <Style x:Key="EyeToggleButton" TargetType="{x:Type ToggleButton}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
@@ -228,18 +259,13 @@
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Foreground="{DynamicResource IcomText2}" />
-                                <Line x:Name="Strike"
-                                      X1="6" Y1="24" X2="24" Y2="6"
-                                      Stroke="{DynamicResource IcomText3}"
-                                      StrokeThickness="1.5"
-                                      Visibility="Collapsed" />
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="EyeIcon" Property="Opacity" Value="0.3" />
+                                <Setter TargetName="EyeIcon" Property="Text" Value="&#xED1A;" />
+                                <Setter TargetName="EyeIcon" Property="Opacity" Value="0.5" />
                                 <Setter TargetName="EyeIcon" Property="Foreground" Value="{DynamicResource IcomText3}" />
-                                <Setter TargetName="Strike" Property="Visibility" Value="Visible" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Bg" Property="Background" Value="{DynamicResource IcomHover}" />
@@ -311,24 +337,9 @@
                                     <ToggleButton Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                                                   IsChecked="{Binding IsHidden, Mode=TwoWay}"
                                                   Style="{StaticResource EyeToggleButton}" />
-                                    <Button Grid.Column="3" Content="&#x2715;" FontSize="11"
+                                    <Button Grid.Column="3" Style="{StaticResource ForgetDeviceButton}"
                                             Command="{Binding RemoveCommand}"
-                                            ToolTip="Forget this device (deletes its nickname and hidden setting)"
-                                            Background="Transparent" BorderThickness="0"
-                                            Foreground="{DynamicResource IcomText3}"
-                                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                                            Width="22" Height="22" Padding="0" Cursor="Hand">
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsConnected}" Value="False">
-                                                        <Setter Property="Visibility" Value="Visible" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
+                                            ToolTip="Forget this device (deletes its nickname and hidden setting)" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -377,24 +388,9 @@
                                     <ToggleButton Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
                                                   IsChecked="{Binding IsHidden, Mode=TwoWay}"
                                                   Style="{StaticResource EyeToggleButton}" />
-                                    <Button Grid.Column="3" Content="&#x2715;" FontSize="11"
+                                    <Button Grid.Column="3" Style="{StaticResource ForgetDeviceButton}"
                                             Command="{Binding RemoveCommand}"
-                                            ToolTip="Forget this device (deletes its nickname and hidden setting)"
-                                            Background="Transparent" BorderThickness="0"
-                                            Foreground="{DynamicResource IcomText3}"
-                                            HorizontalAlignment="Center" VerticalAlignment="Center"
-                                            Width="22" Height="22" Padding="0" Cursor="Hand">
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsConnected}" Value="False">
-                                                        <Setter Property="Visibility" Value="Visible" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
+                                            ToolTip="Forget this device (deletes its nickname and hidden setting)" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
