@@ -27,6 +27,11 @@ namespace AudioInOut.DataModel.Storage.Internal
             return _globalBag.HasKey($"{Namespace}{key}");
         }
 
+        public void Remove(string key)
+        {
+            _globalBag.Remove($"{Namespace}{key}");
+        }
+
         public void Set<T>(string key, T value)
         {
             _globalBag.Set($"{Namespace}{key}", value);
